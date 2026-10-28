@@ -2,7 +2,7 @@
 
 A local, project-adaptable SDLC factory using **CrewAI** for agent work and a durable outer engine for evidence and approval gates. A request moves through requirements, design, planning, implementation, verification, security, review, release, deployment, observation, and retrospective. Agent stages execute CrewAI Flows and specialist/reviewer crews; operational stages run configured commands. Every stage records evidence. Verification failures can return to implementation. Release and deployment each require explicit approval.
 
-**Status: CrewAI integration implemented and tested locally; live model execution is not yet validated.** Configure a model/provider and project commands for real work. The separate demo still uses deterministic scripts and simulated delivery. No paid model call or production deployment has been performed. The engine is language agnostic; verification is necessarily project specific.
+**Status: validated locally with real CrewAI model calls.** Three frozen CSVJSON trials completed all 11 stages without manual candidate repair or operator retries; each passed 259 scenarios and nine baseline tests before and after local installation. The verified feature was promoted into the target repository. This is evidence for the tested tasks/configurations, not arbitrary-project reliability or production deployment. See the dated results below.
 
 ## Run locally
 
@@ -18,6 +18,7 @@ The result contains a run `id`. It stops before design for review. Substitute th
 
 ```sh
 uv run ai-pipeline status RUN_ID
+uv run ai-pipeline status RUN_ID --json
 uv run ai-pipeline approve RUN_ID --actor your-name --note "Reviewed the requirements"
 uv run ai-pipeline advance RUN_ID
 ```
@@ -29,6 +30,8 @@ uv run ai-pipeline list
 uv run ai-pipeline metrics
 uv run python -m unittest discover -s tests -v
 ```
+
+`status` now shows a readable summary, evidence paths, approval review guidance and the next command. Use `status RUN_ID --json` for the previous full JSON output (update scripts that parse status). Other commands retain JSON output. Suggested commands preserve the selected state directory and environment-file path. Failed runs require diagnosis before retry; delivery failures require reconciliation.
 
 Use `--state-dir /absolute/path` before the subcommand to keep runs elsewhere. Different run IDs can execute concurrently in separate processes; each individual run has an exclusive lock. There is no background worker or fleet scheduler yet.
 

@@ -7,6 +7,7 @@ import sys
 from dotenv import dotenv_values, load_dotenv
 
 from .engine import AI_STAGES, Factory, FactoryError, STAGES, write_json
+from .status import format_status
 
 
 def load_environment(path):
@@ -51,7 +52,10 @@ def main():
     create.add_argument("--config", required=True, type=Path)
     create.add_argument("--task", required=True)
     for name in ("advance", "status", "retry"):
-        commands.add_parser(name).add_argument("run_id")
+        subparser = commands.add_parser(name)
+        subparser.add_argument("run_id")
+        if name == "status":
+            subparser.add_argument("--json", action="store_true", help="Print the full recorded state as JSON")
     approve = commands.add_parser("approve")
     approve.add_argument("run_id")
     approve.add_argument("--actor", required=True)
@@ -81,6 +85,12 @@ def main():
             display(factory.approve(args.run_id, args.actor, args.note))
         elif args.command == "list":
             display(factory.list_runs())
+        elif args.command == "status":
+            state = factory.status(args.run_id)
+            if args.json:
+                display(state)
+            else:
+                print(format_status(state, args.state_dir, args.env_file))
         elif args.command == "metrics":
             display(factory.metrics())
         else:
