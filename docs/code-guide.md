@@ -13,6 +13,7 @@ approval gate, failure, or completion.
 | `ai_pipeline/engine.py` | Persist runs, isolate workspaces, enforce gates, run adapters, record evidence. |
 | `ai_pipeline/crewai_adapter.py` | Build specialist/reviewer crews, provide source/check tools, enforce completion and progress. |
 | `ai_pipeline/prompts.py` | Stage roles and specialist/reviewer instructions. Read this to understand what agents are asked to do. |
+| `ai_pipeline/crewai_compat.py` | Scoped SQLite connection-lifetime fix for the pinned CrewAI version. |
 | `ai_pipeline/stage_contracts.py` | Structured requirements, design, plan and review schemas. |
 | `ai_pipeline/status.py` | Render recorded state and operator guidance without advancing a run. |
 | `ai_pipeline/command_adapter.py` | Wrap a configured command in the result-file protocol. |
@@ -93,3 +94,17 @@ loopback HTTP services. It does not need provider keys or paid model calls.
 When changing prompts, remember that wording is runtime behavior. The readability
 refactor compared all six stages, with and without revision feedback, to confirm
 identical agent roles, tool names, task descriptions and expected outputs.
+
+## Dependency compatibility boundary
+
+`PipelineCrew` inherits CrewAI's crew behavior and replaces only its private
+`_task_output_handler` factory. This is a version-sensitive extension point, guarded
+against any version other than the tested 1.9.3. `ClosingTaskOutputStorage` keeps the
+upstream table and handler API; a transaction context handles commit/rollback and
+`contextlib.closing` releases the connection immediately afterward.
+
+When upgrading CrewAI, first check Intel macOS dependency resolution. Then verify
+whether upstream storage closes every connection. If it does, remove the scoped
+replacement and keep the connection-lifetime regressions against the new storage.
+Do not bypass the version guard without revalidating the private extension point.
+The remaining internal `multimodal` deprecation is documented rather than filtered.

@@ -14,10 +14,11 @@ os.environ.setdefault("OTEL_SDK_DISABLED", "true")
 os.environ.setdefault("CREWAI_TELEMETRY_OPT_OUT", "true")
 os.environ.setdefault("CREWAI_TRACING_ENABLED", "false")
 
-from crewai import Agent, Crew, LLM, Process, Task
+from crewai import Agent, LLM, Process, Task
 from crewai.flow.flow import Flow, listen, start
 from crewai.tools import tool
 from ai_pipeline.engine import digest_tree
+from ai_pipeline.crewai_compat import PipelineCrew
 from ai_pipeline import stage_contracts
 from ai_pipeline.prompts import (
     ROLES,
@@ -568,7 +569,7 @@ def build_crew(context, llm=None):
         context=[work],
         output_pydantic=stage_contracts.StageReport,
     )
-    return Crew(
+    return PipelineCrew(
         agents=[specialist, reviewer],
         tasks=[work, review],
         process=Process.sequential,

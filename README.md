@@ -29,7 +29,7 @@ re-exports were removed. See the guide’s schema import migration section.
 
 ## Run locally
 
-Requires Python 3.11–3.13, uv, and Git on macOS or Linux. CrewAI is pinned to **1.9.3**, tested on this Intel Mac. Newer CrewAI 1.15 releases require a LanceDB dependency without a compatible Intel macOS wheel. `uv.lock` records dependencies; `.python-version` selects Python 3.13.
+Requires Python 3.11–3.13, uv, and Git on macOS or Linux. CrewAI remains pinned to **1.9.3**, tested on this Intel Mac. An isolated resolution check on 2026-10-28 confirmed that the latest published 1.15.32 and newer stable releases cannot resolve with the required Intel macOS support because of LanceDB wheel availability. `uv.lock` records dependencies; `.python-version` selects Python 3.13.
 
 ```sh
 cd /Users/adicohen/work/ai_pipeline
@@ -78,6 +78,22 @@ On GitHub, open **Actions → Tests → the failed run → Python 3.13 tests** a
 the first failing step. Dependency-install failures are separate from test failures.
 The local macOS result and the GitHub Linux result validate their respective
 platforms; neither substitutes for a fresh live factory trial.
+
+## Dependency maintenance
+
+Our `PipelineCrew` uses a scoped task-output storage implementation that closes
+SQLite connections after every operation, including failures. This addresses the
+resource leak in the pinned CrewAI version without editing installed packages or
+patching global SQLite behavior. It preserves the existing database table and
+record format. The compatibility layer refuses a different CrewAI version until
+its storage integration is explicitly reassessed.
+
+CrewAI's internal `Agent.multimodal` deprecation warnings remain visible; the
+pipeline does not use that feature or suppress those warnings. The latest inspected
+release still accesses it internally. See the [maintenance report](reports/crewai-maintenance-20261028.json)
+for resolution results and the [upstream storage fix](https://github.com/crewAIInc/crewAI/pull/7493).
+No alpha build, transitive dependency override or platform-specific framework
+split was adopted.
 
 ## Connect a project
 

@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-28",
+  "installed_crewai": "1.9.3",
+  "latest_published_crewai_checked": "1.15.32",
+  "platform": "macOS x86_64, Python 3.13",
+  "upgrade_applied": false,
+  "upgrade_decision": "Retain stable 1.9.3: newer stable versions cannot resolve for the required Intel macOS environment.",
+  "experiments": [
+    {
+      "constraint": "crewai==1.15.32",
+      "result": "Unresolvable: lancedb>=0.33.0 has no Intel macOS compatible wheels."
+    },
+    {
+      "constraint": "crewai>1.9.3,<2",
+      "result": "Resolver selected 1.10.0a1 on Intel macOS and 1.15.32 elsewhere. Alpha and platform-divergent framework upgrade not adopted."
+    },
+    {
+      "constraint": "crewai>=1.10,<2",
+      "result": "Unresolvable for Intel macOS; required newer LanceDB distributions lack compatible wheels."
+    }
+  ],
+  "resource_warning_root_cause": "CrewAI task-output storage used sqlite3 connection transaction contexts without closing connections.",
+  "fix": "PipelineCrew uses a scoped ClosingTaskOutputHandler with deterministic connection closure and unchanged table/row format. No global monkeypatch or site-packages edits.",
+  "remaining_deprecation": "CrewAI internals read the deprecated Agent.multimodal field in both inspected 1.9.3 and 1.15.32 code. No warning filter added.",
+  "sources": [
+    "https://pypi.org/project/crewai/1.15.32/",
+    "https://github.com/crewAIInc/crewAI/issues/7492",
+    "https://github.com/crewAIInc/crewAI/pull/7493"
+  ],
+  "validation": {
+    "focused_regressions": 4,
+    "full_suite": {
+      "tests_passed": 72,
+      "duration_seconds": 60.113,
+      "resource_warning_occurrences": 0,
+      "upstream_deprecation_warning_occurrences": 2
+    },
+    "live_model_trial": "Not run; this maintenance uses scripted-model and independent command regression tests.",
+    "agent_prompt_equivalence": "All six stages, with and without revision feedback, unchanged."
+  }
+}
