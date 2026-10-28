@@ -453,6 +453,58 @@ uv run ai-pipeline status 6b760521d51f
 printf 'name;count\nAda;007\n' | .venv/bin/python .factory/6b760521d51f/artifacts/009-deploy-3043ec3a/installed/csvjson.py --delimiter ';'
 ```
 
+## Three frozen repeatability trials and promotion — 2026-10-28
+
+**All three fresh CSVJSON trials completed all 11 stages.** Factory commit
+`d8595dd8a7d0ac143afb8d9cb049ad74eba57629`, tracked file hashes, task,
+configuration, model settings and target baseline were frozen and checked across
+the experiment. The original baseline remained
+`c43bfa62a1f2d28a10cf00e3f31987a4c5547b8f` until all trials finished.
+The writer was GPT-4.1 (`2025-04-14` snapshot); its reviewer and other AI stages
+remained GPT-4o-mini. Preflight: **55 factory tests passed**.
+
+| Trial | Run | Active stage seconds | Elapsed seconds | Reported tokens | Outcome |
+| --- | --- | --- | --- | --- | --- |
+| 1 | `4c1927a4ae2a` | 231.523 | 298.131 | 112,534 | Completed |
+| 2 | `9bf99ee9cc81` | 228.917 | 299.011 | 112,061 | Completed |
+| 3 | `5e9f8473078c` | 232.525 | 284.872 | 126,003 | Completed |
+
+Each candidate and installed copy passed **259 independent CLI scenarios and
+nine original baseline tests**. Every trial had zero operator retries, manual
+candidate repairs and engine repair cycles. Three approval gates per trial were
+reviewed under user authorization. No early stop was needed. Total reported usage:
+**350,598 tokens**; mean active stage time: **230.988 seconds**. Token totals are
+not billed cost, and elapsed time includes evidence-review waits.
+
+Source review checked the full delimiter rule, not just passing examples. Trial
+2's model-written review prematurely mentioned installed checks; that claim was
+not used as approval evidence, and actual installed-copy checks ran subsequently.
+This reinforces the need for independent command evidence and review gates.
+
+After all three succeeded, trial 1's exact verified source bytes were promoted
+into `/Users/adicohen/work/csvjson-second-run`, committed as **`d23e72a`**, with
+usage documentation, a semicolon example and delimiter regression tests. The
+promoted repository passed **12 test methods and all 259 independent scenarios**.
+Promotion did not manually repair or rewrite the generated source. No public
+release or hosted service was created.
+
+The machine-readable comparison is
+[`reports/csvjson-repeatability-20261028.json`](reports/csvjson-repeatability-20261028.json).
+The local full frozen manifest remains in
+`.factory/csvjson-repeatability-20261028.json`. Three successes are evidence for
+this task and configuration, not a general reliability guarantee across projects.
+Future runs against the repository HEAD now start from the promoted feature;
+repeating the original experiment requires the recorded baseline commit.
+
+Try the promoted feature directly:
+
+```sh
+cd /Users/adicohen/work/csvjson-second-run
+python3 csvjson.py examples/people-semicolon.csv --delimiter ';'
+python3 -m unittest discover -s tests -v
+git log -1 --oneline
+```
+
 ## Trust boundary and production roadmap
 
 This version runs **trusted adapters with the current user's host permissions and environment**. Git worktrees isolate file changes; they are not security sandboxes. External acceptance files, state, and approvals are not access-controlled against a malicious adapter on the same host. Detection of unexpected source changes is not prevention. No claim of tamper-proof verification is made.

@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-28",
+  "factory_commit": "d8595dd8a7d0ac143afb8d9cb049ad74eba57629",
+  "baseline_commit": "c43bfa62a1f2d28a10cf00e3f31987a4c5547b8f",
+  "configuration": "projects/csvjson-strong-implementation.json",
+  "configuration_sha256": "25f94855791cdb57b3aa72ef652f7b423bf510a2872853ddcaf8eacae7516efe",
+  "task_sha256": "8a4dcecb5aad80201967e6a8efd2dfb9dc1f8673aa2071ccd9aee5c67f9e3b45",
+  "implementation_writer": "openai/gpt-4.1-2025-04-14",
+  "implementation_reviewer": "openai/gpt-4o-mini",
+  "other_stage_model": "openai/gpt-4o-mini",
+  "frozen_inputs_verified": true,
+  "stop_rule": "At most three runs; stop if same failure recurs twice",
+  "outcome": "3/3 completed",
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "factory_tests_passed": 55,
+  "trials": [
+    {
+      "id": "4c1927a4ae2a",
+      "status": "completed",
+      "stage": 11,
+      "attempts": 11,
+      "engine_repairs": 0,
+      "active_seconds": 231.523,
+      "elapsed_seconds": 298.131,
+      "usage": {
+        "total_tokens": 112534,
+        "prompt_tokens": 101529,
+        "cached_prompt_tokens": 0,
+        "completion_tokens": 11005,
+        "successful_requests": 28
+      },
+      "usage_unavailable_stages": [],
+      "approvals": 3,
+      "results": {
+        "verify": {
+          "status": "passed",
+          "summary": "259/259 real CLI scenarios passed against verify target.",
+          "baseline_tests_passed": true,
+          "failed_cases": []
+        },
+        "observe": {
+          "status": "passed",
+          "summary": "259/259 real CLI scenarios passed against observe target.",
+          "baseline_tests_passed": true,
+          "failed_cases": []
+        }
+      }
+    },
+    {
+      "id": "9bf99ee9cc81",
+      "status": "completed",
+      "stage": 11,
+      "attempts": 11,
+      "engine_repairs": 0,
+      "active_seconds": 228.917,
+      "elapsed_seconds": 299.011,
+      "usage": {
+        "total_tokens": 112061,
+        "prompt_tokens": 100965,
+        "cached_prompt_tokens": 0,
+        "completion_tokens": 11096,
+        "successful_requests": 28
+      },
+      "usage_unavailable_stages": [],
+      "approvals": 3,
+      "results": {
+        "verify": {
+          "status": "passed",
+          "summary": "259/259 real CLI scenarios passed against verify target.",
+          "baseline_tests_passed": true,
+          "failed_cases": []
+        },
+        "observe": {
+          "status": "passed",
+          "summary": "259/259 real CLI scenarios passed against observe target.",
+          "baseline_tests_passed": true,
+          "failed_cases": []
+        }
+      }
+    },
+    {
+      "id": "5e9f8473078c",
+      "status": "completed",
+      "stage": 11,
+      "attempts": 11,
+      "engine_repairs": 0,
+      "active_seconds": 232.525,
+      "elapsed_seconds": 284.872,
+      "usage": {
+        "total_tokens": 126003,
+        "prompt_tokens": 115350,
+        "cached_prompt_tokens": 0,
+        "completion_tokens": 10653,
+        "successful_requests": 32
+      },
+      "usage_unavailable_stages": [],
+      "approvals": 3,
+      "results": {
+        "verify": {
+          "status": "passed",
+          "summary": "259/259 real CLI scenarios passed against verify target.",
+          "baseline_tests_passed": true,
+          "failed_cases": []
+        },
+        "observe": {
+          "status": "passed",
+          "summary": "259/259 real CLI scenarios passed against observe target.",
+          "baseline_tests_passed": true,
+          "failed_cases": []
+        }
+      }
+    }
+  ],
+  "total_reported_tokens": 350598,
+  "mean_active_seconds": 230.988,
+  "promotion": {
+    "repository": "/Users/adicohen/work/csvjson-second-run",
+    "commit": "d23e72a1d5a3b9b1c9d204057e7e446da29a3c5b",
+    "source_run": "4c1927a4ae2a",
+    "source_sha256": "f47198f1c2eed7476ffc9e94cf2853f238a4c83d2aaf68cb5efd8e949b32ef62",
+    "source_copied_unchanged": true,
+    "repository_tests_passed": 12,
+    "independent_scenarios_passed": 259
+  },
+  "limitations": [
+    "Three repetitions of one task and configuration, not a general reliability guarantee.",
+    "Approvals were reviewed by Codex under user authorization.",
+    "Trial 2 reviewer prose prematurely claimed installed checks; approval used actual command evidence and installed checks ran later.",
+    "Tokens are framework-reported, not billed cost; elapsed time includes approval review waits."
+  ]
+}
