@@ -187,6 +187,49 @@ uv run ai-pipeline status df6db6c2e034
 git log -1 --oneline
 ```
 
+## Second task: optional pretty JSON — 2026-10-28
+
+Fresh run `859c7d2e0900` completed all 11 stages on its first attempt using
+CrewAI and the existing model configuration. It added `--pretty` to Textstats
+from base commit `e0cf86b0e570a4a61cc29d9d22872640c92530f5`.
+Factory/checks commit: `273ce1c`. The scope and acceptance checks were committed
+before execution; the task is in `projects/textstats-pretty-task.txt` and the
+configuration is `projects/textstats-pretty.json`.
+
+- All 42 factory tests passed, including checks that detect missing/ignored
+  pretty formatting and unwanted changes to default formatting.
+- Baseline: 16/16 default-output scenarios passed; 0/24 pretty-output scenarios
+  passed. Candidate and installed copy: **40/40 passed** each.
+- Scenarios cover eight text inputs, stdin and file input, unchanged default
+  output, exact two-space JSON indentation, and the flag before/after a file.
+- Security policy, source review, ZIP manifest verification, local installation,
+  observation and retrospective passed. Counts and default output were preserved.
+- Zero operator retries, manual candidate edits, engine repair cycles or review
+  revisions. Three existing approval gates were reviewed by Codex under user
+  authorization.
+- Active stage time: 115.171 seconds; elapsed run time: 179.805 seconds.
+- CrewAI-reported usage: 163,890 tokens (154,842 prompt + 9,048 completion),
+  38 requests. This is not a billing statement.
+
+The generated feature is delivered in the run's local ZIP and installed copy;
+the original repository checkout and public GitHub release are unchanged.
+The source change was made by the factory, without operator code repair.
+
+Inspect the result and try the installed feature:
+
+```sh
+cd /Users/adicohen/work/ai_pipeline
+uv run ai-pipeline status 859c7d2e0900
+printf 'hello world\n' | .venv/bin/python .factory/859c7d2e0900/artifacts/009-deploy-84dfa25f/installed/textstats.py --pretty
+```
+
+To create another run of this same bounded task:
+
+```sh
+uv run ai-pipeline create --config projects/textstats-pretty.json --task "$(cat projects/textstats-pretty-task.txt)"
+# Use the returned run ID with advance; review each approval gate before approving.
+```
+
 ## Trust boundary and production roadmap
 
 This version runs **trusted adapters with the current user's host permissions and environment**. Git worktrees isolate file changes; they are not security sandboxes. External acceptance files, state, and approvals are not access-controlled against a malicious adapter on the same host. Detection of unexpected source changes is not prevention. No claim of tamper-proof verification is made.
