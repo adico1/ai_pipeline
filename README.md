@@ -646,3 +646,21 @@ The next infrastructure layers are a durable worker queue with leases and capaci
 For a small application, verification may use a local runtime and real test database. Distributed systems need isolated routing or per-change environments and cross-service scenarios. Embedded, mobile, data, and infrastructure projects require their own execution targets. The orchestration contract can be reused across those projects; their sensors cannot be assumed interchangeable.
 
 Inspired by [Building an agentic software factory? Start with the sensor](https://thenewstack.io/agentic-software-factory-sensor/).
+
+### Ongoing HTTPStats development: optional word frequencies
+
+The next bounded feature starts from the published HTTPStats analyze implementation.
+`projects/httpstats-word-frequencies-task.txt` defines a strict opt-in boolean:
+existing responses remain unchanged; enabled requests also return case-sensitive
+counts of whitespace-delimited tokens. No dependencies or new routes are needed.
+The independent sensor preserves all 44 existing scenarios and adds 19 cases.
+
+```sh
+uv run ai-pipeline create --config projects/httpstats-word-frequencies.json --task "$(cat projects/httpstats-word-frequencies-task.txt)"
+uv run ai-pipeline advance RUN_ID
+uv run ai-pipeline status RUN_ID
+```
+
+At each approval gate, inspect its artifacts and approve with an actor and a
+specific evidence note, then advance again. The CrewAI team owns candidate
+implementation; the operator owns acceptance checks and evidence review.
