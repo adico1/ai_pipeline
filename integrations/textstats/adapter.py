@@ -3,6 +3,7 @@ import ast
 import hashlib
 import json
 import os
+import sys
 from pathlib import Path
 import zipfile
 
@@ -20,7 +21,7 @@ def prior(context, stage):
     return Path(matches[-1]["artifact_directory"])
 
 
-def execute(context):
+def execute(context, pretty=False):
     stage = context["stage"]
     output = Path(context["output"])
     source = Path(context["workspace"]) / "textstats.py"
@@ -30,7 +31,7 @@ def execute(context):
             receipt = json.loads((prior(context, "deploy") / "deployment.json").read_text())
             if sha(script) != receipt["source_sha256"]:
                 raise ValueError("Installed script differs from deployment receipt")
-        scenarios = verify(script)
+        scenarios = verify(script, pretty=pretty)
         (output / "scenarios.json").write_text(json.dumps(scenarios, indent=2, ensure_ascii=False))
         passed = sum(r["passed"] for r in scenarios)
         return {"status": "passed" if passed == len(scenarios) else "failed",
@@ -77,7 +78,7 @@ def execute(context):
 if __name__ == "__main__":
     context = json.loads(Path(os.environ["FACTORY_CONTEXT"]).read_text())
     try:
-        result = execute(context)
+        result = execute(context, pretty="--pretty" in sys.argv[1:])
     except Exception as exc:
         result = {"status": "failed", "summary": f"{type(exc).__name__}: {exc}"}
     (Path(context["output"]) / "result.json").write_text(json.dumps(result, indent=2))

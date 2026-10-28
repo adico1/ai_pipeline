@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "name": "textstats-pretty",
+  "repository": "/Users/adicohen/work/ai_pipeline_first_run",
+  "max_repairs": 2,
+  "gates": [
+    "design"
+  ],
+  "stages": {
+    "requirements": {
+      "backend": "crewai",
+      "crewai": {},
+      "timeout_seconds": 300
+    },
+    "design": {
+      "backend": "crewai",
+      "crewai": {},
+      "timeout_seconds": 300
+    },
+    "plan": {
+      "backend": "crewai",
+      "crewai": {},
+      "timeout_seconds": 300
+    },
+    "implement": {
+      "backend": "crewai",
+      "crewai": {},
+      "timeout_seconds": 300
+    },
+    "verify": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/textstats/adapter.py",
+        "--pretty"
+      ],
+      "timeout_seconds": 60
+    },
+    "security": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/textstats/adapter.py"
+      ],
+      "timeout_seconds": 60
+    },
+    "review": {
+      "backend": "crewai",
+      "crewai": {},
+      "timeout_seconds": 300
+    },
+    "release": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/textstats/adapter.py"
+      ],
+      "timeout_seconds": 60
+    },
+    "deploy": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/textstats/adapter.py"
+      ],
+      "timeout_seconds": 60
+    },
+    "observe": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/textstats/adapter.py",
+        "--pretty"
+      ],
+      "timeout_seconds": 60
+    },
+    "retrospective": {
+      "backend": "crewai",
+      "crewai": {},
+      "timeout_seconds": 300
+    }
+  }
+}

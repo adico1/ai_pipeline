@@ -1,0 +1,7 @@
+Add an optional --pretty flag to the existing Textstats CLI.
+Preserve the existing default stdout byte format: one JSON line, keys in characters/words/lines order, ordinary json.dumps spacing, followed by a newline.
+With --pretty, output the same single JSON object using two-space indentation and a trailing newline; no extra stdout or stderr on success.
+Support stdin and a UTF-8 file path, with --pretty accepted before or after the file argument.
+Preserve exactly the existing character, Unicode-whitespace word, and splitlines line counts, including empty and whitespace-only input, Unicode text and CRLF file reading behavior. Return only the three integer fields characters, words and lines.
+Keep the existing CLI positional file argument and use only the existing standard-library imports (argparse, json, pathlib, sys). Do not add dependencies or unrelated features.
+Deliver a local ZIP with SHA-256 manifest and install into a separate local artifact directory. Verify both candidate and installed CLI with the configured independent checks. No public publishing or network service is needed.

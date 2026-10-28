@@ -37,10 +37,10 @@ class TextstatsTests(unittest.TestCase):
         self.source.write_text(SOURCE)
         self.context = {"run_id": "test", "workspace": str(workspace), "history": []}
 
-    def stage(self, stage):
+    def stage(self, stage, pretty=False):
         output = self.root / stage
         output.mkdir(exist_ok=True)
-        result = adapter.execute({**self.context, "stage": stage, "output": str(output)})
+        result = adapter.execute({**self.context, "stage": stage, "output": str(output)}, pretty=pretty)
         self.context["history"].append({"stage": stage, "status": result["status"], "artifact_directory": str(output)})
         return result
 
@@ -60,6 +60,31 @@ class TextstatsTests(unittest.TestCase):
         (self.root / "release/textstats.zip").write_bytes(b"tampered")
         with self.assertRaisesRegex(ValueError, "digest mismatch"):
             self.stage("deploy")
+
+    def pretty_fixture(self):
+        return SOURCE.replace('a = p.parse_args()', 'p.add_argument("--pretty", action="store_true")\na = p.parse_args()').replace(
+            'len(t.splitlines())}))', 'len(t.splitlines())}, indent=2 if a.pretty else None))')
+
+    def test_pretty_checks_reject_missing_flag(self):
+        result = self.stage("verify", pretty=True)
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(len(result["failed_cases"]), 24)
+        self.assertTrue(all(r["format"] != "default" for r in result["failed_cases"]))
+
+    def test_pretty_format_and_default_regressions_are_detected(self):
+        for indent, failed in (("None", 24), ("2", 16)):
+            with self.subTest(indent=indent):
+                self.source.write_text(self.pretty_fixture().replace("2 if a.pretty else None", indent))
+                result = self.stage("verify", pretty=True)
+                self.assertEqual(len(result["failed_cases"]), failed)
+                self.assertTrue(all(not r["format_matches"] for r in result["failed_cases"]))
+
+    def test_pretty_real_delivery_and_observation(self):
+        self.source.write_text(self.pretty_fixture())
+        for stage in ("verify", "security", "release", "deploy", "observe"):
+            self.assertEqual(self.stage(stage, pretty=True)["status"], "passed", stage)
+        scenarios = json.loads((self.root / "observe/scenarios.json").read_text())
+        self.assertEqual(len(scenarios), 40)
 
     def test_security_policy_rejects_dynamic_execution(self):
         self.source.write_text(SOURCE + "\nexec('print(1)')\n")
