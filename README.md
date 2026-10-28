@@ -711,3 +711,22 @@ Codex wrote no candidate implementation and reviewed three approval gates.
 
 [Completed-run evidence](reports/httpstats-utf8-bytes-20261028.json) and
 [withheld-run evidence](reports/httpstats-utf8-withheld-20261028.json).
+
+### Saved analysis history trial
+
+`projects/httpstats-history.json` starts from the published HTTPStats version with
+word frequencies and UTF-8 byte counts. The bounded feature adds SQLite-backed
+`POST /analyses` and `GET /analyses/{id}`, leaving `/analyze` stateless.
+The independent suite retains 89 earlier scenarios, adds 30 persistence/API checks,
+and executes two save/retrieve examples from a declarative README block plus a
+startup-documentation check. Database files stay local and outside release ZIPs.
+
+```sh
+uv run ai-pipeline create --config projects/httpstats-history.json --task "$(cat projects/httpstats-history-task.txt)"
+uv run ai-pipeline advance RUN_ID
+uv run ai-pipeline status RUN_ID
+```
+
+Review requirements, verified source and release evidence at the approval gates.
+CrewAI writes the candidate; acceptance sensors and test-only reference fixtures
+are operator-owned and are never copied into candidate implementation.

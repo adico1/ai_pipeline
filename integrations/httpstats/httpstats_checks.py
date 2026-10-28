@@ -10,12 +10,12 @@ import time
 
 
 @contextmanager
-def service(script):
+def service(script, *, directory=None, extra_args=()):
     with tempfile.TemporaryDirectory() as temp:
         log = Path(temp) / 'service.log'
         with log.open('w') as output:
-            process = subprocess.Popen([sys.executable, str(Path(script).resolve()), '--port', '0'],
-                                       cwd=temp, stdout=output, stderr=output)
+            process = subprocess.Popen([sys.executable, str(Path(script).resolve()), '--port', '0', *extra_args],
+                                       cwd=directory or temp, stdout=output, stderr=output)
             try:
                 deadline = time.monotonic() + 5
                 while time.monotonic() < deadline:

@@ -21,7 +21,7 @@ def prior(context, stage):
     return Path(matches[-1]["artifact_directory"])
 
 
-def execute(context, *, word_frequencies=False, utf8_bytes=False):
+def execute(context, *, word_frequencies=False, utf8_bytes=False, history=False):
     stage = context["stage"]
     output = Path(context["output"])
     source = Path(context["workspace"]) / "server.py"
@@ -36,7 +36,12 @@ def execute(context, *, word_frequencies=False, utf8_bytes=False):
             from word_frequency_checks import verify as checker
         if utf8_bytes:
             from utf8_checks import verify as checker
+        if history:
+            from history_checks import verify as checker
         scenarios = checker(script)
+        if history:
+            from history_checks import verify_documentation
+            scenarios += verify_documentation(script, Path(context["workspace"]) / "README.md")
         (output / "scenarios.json").write_text(json.dumps(scenarios, indent=2, ensure_ascii=False))
         documentation_errors = []
         if utf8_bytes:
@@ -52,6 +57,8 @@ def execute(context, *, word_frequencies=False, utf8_bytes=False):
         tree = ast.parse(source.read_text())
         violations = []
         allowed = {"argparse", "json", "sys", "http.server"}
+        if history:
+            allowed |= {"sqlite3", "contextlib", "pathlib", "re", "urllib.parse"}
         for node in ast.walk(tree):
             imports = [a.name for a in node.names] if isinstance(node, ast.Import) else [node.module] if isinstance(node, ast.ImportFrom) else []
             for name in imports:
@@ -90,7 +97,8 @@ if __name__ == "__main__":
     context = json.loads(Path(os.environ["FACTORY_CONTEXT"]).read_text())
     try:
         result = execute(context, word_frequencies="--word-frequencies" in sys.argv[1:],
-                         utf8_bytes="--utf8-bytes" in sys.argv[1:])
+                         utf8_bytes="--utf8-bytes" in sys.argv[1:],
+                         history="--history" in sys.argv[1:])
     except Exception as exc:
         result = {"status": "failed", "summary": f"{type(exc).__name__}: {exc}"}
     (Path(context["output"]) / "result.json").write_text(json.dumps(result, indent=2))
