@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-28",
+  "run_id": "7f0e2eeb3c4a",
+  "status": "completed",
+  "factory_commit": "f4d0a71fc290836b80bc3019ba361647aad88106",
+  "baseline_commit": "ea20a9aa7f3fbc177be758408987e8a8de0aac40",
+  "baseline_application_files": [],
+  "starting_point": "blank",
+  "starter_source_files_provided": 0,
+  "configuration": "projects/taskboard-blank.json",
+  "task": "projects/taskboard-blank-task.txt",
+  "frozen_inputs_verified": true,
+  "stages_completed": 11,
+  "factory_tests_passed": 91,
+  "factory_test_batches": [
+    88,
+    3
+  ],
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "engine_repairs": 0,
+  "approval_gates_reviewed": 3,
+  "earlier_failed_run": "a7760439fc9f",
+  "earlier_failure": "Planning exhausted document revisions before any source was created; second run used implementation-grade planning and review models.",
+  "factory_active_seconds": 260.745,
+  "elapsed_seconds": 1872.96,
+  "models": {
+    "requirements_design_retrospective": "openai/gpt-4o-mini",
+    "plan_implementation_review": "openai/gpt-4.1-2025-04-14",
+    "implementation_reviewer": "openai/gpt-4o-mini"
+  },
+  "reported_usage": {
+    "total_tokens": 314810,
+    "prompt_tokens": 298704,
+    "cached_prompt_tokens": 0,
+    "completion_tokens": 16106,
+    "successful_requests": 59
+  },
+  "results": {
+    "verify": {
+      "project_checks_passed": 23,
+      "generated_tests_passed": 6
+    },
+    "observe": {
+      "project_checks_passed": 23,
+      "generated_tests_passed": 6
+    }
+  },
+  "limitations": [
+    "One bounded standard-library Python CLI trial, not a guarantee for arbitrary requirements, languages or dependency stacks.",
+    "Independent acceptance and delivery adapters remain project-specific; init --blank generates a configuration template, not universal tests.",
+    "Delivery is a manifest-verified source bundle, not a wheel install, cloud deployment or hosted service.",
+    "Three gates were reviewed by Codex under user authorization. The successful run required no implementation repair, but a prior planning run failed.",
+    "Static import checks are limited; token usage is framework-reported and is not billed cost."
+  ],
+  "release_manifest": {
+    "files": {
+      ".gitignore": "e9551ff0b7f7b755f6a7cbb1eae2809d2c0a40aacdc5d8b0f5c7d4465d5360e0",
+      "README.md": "d62b3bbde84ec00c1ac67bd6d817d8e1ba7e33069c79a79f9338cff0efcc28c7",
+      "pyproject.toml": "b6a41eb9a25b084b0ce79d4d035931a002852e11df42abee9e7d70581f926cad",
+      "taskboard/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "taskboard/__main__.py": "3129adff95e0f38b87ab34cddfc27082c7892bcaec267ff5d40f160fdf55b44a",
+      "taskboard/cli.py": "41eb3ae69501ab21a84993414da4b90c832d0b3441c41bd887ce8c1451ab1db8",
+      "taskboard/domain.py": "0fcbe7032b2627c82baba1468113c376e05f68bd735c268e69b4a87e606ffec2",
+      "taskboard/storage.py": "e26ee783f6af5440c2c4959c75535dad6805391477aa8ea27421d96f9c36069b",
+      "tests/test_taskboard.py": "85fc40677b4f304f03b6161d79c1faf3d7ba6ffd4b173d2c3ae62fc9b1fa4ea8"
+    },
+    "archive_sha256": "252a5a0483bf62f70be3f97ba300fa321b689145f3be8c0f075db0ff4dfde409"
+  },
+  "release_file_count": 9,
+  "installed_directory": "/Users/adicohen/work/ai_pipeline/.factory/7f0e2eeb3c4a/artifacts/009-deploy-ef8889bb/installed",
+  "promotion": {
+    "repository": "https://github.com/adico1/taskboard-greenfield",
+    "commit": "e15c8f8460dcd03d489a442d7365aa6f17971498",
+    "release_files_copied_unchanged": true,
+    "independent_checks_passed": 22,
+    "generated_tests_passed": 6,
+    "added_operator_file": "provenance.json",
+    "validation_note": "The first promotion unittest invocation used the factory working directory and could not import taskboard; rerunning from the documented project root passed all six tests without source changes. Independent CLI checks also passed from unrelated temporary directories."
+  }
+}

@@ -6,6 +6,8 @@ A local, project-adaptable SDLC factory using **CrewAI** for agent work and a du
 
 ## Public example projects
 
+- [Taskboard](https://github.com/adico1/taskboard-greenfield): multi-file CLI created by CrewAI from an empty project, with SQLite persistence, generated tests and a verified complete-project release.
+
 - [Textstats](https://github.com/adico1/ai_pipeline_first_run): verified word-counting fix.
 - [CSVJSON](https://github.com/adico1/csvjson-second-run): promoted delimiter feature, with regression tests.
 - [HTTPStats](https://github.com/adico1/httpstats-third-run): promoted `POST /analyze` with opt-in word frequencies, UTF-8 byte counts, SQLite saved history, and 122 acceptance checks and source provenance.
@@ -785,3 +787,21 @@ not a wheel installation or a claim of support for every language/dependency sta
 Agent stages may set `crewai.max_iter` from 1 to 40; the default remains 12. The
 blank-project example uses 24 to accommodate creating multiple files. Existing
 no-progress and incomplete-handoff guards remain active.
+
+
+Blank-project run **`7f0e2eeb3c4a` completed all 11 stages**. The initial Git tree
+contained zero application files. CrewAI created the package modules, six tests,
+README, metadata and ignore rules. The nine-file source release passed all 23
+project checks before and after installation, including its generated test suite.
+The installed application ran from an unrelated working directory. No manual
+candidate edits, operator retries or engine repairs were needed in this successful
+run; Codex reviewed three approval gates. An earlier run stopped at planning,
+after which the planning and final-review model were upgraded for the new run.
+
+The exact nine released files were published in Taskboard commit `e15c8f8`, with a
+separate provenance record. Its six generated tests and 22 independent behavior,
+structure and documentation checks passed after promotion. Factory validation
+passed 91 tests (88 in the main batch and 3 new integration tests).
+
+[Completed greenfield evidence](reports/taskboard-blank-20261028.json) and
+[earlier planning failure](reports/taskboard-blank-initial-20261028.json).
