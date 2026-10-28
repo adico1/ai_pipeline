@@ -73,6 +73,8 @@ Requirements also produce `requirements.json` with objective, scope, measurable 
 
 Design and planning similarly produce validated `design.json` and `plan.json`. Design records the approach, interfaces, data flow, decisions/tradeoffs, edge cases, and verification strategy. Planning records ordered actions with targets and completion criteria, verification steps, and risks. The full documents are passed to downstream agents; a list of bugs alone cannot satisfy these document contracts.
 
+Rejected documents, final reviews, and retrospectives receive up to two automatic revisions within the same stage timeout. The writer receives the rejected deliverable and concrete review feedback; every review round is saved. Exhausted revisions still fail the stage. Final code review receives a bounded snapshot of the currently changed tracked source so it can distinguish the repaired code from historical bug descriptions.
+
 Only the implementation specialist receives a file-write tool. Other specialists and all reviewers receive source read/list tools. Tools reject path traversal, symlinks, and sensitive paths and cap file size. Agents have no shell or deployment tool. The implementation can write any source language; project commands compile, test, and deliver it. These restrictions do not constitute an OS sandbox.
 
 Implementation agents and their reviewers also have `check_current_candidate`, a no-argument tool that runs only the operator-configured verify/security commands against the current candidate. Each call saves its own reports under the implementation attempt. The model cannot choose arbitrary commands. These checks provide repair feedback; the independent verify/security stages still rerun afterward and remain the release gates.

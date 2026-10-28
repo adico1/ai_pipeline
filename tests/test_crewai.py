@@ -84,6 +84,20 @@ class CrewAITests(unittest.TestCase):
         with patch("ai_pipeline.crewai_adapter.build_crew", side_effect=lambda context: build_crew(context, llm=LocalTestLLM(blocked=True))):
             result = SDLCStageFlow().kickoff(inputs={"context": self.context})
         self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["review_revisions"], 2)
+        self.assertEqual(len(list(self.output.glob('review-round-*.json'))), 3)
+
+    def test_rejected_document_is_revised_with_feedback_before_passing(self):
+        contexts = []
+        def make_crew(context):
+            contexts.append(dict(context))
+            return build_crew(context, llm=LocalTestLLM(blocked=not bool(context.get("stage_revision_feedback"))))
+        with patch("ai_pipeline.crewai_adapter.build_crew", side_effect=make_crew):
+            result = SDLCStageFlow(tracing=False).kickoff(inputs={"context": {**self.context, "stage": "design"}})
+        self.assertEqual(result["status"], "passed")
+        self.assertEqual(result["review_revisions"], 1)
+        self.assertEqual(contexts[1]["stage_revision_feedback"]["review"]["status"], "blocked")
+        self.assertEqual(json.loads((self.output / "review-round-0.json").read_text())["review"]["status"], "blocked")
 
     def test_design_and_plan_documents_survive_stage_handoff(self):
         for stage, field in (("design", "decisions_and_tradeoffs"), ("plan", "ordered_steps")):

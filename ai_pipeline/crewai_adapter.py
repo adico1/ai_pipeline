@@ -240,6 +240,9 @@ def build_crew(context, llm=None):
         tools=[] if document_stage else workspace_tools(workspace) + ([candidate_check_tool(context)] if stage == "implement" else []), **{**common, "llm": reviewer_llm})
     # A bounded history carries requirements/design/plan and repair failures forward.
     evidence = json.dumps(stage_inputs(context), ensure_ascii=False)
+    revision = context.get("stage_revision_feedback")
+    if revision:
+        evidence += "\nREVISION REQUEST: The previous deliverable was rejected. Revise it to address these specific issues; retain the original scope.\n" + json.dumps(revision, ensure_ascii=False)
     reviewer_inputs = stage_inputs(context)
     reviewer_inputs.pop("repair_feedback", None)
     reviewer_evidence = json.dumps(reviewer_inputs, ensure_ascii=False)
@@ -284,11 +287,25 @@ class SDLCStageFlow(Flow[StageState]):
 
     @listen(prepare)
     def run_crew(self, context):
-        result = build_crew(context).kickoff()
-        if not isinstance(result.pydantic, StageReport):
-            raise ValueError("CrewAI did not produce a validated StageReport")
-        self.state.report = result.pydantic.model_dump()
         output = Path(context["output"])
+        max_revisions = 2 if context["stage"] in DOCUMENTS or context["stage"] in {"review", "retrospective"} else 0
+        crew_context = dict(context)
+        usage_totals = {}
+        for revision in range(max_revisions + 1):
+            result = build_crew(crew_context).kickoff()
+            if not isinstance(result.pydantic, StageReport):
+                raise ValueError("CrewAI did not produce a validated StageReport")
+            if result.token_usage:
+                for key, value in result.token_usage.model_dump().items():
+                    if isinstance(value, (int, float)):
+                        usage_totals[key] = usage_totals.get(key, 0) + value
+            round_report = {"revision": revision, "review": result.pydantic.model_dump(),
+                            "deliverable": result.tasks_output[0].raw}
+            (output / f"review-round-{revision}.json").write_text(json.dumps(round_report, indent=2))
+            if result.pydantic.status == "passed":
+                break
+            crew_context["stage_revision_feedback"] = round_report
+        self.state.report = {**result.pydantic.model_dump(), "review_revisions": revision}
         document_type = DOCUMENTS.get(context["stage"])
         if document_type:
             document = result.tasks_output[0].pydantic
@@ -297,8 +314,7 @@ class SDLCStageFlow(Flow[StageState]):
             self.state.report["deliverable"] = document.model_dump()
             (output / f"{context['stage']}.json").write_text(document.model_dump_json(indent=2))
         (output / "crew-report.md").write_text("\n\n".join(task.raw for task in result.tasks_output))
-        usage = result.token_usage
-        (output / "token-usage.json").write_text(json.dumps(usage.model_dump() if usage else {}, indent=2))
+        (output / "token-usage.json").write_text(json.dumps(usage_totals, indent=2))
         return self.state.report
 
     @listen(run_crew)
