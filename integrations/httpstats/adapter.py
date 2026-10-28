@@ -21,7 +21,7 @@ def prior(context, stage):
     return Path(matches[-1]["artifact_directory"])
 
 
-def execute(context, *, word_frequencies=False):
+def execute(context, *, word_frequencies=False, utf8_bytes=False):
     stage = context["stage"]
     output = Path(context["output"])
     source = Path(context["workspace"]) / "server.py"
@@ -34,6 +34,8 @@ def execute(context, *, word_frequencies=False):
         checker = verify
         if word_frequencies:
             from word_frequency_checks import verify as checker
+        if utf8_bytes:
+            from utf8_checks import verify as checker
         scenarios = checker(script)
         (output / "scenarios.json").write_text(json.dumps(scenarios, indent=2, ensure_ascii=False))
         passed = sum(r["passed"] for r in scenarios)
@@ -82,7 +84,8 @@ def execute(context, *, word_frequencies=False):
 if __name__ == "__main__":
     context = json.loads(Path(os.environ["FACTORY_CONTEXT"]).read_text())
     try:
-        result = execute(context, word_frequencies="--word-frequencies" in sys.argv[1:])
+        result = execute(context, word_frequencies="--word-frequencies" in sys.argv[1:],
+                         utf8_bytes="--utf8-bytes" in sys.argv[1:])
     except Exception as exc:
         result = {"status": "failed", "summary": f"{type(exc).__name__}: {exc}"}
     (Path(context["output"]) / "result.json").write_text(json.dumps(result, indent=2))

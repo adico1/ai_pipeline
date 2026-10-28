@@ -676,3 +676,20 @@ elapsed time was 221.742 seconds. CrewAI reported 149,145 tokens across 29 reque
 This was local deployment, with temporary services stopped after observation.
 
 [Machine-readable evidence](reports/httpstats-word-frequencies-20261028.json).
+
+### Ongoing development: optional UTF-8 byte count
+
+The next trial builds on the published word-frequency feature. Its strict boolean
+`include_utf8_bytes` opt-in adds the byte length of the text encoded as UTF-8,
+independent of JSON escaping. It composes with word frequencies and preserves all
+63 previous scenarios. The independent sensor adds 26 cases, including Unicode,
+invalid flags, and safe rejection of unpaired surrogates when enabled.
+
+```sh
+uv run ai-pipeline create --config projects/httpstats-utf8-bytes.json --task "$(cat projects/httpstats-utf8-bytes-task.txt)"
+uv run ai-pipeline advance RUN_ID
+uv run ai-pipeline status RUN_ID
+```
+
+Review and approve each evidence gate before advancing. CrewAI owns candidate
+implementation; the operator owns the independent contract and evidence review.
