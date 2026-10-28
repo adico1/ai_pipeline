@@ -10,7 +10,7 @@ os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
 os.environ["CREWAI_TRACING_ENABLED"] = "false"
 
 from crewai import BaseLLM
-from ai_pipeline.crewai_adapter import SDLCStageFlow, build_crew, safe_path, workspace_tools
+from ai_pipeline.crewai_adapter import SDLCStageFlow, build_crew, safe_path, stage_inputs, workspace_tools
 from ai_pipeline.cli import demo_config
 from ai_pipeline.engine import Factory, FactoryError, load_config, write_json
 
@@ -25,7 +25,9 @@ class LocalTestLLM(BaseLLM):
     def call(self, messages, tools=None, callbacks=None, available_functions=None, **kwargs):
         self.calls += 1
         return 'Final Answer: ' + json.dumps({"status": "blocked" if self.blocked else "passed",
-            "summary": "Local integration-test deliverable", "findings": ["Acceptance criteria recorded"], "next_actions": []})
+            "summary": "Local integration-test deliverable", "findings": ["Acceptance criteria recorded"], "next_actions": [],
+            "objective": "Correct addition", "scope": ["Integer inputs"],
+            "acceptance_criteria": ["2 + 3 returns 5"], "constraints": ["Preserve API"], "open_questions": []})
 
     def supports_function_calling(self):
         return False
@@ -54,6 +56,22 @@ class CrewAITests(unittest.TestCase):
         self.assertGreaterEqual(model.calls, 2)
         self.assertEqual(json.loads((self.output / "result.json").read_text())["framework"], "crewai")
         self.assertTrue((self.output / "crew-report.md").exists())
+        self.assertEqual(json.loads((self.output / "requirements.json").read_text())["acceptance_criteria"], ["2 + 3 returns 5"])
+
+    def test_requirements_retry_does_not_reuse_failed_implementation_judgment(self):
+        failed = {"stage": "requirements", "status": "failed", "result": {"summary": "BUG MUST BE FIXED ALREADY"}}
+        data = stage_inputs({**self.context, "history": [failed], "previous_attempt": failed})
+        self.assertEqual(data["completed_upstream_stages"], [])
+        self.assertIsNone(data["repair_feedback"])
+        crew = build_crew(self.context, llm=LocalTestLLM())
+        self.assertEqual(crew.agents[1].tools, [])
+
+    def test_implementation_receives_upstream_requirements_and_real_test_failure(self):
+        requirements = {"stage": "requirements", "status": "passed", "result": {"deliverable": "Document"}}
+        failure = {"stage": "verify", "status": "failed", "result": {"summary": "empty input failed"}}
+        data = stage_inputs({**self.context, "stage": "implement", "history": [requirements, failure], "previous_attempt": failure})
+        self.assertEqual(data["completed_upstream_stages"], [requirements])
+        self.assertEqual(data["repair_feedback"], failure)
 
     def test_blocked_review_fails_stage(self):
         with patch("ai_pipeline.crewai_adapter.build_crew", side_effect=lambda context: build_crew(context, llm=LocalTestLLM(blocked=True))):
