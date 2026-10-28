@@ -145,6 +145,48 @@ That check does not replace integration or acceptance scenarios. Custom command 
 - Failed/interrupted release or deploy is never retried by this engine. Reconcile externally before creating another run. Adapters must implement idempotency using `run_id`, immutable artifacts, and receipts.
 - Metrics include real local attempt counts and verification duration. Escape rate remains unknown until actual production incidents are attributed. Demo results are labeled and must not be treated as production measurements.
 
+## Fresh-run validation — 2026-10-28
+
+Run `df6db6c2e034` completed all 11 stages with factory commit `219605d`
+and the existing `openai/gpt-4o-mini` configuration. It started from the original
+Textstats bug at `e47446a7f52f8c929dc58876c11211fb2a9ac19a`, using a local clone
+and the original task and acceptance checks. The published repository was not
+changed by this validation.
+
+| Evidence | Result |
+| --- | --- |
+| Factory test suite | 39 tests passed |
+| Original buggy CLI baseline | 4/16 scenarios passed |
+| Independent candidate verification | 16/16 passed |
+| Configured static security policy | Passed (limited import/execution checks) |
+| Local ZIP | Manifest hashes checked; packaged bytes matched verified source |
+| Installed-copy observation | 16/16 passed |
+| Stage attempts | 11, all passed |
+| Operator retries / manual candidate edits | 0 / 0 |
+| Engine repair cycles / document review revisions | 0 / 0 |
+| Approval gates | 3 evidence reviews performed by Codex under user authorization |
+| Active stage execution / elapsed run time | 117.384 seconds / 187.063 seconds |
+| CrewAI-reported usage | 154,808 tokens: 146,550 prompt + 8,258 completion; 54 requests |
+
+Usage is framework-reported, not a billing statement. Approval gates were retained;
+this was not an approval-free run. Local evidence is retained under
+`.factory/df6db6c2e034/`, with the summary in `.factory/stabilization.json`.
+
+Three preceding validation trials stopped before delivery and exposed review
+grounding and document revision issues. Those led to committed factory fixes;
+the successful run above started fresh after the fixes, without candidate edits
+or operator retries. This establishes one successful clean run, not a general
+reliability rate across projects.
+
+To inspect this result and repeat the factory tests on this machine:
+
+```sh
+cd /Users/adicohen/work/ai_pipeline
+uv run ai-pipeline status df6db6c2e034
+.venv/bin/python -m unittest discover -s tests -v
+git log -1 --oneline
+```
+
 ## Trust boundary and production roadmap
 
 This version runs **trusted adapters with the current user's host permissions and environment**. Git worktrees isolate file changes; they are not security sandboxes. External acceptance files, state, and approvals are not access-controlled against a malicious adapter on the same host. Detection of unexpected source changes is not prevention. No claim of tamper-proof verification is made.
