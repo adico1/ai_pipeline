@@ -230,6 +230,53 @@ uv run ai-pipeline create --config projects/textstats-pretty.json --task "$(cat 
 # Use the returned run ID with advance; review each approval gate before approving.
 ```
 
+## Second repository: CSVJSON delimiter trial — 2026-10-28
+
+The CSVJSON integration was committed as `90f1452`. It uses the existing CrewAI
+model and engine, project-specific checks and local delivery adapters in
+`integrations/csvjson/`, configuration `projects/csvjson.json`, and task
+`projects/csvjson-task.txt`. The target baseline is commit
+`c43bfa62a1f2d28a10cf00e3f31987a4c5547b8f` in the sibling `csvjson-second-run`
+repository. All **46 factory tests passed** before execution.
+
+Run `dcaed973ea27` **failed at implementation**. Requirements, design and planning
+passed; the original implementation attempt and two operator retries failed.
+The candidate was never edited manually, and no release, deployment or installed
+observation occurred. This trial does **not** meet the completion criteria.
+
+The independent suite contains 154 CLI scenarios. Baseline: 99/154 passed, with
+all 55 successful explicit-delimiter scenarios failing. Some invalid-delimiter
+scenarios pass on the baseline because the option itself is unsupported; the
+aggregate baseline number alone is therefore not evidence of feature support.
+The final candidate passed 141/154 scenarios and all nine original baseline
+tests, rerun from an external snapshot. Remaining failures: backslash is rejected
+despite being allowed, while `Z`, `0`, `é` and fullwidth semicolon `；` are accepted
+despite being invalid (the latter four each fail in three input/option modes).
+The ordinary ASCII semicolon is valid and is not one of these remaining failures.
+
+Evidence is retained in `.factory/dcaed973ea27/`. The last advisory check is
+`artifacts/006-implement-3f6a5f06/candidate-checks/verify-9571fc6a/result.json`.
+These are implementation-time checks, not a passed external verification stage.
+The source repository's main checkout is unchanged.
+
+- Active stage time: 520.183 seconds; elapsed run time: 593.057 seconds.
+- CrewAI-reported usage: 1,974,108 tokens (1,947,864 prompt + 26,244 completion),
+  114 requests. This is not a billing statement.
+- One requirements approval was reviewed under user authorization. Retry clears
+  active approvals; approval history remains in the event log.
+- Repeated checks plateaued without correcting the validation logic. Before
+  another trial, investigate concise failure feedback and detection of unchanged
+  failed candidates; do not weaken acceptance criteria or count manual repair as
+  autonomous success.
+
+Inspect this trial and rerun the factory tests:
+
+```sh
+cd /Users/adicohen/work/ai_pipeline
+uv run ai-pipeline status dcaed973ea27
+.venv/bin/python -m unittest discover -s tests -v
+```
+
 ## Trust boundary and production roadmap
 
 This version runs **trusted adapters with the current user's host permissions and environment**. Git worktrees isolate file changes; they are not security sandboxes. External acceptance files, state, and approvals are not access-controlled against a malicious adapter on the same host. Detection of unexpected source changes is not prevention. No claim of tamper-proof verification is made.
