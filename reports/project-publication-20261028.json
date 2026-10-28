@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-28",
+  "repositories": {
+    "httpstats-third-run": {
+      "url": "https://github.com/adico1/httpstats-third-run",
+      "commit": "a299ec9bbef4c0fff8bc45121a8232dcc8d31834"
+    },
+    "csvjson-second-run": {
+      "url": "https://github.com/adico1/csvjson-second-run",
+      "commit": "4d3f33c79f84b931fbb001305ef635b2599196ea"
+    },
+    "ai_pipeline_first_run": {
+      "url": "https://github.com/adico1/ai_pipeline_first_run",
+      "commit": "e0cf86b0e570a4a61cc29d9d22872640c92530f5"
+    }
+  },
+  "http_promotion": {
+    "source_run": "dfd4d8e1e18d",
+    "source_sha256": "dfe956e4f489c7007cdfc7bbfaee6da563884450bef2cdb5eb390d795967601f",
+    "source_copied_unchanged": true,
+    "http_scenarios_passed": 44,
+    "baseline_scenarios_included": 3,
+    "regression_test_methods": 1,
+    "public_repository": "https://github.com/adico1/httpstats-third-run",
+    "promotion_commit": "a299ec9bbef4c0fff8bc45121a8232dcc8d31834"
+  },
+  "csvjson_repository_tests_passed": 12,
+  "notes": [
+    "Public source repositories; no persistent or cloud service deployment.",
+    "HTTP generated implementation was copied byte-for-byte; documentation and test packaging were added by Codex.",
+    "Historical trial reports describe the baseline before this promotion and remain unchanged."
+  ]
+}

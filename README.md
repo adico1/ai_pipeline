@@ -4,6 +4,20 @@ A local, project-adaptable SDLC factory using **CrewAI** for agent work and a du
 
 **Status: validated locally with real CrewAI model calls.** Three frozen CSVJSON trials completed all 11 stages without manual candidate repair or operator retries; each passed 259 scenarios and nine baseline tests before and after local installation. The verified feature was promoted into the target repository. This is evidence for the tested tasks/configurations, not arbitrary-project reliability or production deployment. See the dated results below.
 
+## Public example projects
+
+- [Textstats](https://github.com/adico1/ai_pipeline_first_run): verified word-counting fix.
+- [CSVJSON](https://github.com/adico1/csvjson-second-run): promoted delimiter feature, with regression tests.
+- [HTTPStats](https://github.com/adico1/httpstats-third-run): promoted `POST /analyze`, with 44 real HTTP regression scenarios and source provenance.
+
+HTTPStats was promoted byte-for-byte from run `dfd4d8e1e18d` in commit `a299ec9`;
+all 44 scenarios passed in its normal checkout. CSVJSON's 12 repository tests also
+passed before publication. These are public source repositories, not cloud-hosted
+services. See [publication and promotion evidence](reports/project-publication-20261028.json).
+Historical trial sections below describe their original baselines. HTTPStats and
+CSVJSON HEAD now include the completed features; reproducing the missing-feature
+trials requires separate checkouts at the recorded baseline commits.
+
 ## Run locally
 
 Requires Python 3.11–3.13, uv, and Git on macOS or Linux. CrewAI is pinned to **1.9.3**, tested on this Intel Mac. Newer CrewAI 1.15 releases require a LanceDB dependency without a compatible Intel macOS wheel. `uv.lock` records dependencies; `.python-version` selects Python 3.13.
