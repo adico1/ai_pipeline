@@ -12,7 +12,7 @@ os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
 os.environ["CREWAI_TRACING_ENABLED"] = "false"
 
 from crewai import BaseLLM
-from ai_pipeline.crewai_adapter import SDLCStageFlow, build_crew, run_candidate_checks, safe_path, stage_inputs, workspace_tools
+from ai_pipeline.crewai_adapter import CandidateProgress, CandidateStalled, concise_report, SDLCStageFlow, build_crew, run_candidate_checks, safe_path, stage_inputs, workspace_tools
 from ai_pipeline.cli import demo_config
 from ai_pipeline.engine import Factory, FactoryError, load_config, write_json
 
@@ -154,6 +154,65 @@ class CrewAITests(unittest.TestCase):
     def test_candidate_check_missing_results_fail_closed(self):
         context = {**self.context, "checks": {name: {"command": [sys.executable, "-c", "pass"]} for name in ("verify", "security")}}
         self.assertTrue(all(check["status"] == "failed" for check in json.loads(run_candidate_checks(context))["checks"]))
+
+    def test_feedback_groups_modes_and_retains_distinct_failures(self):
+        failures = [{"case": "delimiter", "delimiter": delimiter, "mode": mode,
+                     "expected_exit": 2, "exit_code": 0, "stdout": "x" * 3000}
+                    for delimiter in ("Z", "0", "é") for mode in ("stdin", "before", "after")]
+        report = concise_report({"status": "failed", "failed_cases": failures})
+        self.assertEqual(report["failed_case_count"], 9)
+        self.assertEqual(report["failure_group_count"], 3)
+        self.assertTrue(all(g["occurrences"] == 3 for g in report["failure_groups"]))
+        self.assertLess(len(json.dumps(report)), 2500)
+        self.assertEqual(len(failures[0]["stdout"]), 3000)
+
+    def test_unchanged_failure_reuses_checks_then_stops(self):
+        checker = self.root / "checker.py"
+        checker.write_text("import os,json\nfrom pathlib import Path\nPath(os.environ['FACTORY_OUTPUT'],'result.json').write_text(json.dumps({'status':'failed','summary':'still broken'}))\n")
+        context = {**self.context, "checks": {name: {"command": [sys.executable, str(checker)]} for name in ("verify", "security")}}
+        progress = CandidateProgress()
+        run_candidate_checks(context, progress)
+        cached = json.loads(run_candidate_checks(context, progress))
+        self.assertIn("Source unchanged", cached["progress"])
+        with self.assertRaises(CandidateStalled):
+            run_candidate_checks(context, progress)
+        self.assertEqual(len(list((self.output / "candidate-checks").iterdir())), 2)
+
+    def test_changed_source_same_failures_stops_but_improvement_resets(self):
+        progress = CandidateProgress()
+        payload = {"checks": [{"status": "failed"}]}
+        for source in ("a", "b"):
+            progress.after(source, dict(payload), {"error": "same"})
+        with self.assertRaises(CandidateStalled):
+            progress.after("c", dict(payload), {"error": "same"})
+        progress.after("d", dict(payload), {"error": "different"})
+        self.assertEqual(progress.repeats, 1)
+        progress.after("e", {"checks": [{"status": "passed"}]}, {})
+        self.assertIsNone(progress.before("e"))
+
+    def test_stagnation_flow_fails_closed_without_reviewer_or_revision(self):
+        class StalledCrew:
+            def kickoff(self):
+                raise CandidateStalled("No progress")
+        with patch("ai_pipeline.crewai_adapter.build_crew", return_value=StalledCrew()) as build:
+            result = SDLCStageFlow(tracing=False).kickoff(inputs={"context": {**self.context, "stage": "implement"}})
+        self.assertEqual(build.call_count, 1)
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["stop_reason"], "no_progress")
+        self.assertTrue((self.output / "no-progress.json").exists())
+
+    def test_real_crewai_tool_loop_is_interrupted_on_no_progress(self):
+        class RepeatingLLM(LocalTestLLM):
+            def call(self, *args, **kwargs):
+                self.calls += 1
+                action = "check_current_candidate" if self.calls % 2 else "list_source_files"
+                return f'Thought: Inspect current candidate.\nAction: {action}\nAction Input: {{}}'
+        model = RepeatingLLM()
+        with patch("ai_pipeline.crewai_adapter.build_crew", side_effect=lambda context: build_crew(context, llm=model)):
+            result = SDLCStageFlow(tracing=False).kickoff(inputs={"context": {**self.context, "stage": "implement"}})
+        self.assertEqual(result["stop_reason"], "no_progress")
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(model.calls, 5)
 
     def test_candidate_check_tool_has_no_model_command_parameters(self):
         crew = build_crew({**self.context, "stage": "implement"}, llm=LocalTestLLM())

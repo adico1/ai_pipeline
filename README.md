@@ -277,6 +277,28 @@ uv run ai-pipeline status dcaed973ea27
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
+## Bounded implementation feedback
+
+The implementation check tool now groups duplicate failed cases across input
+modes and returns at most eight representative groups, with bounded text and
+expected/actual values. Full command results remain in `candidate-checks/`;
+`latest-candidate-feedback.json` retains the compact report. Large external
+verification failures are also compacted when handed to a repair attempt.
+
+Within an implementation attempt, the first repeated check of unchanged failing
+source reuses existing evidence and warns the agent. Another unchanged request
+stops the attempt. Three checked candidates with identical failure results also
+stop it, even if their source bytes changed. A different result resets that
+counter. The reviewer independently reruns checks and does not contribute to the
+writer's repetition counter. External verification and security still run after
+implementation passes.
+
+The stop signal cannot be swallowed as an ordinary retryable CrewAI tool error;
+the flow records a failed stage with `stop_reason: no_progress` and a
+`no-progress.json` artifact. No automatic operator retry follows that stop.
+Interrupted CrewAI usage totals are marked unavailable, not zero. Each fresh
+stage attempt gets a new progress counter; this is not a cross-run rate limiter.
+
 ## Trust boundary and production roadmap
 
 This version runs **trusted adapters with the current user's host permissions and environment**. Git worktrees isolate file changes; they are not security sandboxes. External acceptance files, state, and approvals are not access-controlled against a malicious adapter on the same host. Detection of unexpected source changes is not prevention. No claim of tamper-proof verification is made.
