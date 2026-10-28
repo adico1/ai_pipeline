@@ -3,6 +3,7 @@
 Example: python /absolute/path/command_adapter.py --summary 'Unit tests' -- python -m unittest
 This wrapper checks command exit status; it does not judge evidence quality.
 """
+
 import argparse
 import json
 import os
@@ -20,10 +21,17 @@ def main():
         parser.error("A command is required after --")
     result = subprocess.run(command, check=False)
     output = Path(os.environ["FACTORY_OUTPUT"])
-    (output / "result.json").write_text(json.dumps({
-        "status": "passed" if result.returncode == 0 else "failed",
-        "summary": args.summary, "command": command, "exit_code": result.returncode,
-    }, indent=2))
+    (output / "result.json").write_text(
+        json.dumps(
+            {
+                "status": "passed" if result.returncode == 0 else "failed",
+                "summary": args.summary,
+                "command": command,
+                "exit_code": result.returncode,
+            },
+            indent=2,
+        )
+    )
     return 0 if result.returncode == 0 else 1
 
 

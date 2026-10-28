@@ -1,4 +1,5 @@
 """Deterministic example adapter. No LLM, network, release, or deployment."""
+
 import importlib.util
 import json
 import os
@@ -27,27 +28,49 @@ def main():
         prior = context.get("previous_attempt")
         # First attempt deliberately does not fix the bug, exercising repair feedback.
         if prior and prior["stage"] == "verify" and prior["status"] == "failed":
-            (workspace / "calculator.py").write_text("def add(a, b):\n    return a + b\n")
-            summary = "Repaired arithmetic after receiving independent scenario failures."
+            (workspace / "calculator.py").write_text(
+                "def add(a, b):\n    return a + b\n"
+            )
+            summary = (
+                "Repaired arithmetic after receiving independent scenario failures."
+            )
         else:
-            summary = "Initial candidate submitted; independent verification must assess it."
+            summary = (
+                "Initial candidate submitted; independent verification must assess it."
+            )
     elif stage == "verify":
-        spec = importlib.util.spec_from_file_location("candidate", workspace / "calculator.py")
+        spec = importlib.util.spec_from_file_location(
+            "candidate", workspace / "calculator.py"
+        )
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         cases = [(2, 3, 5), (-4, -7, -11), (0, 8, 8), (7, -7, 0)]
-        details["scenarios"] = [{"inputs": [a, b], "expected": expected,
-                                 "actual": module.add(a, b), "passed": module.add(a, b) == expected}
-                                for a, b, expected in cases]
-        status = "passed" if all(c["passed"] for c in details["scenarios"]) else "failed"
+        details["scenarios"] = [
+            {
+                "inputs": [a, b],
+                "expected": expected,
+                "actual": module.add(a, b),
+                "passed": module.add(a, b) == expected,
+            }
+            for a, b, expected in cases
+        ]
+        status = (
+            "passed" if all(c["passed"] for c in details["scenarios"]) else "failed"
+        )
         summary = f"Independent addition scenarios {status}."
     else:
         summary = summaries[stage]
-        if stage == "security" and (workspace / "calculator.py").read_text() != "def add(a, b):\n    return a + b\n":
+        if (
+            stage == "security"
+            and (workspace / "calculator.py").read_text()
+            != "def add(a, b):\n    return a + b\n"
+        ):
             status = "failed"
         if stage in {"release", "deploy"}:
             details["simulated"] = True
-    (output / "result.json").write_text(json.dumps({"status": status, "summary": summary, **details}, indent=2))
+    (output / "result.json").write_text(
+        json.dumps({"status": status, "summary": summary, **details}, indent=2)
+    )
     print(summary)
     return 0 if status == "passed" else 1
 

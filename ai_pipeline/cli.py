@@ -13,7 +13,9 @@ from .status import format_status
 def load_environment(path):
     values = dotenv_values(path)
     load_dotenv(dotenv_path=path, override=False)
-    direct = values.get("FACTORY_OPENAI_DIRECT", os.environ.get("FACTORY_OPENAI_DIRECT", ""))
+    direct = values.get(
+        "FACTORY_OPENAI_DIRECT", os.environ.get("FACTORY_OPENAI_DIRECT", "")
+    )
     if (direct or "").lower() in {"true", "1", "yes"}:
         # Explicit per-project opt-in overrides inherited gateway routing only
         # in this CLI process and its children, never the user's shell.
@@ -25,10 +27,17 @@ def load_environment(path):
 
 def demo_config(path):
     adapter = Path(__file__).with_name("demo_adapter.py").resolve()
-    config = {"version": 1, "name": "calculator-demo", "demo": True, "max_repairs": 2,
-              "gates": ["design"], "stages": {
-                  stage: {"command": [sys.executable, str(adapter)], "timeout_seconds": 15}
-                  for stage in STAGES}}
+    config = {
+        "version": 1,
+        "name": "calculator-demo",
+        "demo": True,
+        "max_repairs": 2,
+        "gates": ["design"],
+        "stages": {
+            stage: {"command": [sys.executable, str(adapter)], "timeout_seconds": 15}
+            for stage in STAGES
+        },
+    }
     write_json(path, config)
     return path
 
@@ -40,14 +49,21 @@ def display(state):
 def main():
     parser = argparse.ArgumentParser(description="Evidence-driven SDLC factory")
     parser.add_argument("--state-dir", type=Path, default=Path(".factory"))
-    parser.add_argument("--env-file", type=Path, default=Path(".env"),
-                        help="Load settings from this file (default: .env in the current directory); shell settings take precedence")
+    parser.add_argument(
+        "--env-file",
+        type=Path,
+        default=Path(".env"),
+        help="Load settings from this file (default: .env in the current directory); shell settings take precedence",
+    )
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("demo", help="Create and start a local simulated lifecycle")
     init = commands.add_parser("init", help="Write a project configuration template")
     init.add_argument("--repository", required=True, type=Path)
     init.add_argument("--output", default=Path("factory.json"), type=Path)
-    init.add_argument("--model", help="CrewAI provider/model name; otherwise use FACTORY_MODEL at execution")
+    init.add_argument(
+        "--model",
+        help="CrewAI provider/model name; otherwise use FACTORY_MODEL at execution",
+    )
     create = commands.add_parser("create")
     create.add_argument("--config", required=True, type=Path)
     create.add_argument("--task", required=True)
@@ -55,7 +71,11 @@ def main():
         subparser = commands.add_parser(name)
         subparser.add_argument("run_id")
         if name == "status":
-            subparser.add_argument("--json", action="store_true", help="Print the full recorded state as JSON")
+            subparser.add_argument(
+                "--json",
+                action="store_true",
+                help="Print the full recorded state as JSON",
+            )
     approve = commands.add_parser("approve")
     approve.add_argument("run_id")
     approve.add_argument("--actor", required=True)
@@ -69,15 +89,42 @@ def main():
         if args.command == "init":
             if args.output.exists():
                 raise FactoryError("Refusing to overwrite an existing configuration")
-            write_json(args.output, {"version": 1, "name": args.repository.resolve().name,
-                "repository": str(args.repository.resolve()), "max_repairs": 2, "gates": ["design"],
-                "stages": {stage: ({"backend": "crewai", "crewai": {"model": args.model}, "timeout_seconds": 300}
-                                   if stage in AI_STAGES else {"backend": "command", "command": [], "timeout_seconds": 300})
-                           for stage in STAGES}})
-            print(f"Created {args.output.resolve()}. CrewAI handles agent stages; configure verification, security, release, deploy and observe commands before creating a run.")
+            write_json(
+                args.output,
+                {
+                    "version": 1,
+                    "name": args.repository.resolve().name,
+                    "repository": str(args.repository.resolve()),
+                    "max_repairs": 2,
+                    "gates": ["design"],
+                    "stages": {
+                        stage: (
+                            {
+                                "backend": "crewai",
+                                "crewai": {"model": args.model},
+                                "timeout_seconds": 300,
+                            }
+                            if stage in AI_STAGES
+                            else {
+                                "backend": "command",
+                                "command": [],
+                                "timeout_seconds": 300,
+                            }
+                        )
+                        for stage in STAGES
+                    },
+                },
+            )
+            print(
+                f"Created {args.output.resolve()}. CrewAI handles agent stages; configure verification, security, release, deploy and observe commands before creating a run."
+            )
         elif args.command == "demo":
             config = demo_config(factory.root / "demo-config.json")
-            state = factory.create(config, "Fix addition for positive, negative, and zero inputs.", demo=True)
+            state = factory.create(
+                config,
+                "Fix addition for positive, negative, and zero inputs.",
+                demo=True,
+            )
             display(factory.advance(state["id"]))
         elif args.command == "create":
             display(factory.create(args.config, args.task))

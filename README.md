@@ -18,6 +18,13 @@ Historical trial sections below describe their original baselines. HTTPStats and
 CSVJSON HEAD now include the completed features; reproducing the missing-feature
 trials requires separate checkouts at the recorded baseline commits.
 
+## Code structure
+
+Start with `Factory.advance()` in `ai_pipeline/engine.py` for the lifecycle.
+Agent instructions live in `ai_pipeline/prompts.py`; structured deliverables live
+in `ai_pipeline/stage_contracts.py`. See the [code-reading guide](docs/code-guide.md)
+for the stage flow, module responsibilities and evidence rules.
+
 ## Run locally
 
 Requires Python 3.11–3.13, uv, and Git on macOS or Linux. CrewAI is pinned to **1.9.3**, tested on this Intel Mac. Newer CrewAI 1.15 releases require a LanceDB dependency without a compatible Intel macOS wheel. `uv.lock` records dependencies; `.python-version` selects Python 3.13.
