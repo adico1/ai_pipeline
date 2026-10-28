@@ -8,7 +8,7 @@ A local, project-adaptable SDLC factory using **CrewAI** for agent work and a du
 
 - [Textstats](https://github.com/adico1/ai_pipeline_first_run): verified word-counting fix.
 - [CSVJSON](https://github.com/adico1/csvjson-second-run): promoted delimiter feature, with regression tests.
-- [HTTPStats](https://github.com/adico1/httpstats-third-run): promoted `POST /analyze` with opt-in word frequencies and 63 real HTTP regression scenarios and source provenance.
+- [HTTPStats](https://github.com/adico1/httpstats-third-run): promoted `POST /analyze` with opt-in word frequencies, UTF-8 byte counts, and 89 real HTTP regression scenarios and source provenance.
 
 HTTPStats was promoted byte-for-byte from run `dfd4d8e1e18d` in commit `a299ec9`;
 all 44 scenarios passed in its normal checkout. CSVJSON's 12 repository tests also
@@ -679,7 +679,7 @@ This was local deployment, with temporary services stopped after observation.
 
 ### Ongoing development: optional UTF-8 byte count
 
-The next trial builds on the published word-frequency feature. Its strict boolean
+This trial builds on the published word-frequency feature. Its strict boolean
 `include_utf8_bytes` opt-in adds the byte length of the text encoded as UTF-8,
 independent of JSON escaping. It composes with word frequencies and preserves all
 63 previous scenarios. The independent sensor adds 26 cases, including Unicode,
@@ -693,3 +693,21 @@ uv run ai-pipeline status RUN_ID
 
 Review and approve each evidence gate before advancing. CrewAI owns candidate
 implementation; the operator owns the independent contract and evidence review.
+
+Run **`47dcad718a5c` completed all 11 stages** from published target `2da1271`.
+Candidate and installed-copy verification each passed 89/89 scenarios, including
+all 63 existing scenarios. The factory suite passed 77 tests. The exact generated
+source was promoted as HTTPStats commit `f0120f3`; the promoted suite also passed.
+
+This was **an assisted success**, not an unattended success. First run
+`42ffe90fe4c4` was withheld at release because required README changes were missing,
+despite the reviewer claiming otherwise. A documentation sensor was added before
+the second run. That run then required two operator-directed CrewAI documentation
+correction attempts: the first claimed success without editing; a concrete failing
+check prompted the second to fix the byte-count example and remove premature
+provenance claims. Source bytes stayed unchanged during both corrections.
+Verification, security policy and review were rerun after the README changed.
+Codex wrote no candidate implementation and reviewed three approval gates.
+
+[Completed-run evidence](reports/httpstats-utf8-bytes-20261028.json) and
+[withheld-run evidence](reports/httpstats-utf8-withheld-20261028.json).

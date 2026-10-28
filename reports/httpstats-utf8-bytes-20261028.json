@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-28",
+  "run_id": "47dcad718a5c",
+  "status": "completed",
+  "factory_commit": "823d15cede9f31184876295487697e218c3cc293",
+  "baseline_commit": "2da1271c86c789a48ea2634025ccb712f9982c93",
+  "configuration": "projects/httpstats-utf8-bytes.json",
+  "task": "projects/httpstats-utf8-bytes-task.txt",
+  "frozen_inputs_verified": true,
+  "stages_completed": 11,
+  "factory_tests_passed": 77,
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "engine_repairs": 0,
+  "approval_gates_reviewed": 3,
+  "elapsed_seconds": 1255.197,
+  "models": {
+    "implementation_writer": "openai/gpt-4.1-2025-04-14",
+    "reviewer_and_other_stages": "openai/gpt-4o-mini"
+  },
+  "results": {
+    "verify": {
+      "scenarios_passed": 89,
+      "baseline_scenarios_passed": 63
+    },
+    "observe": {
+      "scenarios_passed": 89,
+      "baseline_scenarios_passed": 63
+    }
+  },
+  "reported_usage": {
+    "total_tokens": 314619,
+    "prompt_tokens": 296758,
+    "cached_prompt_tokens": 0,
+    "completion_tokens": 17861,
+    "successful_requests": 52
+  },
+  "limitations": [
+    "One bounded ongoing-development trial, not proof of reliability for arbitrary projects.",
+    "Deployment is a separate local directory with temporary loopback processes, not a hosted service.",
+    "Static import policy is not a comprehensive security audit.",
+    "Usage is framework-reported, not billed cost.",
+    "First run withheld for missing documentation; second run required two operator-directed CrewAI documentation correction attempts, followed by fresh verification and review."
+  ],
+  "operator_directed_crewai_documentation_corrections": 2,
+  "earlier_withheld_run": "42ffe90fe4c4",
+  "unattended_success": false,
+  "attempts": 14,
+  "correction_evidence": [
+    {
+      "type": "operator-requested CrewAI documentation correction",
+      "exit_code": 0,
+      "error": null,
+      "duration_seconds": 27.717,
+      "source_sha256_before": "691625d14b3af84e8a19f22823edeef06ba53b2fddc6803ff2027f81d5f76f8f",
+      "source_sha256_after": "691625d14b3af84e8a19f22823edeef06ba53b2fddc6803ff2027f81d5f76f8f",
+      "reason": "Wrong documented UTF-8 count and premature provenance claims",
+      "manual_candidate_edits": 0
+    },
+    {
+      "type": "operator-requested CrewAI documentation correction",
+      "exit_code": 0,
+      "error": null,
+      "duration_seconds": 12.475,
+      "source_sha256_before": "691625d14b3af84e8a19f22823edeef06ba53b2fddc6803ff2027f81d5f76f8f",
+      "source_sha256_after": "691625d14b3af84e8a19f22823edeef06ba53b2fddc6803ff2027f81d5f76f8f",
+      "reason": "Wrong documented UTF-8 count and premature provenance claims",
+      "manual_candidate_edits": 0
+    }
+  ],
+  "source_sha256": "691625d14b3af84e8a19f22823edeef06ba53b2fddc6803ff2027f81d5f76f8f",
+  "installed_script": "/Users/adicohen/work/ai_pipeline/.factory/47dcad718a5c/artifacts/012-deploy-0a65f97e/installed/server.py",
+  "factory_active_seconds": 192.042,
+  "supplemental_correction_seconds": 40.192,
+  "usage_scope": "Completed run including both supplemental correction attempts; excludes earlier withheld run.",
+  "operator_retries_note": "No retry CLI calls; two supplemental CrewAI corrections and a fresh verification/review cycle were required.",
+  "promotion": {
+    "repository": "https://github.com/adico1/httpstats-third-run",
+    "commit": "f0120f3ca402880c6be27751a3bea0e3f47b204e",
+    "source_copied_unchanged": true,
+    "promoted_http_scenarios_passed": 89
+  }
+}
