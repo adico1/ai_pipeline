@@ -1,0 +1,306 @@
+{
+  "date": "2026-10-28",
+  "outcome": "1/2 completed; second trial blocked at release after operator detected unclosed SQLite connections",
+  "definition_of_done_met": false,
+  "stop_rule": "Stop on first substantive failure; no manual repair or retry",
+  "factory_commit": "39563f6d56a91d930b605fda011c833e88ace703",
+  "config": "projects/taskboard-blank.json",
+  "task": "projects/taskboard-blank-task.txt",
+  "frozen_inputs_identical_and_verified": true,
+  "tracked_input_hashes": {
+    ".env.example": "28a5107151a1c35d58fc5e69af28514339bf443778ced7837ea651c469f91fcc",
+    ".github/workflows/tests.yml": "245e2c2567d50806a7ebbdd48ebe07f2576201defdf6f617e6e6d40fc626a180",
+    ".gitignore": "87199a52ce97514d765361cdfe5331d8db891d3674a6bcbbdd41a392b0cb5dbb",
+    ".python-version": "02e735b3dfe1c32833eb550b7ff8ffa17f5f2bc3fa1e7bae61a8f5a3883ce398",
+    "README.md": "38bccd7f7e12d25911075813da91bc7fcdbdd5aaaeed04fed3e685e2fa8228dd",
+    "ai_pipeline/__init__.py": "6db0e29b0ce9b36d53881edaabdd2e9dc13fe635ae828c6f97224b766da129bc",
+    "ai_pipeline/__main__.py": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
+    "ai_pipeline/cli.py": "ec36223dec7daebf3eba324d7b5e798e42f40e7816c98bf8d3fa0654a7a1b7a8",
+    "ai_pipeline/command_adapter.py": "4021fd9a698d030a364769b351eb8b85ac69ef3ff7070b137b4a4866c7772198",
+    "ai_pipeline/crewai_adapter.py": "3591e0651b3fcdd36cadf41d363657c461b62433c9a1b2d6fd35d8a48148d775",
+    "ai_pipeline/crewai_compat.py": "21199423cf6dae9ae8ab005f194acf9e413e739217d2030f830bde6d1214d4f9",
+    "ai_pipeline/demo_adapter.py": "274640579704be74a69c49ef09cd22d6ae38e7f3af2c65fbcada483e4a12ccf3",
+    "ai_pipeline/engine.py": "d4ebf8a368d61a07e513e7d4e6cd97fc7061adb6ef639ab774f8d0ed8a5e4984",
+    "ai_pipeline/project_bundle.py": "25916a509d074f917aa2a81ffc8ae19698ee3e6f1684ed6c55d49fd15377fabc",
+    "ai_pipeline/prompts.py": "162197e525abb6b0e1ebeb208b72fc473b804f8bc346c0588a61f48b71f2d627",
+    "ai_pipeline/stage_contracts.py": "05d0e7de45bf074425fdf5034cc01b8b0de0cc6732d813e586a6c342e790437f",
+    "ai_pipeline/status.py": "c241800b9c5d7d6f21554702c20699672fac23c6ffd39b935e14de50030b1e17",
+    "docs/code-guide.md": "30b2b3454e41f1fbc8c7aca0d28f5f7b9320ee0e5edf291d4091debf221d1809",
+    "integrations/csvjson/adapter.py": "f7e0b1192b8f4405175671e6eb4e16a41afc8b688c771d2d3fb5cdba2b93e769",
+    "integrations/csvjson/baseline_tests.py": "10b4a0c18713c9804aae369723a01e6018a4cc73279e2e2b2ae367d83fa82424",
+    "integrations/csvjson/csvjson_checks.py": "d49982c704da6f2f714145a0d47cb0b593a45e253eda450734ec0ae08d14f5d3",
+    "integrations/httpstats/adapter.py": "d17ed572b7c4baccd6a96c970a336dca9e1b9fb5b125e08a62524bf66b28b740",
+    "integrations/httpstats/baseline_server.py": "da1e83daa1b1c9d2d1ada46cc4974eea5e6fad5aebd7e0fd38381363922d387e",
+    "integrations/httpstats/history_checks.py": "bb0fd250e6d09ebdde3f96eaf5a249335c006370834dc94f6ecb01dcf70062c4",
+    "integrations/httpstats/httpstats_checks.py": "b6cd58f9fddc9c80def8f01767cf7b805fee304d4197a578c45aefaf9ee06b94",
+    "integrations/httpstats/utf8_checks.py": "89f644946970340b1038ed423bf880d8a643bc6eddecbb072431526dddc0bdfd",
+    "integrations/httpstats/word_frequency_checks.py": "0d36efdb0ffbd1c18c9f4c5352df0b94fc64ddb8094d9a4e46c4fecd2e8aab3b",
+    "integrations/taskboard/adapter.py": "9eba3b3db993abeb200e083f43663ccfa62132770fd821ef5779d505f3d30b2f",
+    "integrations/taskboard/taskboard_checks.py": "1ea176c855aecdae184ca283235a4d6111bc927b5ba43b474dbb67e039454977",
+    "integrations/textstats/adapter.py": "44d26392cfbdb18d9c77917a804c52182b0dc3971c734a52b65d918d74dd9972",
+    "integrations/textstats/checks.py": "8589f1692006cba491a11a9ea739a7ff5bac904a68504d1272f34fa9ca318317",
+    "projects/csvjson-strong-implementation.json": "25f94855791cdb57b3aa72ef652f7b423bf510a2872853ddcaf8eacae7516efe",
+    "projects/csvjson-task.txt": "8a4dcecb5aad80201967e6a8efd2dfb9dc1f8673aa2071ccd9aee5c67f9e3b45",
+    "projects/csvjson.json": "87cf649d5bdf69151d11bb46ba0d741a46587601584a67a2d61759e8494a367e",
+    "projects/httpstats-history-task.txt": "c839c9f0bbe363741eac557d65d750eb1b1fc79c617a9bed914f0fd9ffe8ad70",
+    "projects/httpstats-history.json": "acdea1de4ab3f5799dbd5a09467fb61b431e5a590d662ffc93787a48e91bacdd",
+    "projects/httpstats-task.txt": "cc8a0e072bef3fde3aba3dcfd596d8b9bb81bab132a42a53780b73bfeb90041c",
+    "projects/httpstats-utf8-bytes-task.txt": "f79df1e19d7761f1bafb34039a77dddec9d90882d9ff311f560b53fc56b7ff37",
+    "projects/httpstats-utf8-bytes.json": "dab31bcff685cc357ea6a0347eb96f479f10bb2402afb8be6f07ba8eb7a8cbee",
+    "projects/httpstats-word-frequencies-task.txt": "1e9425cb418a69b5bd4d74bded0f97c25f05e4400db26283136990878db91745",
+    "projects/httpstats-word-frequencies.json": "f911e651365e06df4437e1e4bcb3bc1101538eeb0d8f750701eaebddd7ba831e",
+    "projects/httpstats.json": "5e1611e62a29fc5692bd5636f042a32686f6f2e9d7a3886f17a807429df4534a",
+    "projects/taskboard-blank-task.txt": "a6efed2c02d140962ad393b2259464e931f7b08fc42ba178a945688c67e900b3",
+    "projects/taskboard-blank.json": "6810e1f5759b6c21eac5707f1b6c90b207333f4a1c8e3e9451a6ac2105accb36",
+    "projects/textstats-pretty-task.txt": "d9b0b5a7daaf89dc8ee2bb901be790eae1a5d909f92f9a583e7fa962fb18044c",
+    "projects/textstats-pretty.json": "f2357f55421fefa674ca0eb783a8c31db8a001118f68fcf8bb69afed542edd24",
+    "projects/textstats.json": "3aaf51846028b8881c4e187c5a82c7b5a674f320317cb0bfff0c6e1378fa7f7f",
+    "pyproject.toml": "8ec6456a9516961d44ac8db94db5a298343aa67be3ac9239f787aa3a7b5a72d3",
+    "reports/crewai-maintenance-20261028.json": "dce92de50fc4e83d173129426c2ca355804e49e047a3b2a99ecdf7d48e11a645",
+    "reports/csvjson-repeatability-20261028.json": "2416a0753f1ad40333adb4e0cb02253737bb5d305cafe55b8c9e7f0d8c4f6aea",
+    "reports/httpstats-history-20261028.json": "435773b4b171f425857713f90e1a2b55c996380dc8fc08f4bfb3847b27da3482",
+    "reports/httpstats-trial-20261028.json": "df7647ec27453fb8fcef76ede1e84c862b80e7496a6a20aa966b277263828769",
+    "reports/httpstats-utf8-bytes-20261028.json": "ba013a3613b6d6e73605574bec758075f32a0344dc4f6e105396023d18545430",
+    "reports/httpstats-utf8-withheld-20261028.json": "71a1095beacabfe257cd9540a99ea894347644a27396b590b5a1dedd4ec3d881",
+    "reports/httpstats-word-frequencies-20261028.json": "31daab7613ccbff439e0b55e81952479f9803eb8f9e32c5fff05f581d14a135c",
+    "reports/project-publication-20261028.json": "dd2bc9138bd0936dbd691b73a8f74f9eb634c4e8cb2f50d2f8388afd6f3571bd",
+    "reports/taskboard-blank-20261028.json": "a1ca71aa7c807996661fcf091f1a809df616a343ad93a151446c96cd5f18f460",
+    "reports/taskboard-blank-initial-20261028.json": "289c84f8f55d385e1c46e6281f27cb41c7a419ce07e39ea47f9e6135a8b51a43",
+    "tests/fixtures/history_reference.py": "85c875116e909403295070db9e06a97e6ebf3ed79a4e101f24ddb8037becb663",
+    "tests/fixtures/taskboard_reference/.gitignore": "347e8a7a4d895eafdf2a79e63033c0f648015f214b6bd4fe2e674253b659e546",
+    "tests/fixtures/taskboard_reference/README.md": "7747949eae63b35ea79e87f9e25859e92762f80ff0ae9042a496b7e506a246e8",
+    "tests/fixtures/taskboard_reference/pyproject.toml": "ac6fea155020b85b72e4527b95d85f69d41f8446e5591463d8feef584c03f733",
+    "tests/fixtures/taskboard_reference/taskboard/__init__.py": "a6fad98a682a9071adfeafcaba47957ae0c349957368806e1e0e38a9ccd5ced9",
+    "tests/fixtures/taskboard_reference/taskboard/__main__.py": "1f0c07b6f9794696d8867f4a3e7f45ac75d855ceb572b690690c02a610893eff",
+    "tests/fixtures/taskboard_reference/taskboard/domain.py": "99c1ee632b2ed713a97df8ef7ad17418a9983c887b226afa27cfa147a35037f5",
+    "tests/fixtures/taskboard_reference/taskboard/storage.py": "53fd751a7e33eb2040b1f095250f595049767aec98db3bf1e62f06f98bffa896",
+    "tests/fixtures/taskboard_reference/tests/test_domain.py": "40de9570e7a7467dbeb14f7c2d1260d40b7dcb41e34ef417d5ef78644662d458",
+    "tests/test_blank_projects.py": "5974f6a0f631b7d764c793435919eae5d7f6cecb387ea17a5d31f683d60e298e",
+    "tests/test_crewai.py": "24eec6c976784de605a938bc7e57586c552cc57235d8da402e07b1b35687e2b4",
+    "tests/test_crewai_compat.py": "958621f6c141b41a66be0fd161171c9a792ca792b212a62f87d94836e469b6ac",
+    "tests/test_csvjson_integration.py": "97be0cf96388f1c117b92d2fae0fac839d38259e5e5c6750f65bfaec4c6569fd",
+    "tests/test_engine.py": "f84980940d2e82357ca5a99f46ce8d8b5e8fb21db9c94bb9b99cf6c06b1447fc",
+    "tests/test_environment.py": "965fc43f83cc5addc3bfed4c06e5e606cb5d48e558982586a4308ba962cf2f53",
+    "tests/test_httpstats_history.py": "55279481d2637f3a2630a038810becc5555a5f9280ab0a10be3b9ae68edef0ae",
+    "tests/test_httpstats_integration.py": "22ad258f76f294a31868e8d5da2092e06d0e4f1dab8559a009752bdd858b613f",
+    "tests/test_httpstats_utf8.py": "f0009729bdbf90831eb19f0ceac10055761d050df39528357064707daaedc6ca",
+    "tests/test_httpstats_word_frequencies.py": "ed66e0b50d065e9262d74d5dc004a170d913c3359b3d450296e805621416cff1",
+    "tests/test_status.py": "1d99fab5ec7face3e68ce5988aa82e6e80abd8f48b91a0a3b0eabd40cfae292a",
+    "tests/test_taskboard_integration.py": "ea3e136d9bb7c7543bc1933e112a98e867a6025919202a248faa4cbdb0f853a3",
+    "tests/test_textstats_integration.py": "43e63557789be7889adea1b6a350bc20a63360abefad655f9ec757b12ef7e622",
+    "uv.lock": "3bea3fb5cb1fcc8804a5049fc996fd55bd51ee56440d52fc51ebecdcba6a61bc"
+  },
+  "trials": [
+    {
+      "trial": 1,
+      "run_id": "46c818d09b65",
+      "status": "completed",
+      "baseline_commit": "582445abedb5c2a1b4cb8ecb6e329cd11b79a86e",
+      "baseline_files": [],
+      "stages_completed": 11,
+      "manual_candidate_edits": 0,
+      "operator_retries": 0,
+      "engine_repairs": 0,
+      "approval_gates_reviewed": 3,
+      "active_seconds": 304.014,
+      "elapsed_seconds": 358.111,
+      "results": {
+        "verify": {
+          "checks_passed": 23,
+          "generated_tests_passed": 3
+        },
+        "observe": {
+          "checks_passed": 23,
+          "generated_tests_passed": 3
+        }
+      },
+      "reported_usage": {
+        "total_tokens": 327549,
+        "prompt_tokens": 309690,
+        "cached_prompt_tokens": 0,
+        "completion_tokens": 17859,
+        "successful_requests": 61
+      },
+      "stages": [
+        {
+          "stage": "requirements",
+          "status": "passed",
+          "seconds": 40.336,
+          "review_revisions": 0
+        },
+        {
+          "stage": "design",
+          "status": "passed",
+          "seconds": 15.584,
+          "review_revisions": 0
+        },
+        {
+          "stage": "plan",
+          "status": "passed",
+          "seconds": 27.457,
+          "review_revisions": 0
+        },
+        {
+          "stage": "implement",
+          "status": "passed",
+          "seconds": 154.849,
+          "review_revisions": 0
+        },
+        {
+          "stage": "verify",
+          "status": "passed",
+          "seconds": 2.174,
+          "review_revisions": 0
+        },
+        {
+          "stage": "security",
+          "status": "passed",
+          "seconds": 0.182,
+          "review_revisions": 0
+        },
+        {
+          "stage": "review",
+          "status": "passed",
+          "seconds": 31.043,
+          "review_revisions": 0
+        },
+        {
+          "stage": "release",
+          "status": "passed",
+          "seconds": 0.188,
+          "review_revisions": 0
+        },
+        {
+          "stage": "deploy",
+          "status": "passed",
+          "seconds": 0.2,
+          "review_revisions": 0
+        },
+        {
+          "stage": "observe",
+          "status": "passed",
+          "seconds": 2.173,
+          "review_revisions": 0
+        },
+        {
+          "stage": "retrospective",
+          "status": "passed",
+          "seconds": 29.828,
+          "review_revisions": 0
+        }
+      ],
+      "release_manifest": {
+        "files": {
+          ".gitignore": "a491c29974a930745c263f724e89cd3832f7aa2512d712be0501fbaaa9d5daaa",
+          "README.md": "fa2188fda8cf5928c66593584a62113be4da529afde1127aa007242ca86a719f",
+          "pyproject.toml": "b6a41eb9a25b084b0ce79d4d035931a002852e11df42abee9e7d70581f926cad",
+          "taskboard/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "taskboard/__main__.py": "f38fd2f2c920c29c828645e87ed64743d567aaaef7fba7a15d2c7d7f8094f91f",
+          "taskboard/cli.py": "3ab8ffbc8ef1bb4150ebbe273e4a8e803856df14fac4b785b0875b73d88631fd",
+          "taskboard/domain.py": "c4bac84a88379a57a3770364f6e371fe1af68877fa25fbac541a99fd793338ef",
+          "taskboard/storage.py": "fce96c52c038b56969c3b517acb626739f8216815a8dd8c9472ee8728b8c77cb",
+          "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "tests/test_taskboard.py": "4dab786b3df66caa60c6f5deeea75f69d1da26b119ce1d67614bb117b0343cce"
+        },
+        "archive_sha256": "f2950aa1884d00d177194b9eabf74971b3134d0b116c3096058804674da5a084"
+      },
+      "installed_directory": "/Users/adicohen/work/ai_pipeline/.factory/46c818d09b65/artifacts/009-deploy-a89d6d37/installed"
+    },
+    {
+      "trial": 2,
+      "run_id": "3e86e95923b7",
+      "status": "awaiting_approval",
+      "baseline_commit": "977942071142c0736b4fd967b50f52fb6047e52d",
+      "baseline_files": [],
+      "stages_completed": 7,
+      "manual_candidate_edits": 0,
+      "operator_retries": 0,
+      "engine_repairs": 0,
+      "approval_gates_reviewed": 1,
+      "active_seconds": 217.351,
+      "elapsed_seconds": 229.031,
+      "results": {
+        "verify": {
+          "checks_passed": 23,
+          "generated_tests_passed": 3
+        }
+      },
+      "reported_usage": {
+        "total_tokens": 200810,
+        "prompt_tokens": 184385,
+        "cached_prompt_tokens": 0,
+        "completion_tokens": 16425,
+        "successful_requests": 46
+      },
+      "stages": [
+        {
+          "stage": "requirements",
+          "status": "passed",
+          "seconds": 39.271,
+          "review_revisions": 0
+        },
+        {
+          "stage": "design",
+          "status": "passed",
+          "seconds": 18.496,
+          "review_revisions": 0
+        },
+        {
+          "stage": "plan",
+          "status": "passed",
+          "seconds": 28.941,
+          "review_revisions": 0
+        },
+        {
+          "stage": "implement",
+          "status": "passed",
+          "seconds": 92.914,
+          "review_revisions": 0
+        },
+        {
+          "stage": "verify",
+          "status": "passed",
+          "seconds": 2.107,
+          "review_revisions": 0
+        },
+        {
+          "stage": "security",
+          "status": "passed",
+          "seconds": 0.195,
+          "review_revisions": 0
+        },
+        {
+          "stage": "review",
+          "status": "passed",
+          "seconds": 35.427,
+          "review_revisions": 0
+        }
+      ],
+      "operator_disposition": "Release approval withheld; no repair or retry",
+      "connection_probe": {
+        "run_id": "3e86e95923b7",
+        "probe": "Track real SQLite connections across add/list/complete",
+        "connections_opened": 3,
+        "explicit_close_calls": 0,
+        "connections_still_usable_after_return": 3,
+        "expected_explicit_closes": 3,
+        "passed": false,
+        "method": "In a separate process, wrap sqlite3.connect to retain real Connection subclasses and count close() calls. Invoke domain.add_task, list_tasks and complete_task against a temporary database. All three connections still execute SELECT 1 after return. Close them during probe cleanup. Candidate files are unchanged."
+      },
+      "review_false_positive": "AI reviewer claimed connections are closed, but storage returns raw sqlite3.Connection and domain uses its transaction-only context manager.",
+      "source_evidence": {
+        "domain.py": "import re\nfrom pathlib import Path\nfrom . import storage\n\nclass TaskboardError(Exception):\n    pass\n\ndef validate_title(title: str) -> str:\n    trimmed = title.strip()\n    if not trimmed:\n        raise TaskboardError(\"Task title cannot be blank.\")\n    return trimmed\n\ndef validate_id(id_str: str) -> int:\n    try:\n        id_int = int(id_str)\n    except Exception:\n        raise TaskboardError(\"Task ID must be an integer.\")\n    if id_int <= 0:\n        raise TaskboardError(\"Task ID must be a positive integer.\")\n    # SQLite signed 64-bit integer range\n    if not (-2**63 <= id_int < 2**63):\n        raise TaskboardError(\"Task ID out of range.\")\n    return id_int\n\ndef add_task(db_path: Path, title: str) -> dict:\n    trimmed = validate_title(title)\n    with storage.get_connection(db_path) as conn:\n        storage.init_schema(conn)\n        task = storage.add_task(conn, trimmed)\n        return task\n\ndef list_tasks(db_path: Path) -> list:\n    with storage.get_connection(db_path) as conn:\n        storage.init_schema(conn)\n        return storage.list_tasks(conn)\n\ndef complete_task(db_path: Path, id_str: str) -> dict:\n    id_int = validate_id(id_str)\n    with storage.get_connection(db_path) as conn:\n        storage.init_schema(conn)\n        task = storage.complete_task(conn, id_int)\n        if task is None:\n            raise TaskboardError(\"Task ID not found.\")\n        return task\n",
+        "storage.py": "import sqlite3\nfrom contextlib import contextmanager\nfrom pathlib import Path\n\ndef get_connection(db_path: Path):\n    conn = sqlite3.connect(str(db_path))\n    conn.row_factory = sqlite3.Row\n    return conn\n\ndef init_schema(conn):\n    conn.execute(\n        \"\"\"\n        CREATE TABLE IF NOT EXISTS tasks (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            title TEXT NOT NULL,\n            completed INTEGER NOT NULL DEFAULT 0\n        )\n        \"\"\"\n    )\n    conn.commit()\n\ndef add_task(conn, title: str) -> dict:\n    cur = conn.execute(\n        \"INSERT INTO tasks (title, completed) VALUES (?, 0)\",\n        (title,)\n    )\n    conn.commit()\n    task_id = cur.lastrowid\n    return {\n        \"id\": task_id,\n        \"title\": title,\n        \"completed\": False\n    }\n\ndef list_tasks(conn) -> list:\n    cur = conn.execute(\n        \"SELECT id, title, completed FROM tasks ORDER BY id ASC\"\n    )\n    return [\n        {\n            \"id\": row[\"id\"],\n            \"title\": row[\"title\"],\n            \"completed\": bool(row[\"completed\"])\n        }\n        for row in cur.fetchall()\n    ]\n\ndef complete_task(conn, task_id: int) -> dict or None:\n    cur = conn.execute(\n        \"SELECT id, title, completed FROM tasks WHERE id = ?\",\n        (task_id,)\n    )\n    row = cur.fetchone()\n    if row is None:\n        return None\n    if not row[\"completed\"]:\n        conn.execute(\n            \"UPDATE tasks SET completed = 1 WHERE id = ?\",\n            (task_id,)\n        )\n        conn.commit()\n        completed = True\n    else:\n        completed = True\n    return {\n        \"id\": row[\"id\"],\n        \"title\": row[\"title\"],\n        \"completed\": completed\n    }\n"
+      }
+    }
+  ],
+  "limitations": [
+    "Two repetitions of one bounded Python/SQLite CLI contract; only the first completed. Automated acceptance missed explicit connection closure.",
+    "Human-style approval gates were reviewed by Codex under user authorization.",
+    "Generated tests are included as one of the 23 independent adapter checks.",
+    "Delivery is a verified local source bundle; these repetitions do not replace the published Taskboard project.",
+    "Token usage is framework-reported and is not billed cost."
+  ],
+  "date_basis": "UTC execution date; local timezone crossed into 2026-10-29.",
+  "next_recommended_step": "Add an independent connection-lifecycle check with a regression test, then let CrewAI repair the candidate in a separately recorded run. Do not count that as an unchanged repeatability success."
+}
