@@ -299,6 +299,51 @@ the flow records a failed stage with `stop_reason: no_progress` and a
 Interrupted CrewAI usage totals are marked unavailable, not zero. Each fresh
 stage attempt gets a new progress counter; this is not a cross-run rate limiter.
 
+## Feedback improvements and fresh trials — 2026-10-28
+
+Commits `a305d30` and `e5a8125` add compact feedback, deterministic no-progress
+stops, and explicit review of general input-validation rules. **52 factory tests
+pass**, including a real CrewAI tool-loop test that confirms no-progress ends
+the attempt with a failed result. The model and target baseline remain unchanged.
+
+The first fresh trial, `5bf93154f231`, passed the original 154 scenarios but was
+**not approved for release**. Operator source review found hard-coded failing
+test values instead of a general ASCII punctuation predicate. An expanded audit
+found 63 failures (196/259 passed). Its state remains `awaiting_approval` at release;
+`operator-review.json` records why approval was withheld. Do not approve this run.
+
+The independent suite now has 259 scenarios. It includes invalid delimiters
+with empty input so malformed CSV cannot masquerade as option validation. It
+checks every non-NUL ASCII character outside the allowed category, plus empty,
+multicharacter and diverse non-ASCII values. NUL cannot be passed as a process
+argument. Original CSV behavior and valid punctuation checks remain intact.
+
+The subsequent fresh trial, **`51c8a1f85810`, failed at implementation**:
+
+- Requirements, design and planning passed with no revisions.
+- Last implementation-time checks: **215/259 scenarios**, all nine original
+  baseline tests passed. Forty-four delimiter scenarios still failed.
+- Zero manual candidate edits and zero operator retries. No release, deployment
+  or installed observation occurred.
+- The no-progress guard did not trigger: failures changed between revisions.
+  The normal bounded implementation/reviewer cycle ended with a blocked verdict.
+- Active stage time: 210.938 seconds; elapsed run time: 239.211 seconds.
+- CrewAI-reported usage: 229,082 tokens (219,462 prompt + 9,620 completion),
+  42 requests. These are not billed-cost figures or a controlled benchmark.
+- The final compact feedback file is 4,275 bytes versus 11,323 bytes for the
+  underlying result files. Full evidence is retained.
+
+This validates the feedback/stop controls and exposes a remaining model behavior:
+adding individual exclusions instead of enforcing the general rule. It does not
+establish successful autonomous delivery on the second repository. Further trials
+should address that behavior rather than weaken checks or repeat the same run.
+
+```sh
+cd /Users/adicohen/work/ai_pipeline
+uv run ai-pipeline status 51c8a1f85810
+.venv/bin/python -m unittest discover -s tests -v
+```
+
 ## Trust boundary and production roadmap
 
 This version runs **trusted adapters with the current user's host permissions and environment**. Git worktrees isolate file changes; they are not security sandboxes. External acceptance files, state, and approvals are not access-controlled against a malicious adapter on the same host. Detection of unexpected source changes is not prevention. No claim of tamper-proof verification is made.
