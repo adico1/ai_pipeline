@@ -213,6 +213,10 @@ class CandidateStalled(BaseException):
     """Terminal control signal: CrewAI must not turn this into a retryable tool error."""
 
 
+class ImplementationIncomplete(BaseException):
+    """Stop after the writer exhausts its one completion-contract correction."""
+
+
 class CandidateProgress:
     def __init__(self):
         self.source = None
@@ -276,7 +280,8 @@ def run_candidate_checks(context, progress=None):
             except (OSError, ValueError, subprocess.TimeoutExpired) as exc:
                 results.append({"stage": stage, "status": "failed", "summary": f"Check could not complete: {type(exc).__name__}"})
                 identities.append(results[-1])
-    payload = {"scope": "CURRENT candidate; advisory checks, external gates still rerun", "checks": results}
+    payload = {"scope": "CURRENT candidate; advisory checks, external gates still rerun",
+               "source_digest": source, "checks": results}
     (Path(context["output"]) / "latest-candidate-feedback.json").write_text(json.dumps(payload, indent=2))
     if progress:
         progress.after(source, payload, identities)
@@ -290,6 +295,39 @@ def candidate_check_tool(context, enforce_progress=False):
         """Run configured acceptance and security commands on CURRENT source. Returns exact failures and allowed-import policy. Takes no command arguments. Does not release or deploy."""
         return run_candidate_checks(context, progress)
     return check_current_candidate
+
+
+def implementation_guardrail(context):
+    """Accept a writer handoff only with passing evidence for current source."""
+    rejections = 0
+    def validate(output):
+        nonlocal rejections
+        path = Path(context["output"]) / "latest-candidate-feedback.json"
+        try:
+            evidence = json.loads(path.read_text())
+        except (OSError, ValueError):
+            evidence = {}
+        if evidence.get("source_digest") != digest_tree(Path(context["workspace"])):
+            evidence = json.loads(run_candidate_checks(context))
+        checks = evidence.get("checks", [])
+        passed = (evidence.get("source_digest") == digest_tree(Path(context["workspace"]))
+                  and len(checks) == 2 and {c["stage"] for c in checks} == {"verify", "security"}
+                  and all(c["status"] == "passed" for c in checks))
+        record = {"passed": passed, "rejections_before": rejections, "evidence": evidence}
+        with (Path(context["output"]) / "implementation-handoff.jsonl").open("a") as log:
+            log.write(json.dumps(record) + "\n")
+        if passed:
+            return True, output.raw
+        rejections += 1
+        if rejections > 1:
+            raise ImplementationIncomplete("Writer ended twice without passing current-source checks. Assessment-only or incomplete implementation cannot proceed to review.")
+        return False, ("IMPLEMENTATION INCOMPLETE. You are the writer, not the reviewer. "
+                       "Use read_source_file and write_source_file to implement the requested change now, "
+                       "then call check_current_candidate. A diagnosis or list of next steps is not completion. "
+                       "Implement the general requirement, not special cases for sample test values. "
+                       "You have one completion correction; checks and no-progress limits still apply. "
+                       + json.dumps(evidence))
+    return validate
 
 
 def build_crew(context, llm=None):
@@ -331,6 +369,7 @@ def build_crew(context, llm=None):
     if stage in {"review", "retrospective"}:
         instruction += " The task and README describe the ORIGINAL defect before implementation. Assess current_changed_source, which contains the actual current file text, and completed verification results. Do not report the original defect as still present unless you can cite the exact current expression that causes it. Explicitly distinguish the original behavior from the repaired behavior."
     if stage == "implement":
+        instruction += " Your deliverable is working source in the workspace. You must actually use write_source_file when the requested change is missing. A bug report, proposed patch, or advice to implement later is not a completed implementation."
         instruction += " First call check_current_candidate to obtain CURRENT failures and policy details. Inspect the current source. During repairs, prioritize these concrete failures over earlier design suggestions. Preserve working corrections. A prior design choice is not permission to violate project policy. After source edits, call check_current_candidate again and address remaining failures before finishing. Do not package or deploy. If the current candidate already passes both checks, preserve it instead of reimplementing the old design."
         instruction += " Implement the general rule from the requirements, not a list of specific failing test values. For character-category validation, express membership in the complete allowed category (using a suitable standard-library definition or exact range predicate). Test examples are evidence, not the exhaustive input domain."
     if document_type:
@@ -340,8 +379,9 @@ def build_crew(context, llm=None):
         instruction += " This is a revision, not a restatement. Read the rejected draft and reviewer findings in the input, then write a materially corrected replacement. Explicitly resolve each in-scope finding in the relevant document field. Do not return the rejected draft unchanged."
     work = Task(description=f"Stage: {stage}. {goal}\n{instruction}\nRead relevant source using tools as background.\nInput data:\n{evidence}",
                 expected_output=f"A complete {stage} document containing: {', '.join(document_type.model_fields)}."
-                    if document_type else "Detailed stage deliverable, actual changed paths if any, evidence used, open questions and follow-up actions.",
-                agent=specialist, **({"output_pydantic": document_type} if document_type else {}))
+                    if document_type else ("Implemented source files with current passing verify/security check evidence; summarize actual changes and results." if stage == "implement" else "Detailed stage deliverable, actual changed paths if any, evidence used, open questions and follow-up actions."),
+                agent=specialist, **({"output_pydantic": document_type} if document_type else {}),
+                **({"guardrail": implementation_guardrail(context), "guardrail_max_retries": 1} if stage == "implement" else {}))
     review = Task(description=f"You are reviewing the {stage} stage ONLY. Its deliverable is: {goal}\n"
                   "Inspect the specialist output and relevant source. Report passed only if this stage's requested deliverable is complete. Otherwise report blocked. "
                   "For requirements, design, and plan, evaluate the document's completeness and clarity, not whether the implementation is already fixed. "
@@ -378,12 +418,13 @@ class SDLCStageFlow(Flow[StageState]):
         for revision in range(max_revisions + 1):
             try:
                 result = build_crew(crew_context).kickoff()
-            except CandidateStalled as exc:
-                self.state.report = {"status": "blocked", "summary": str(exc), "stop_reason": "no_progress",
+            except (CandidateStalled, ImplementationIncomplete) as exc:
+                reason = "no_progress" if isinstance(exc, CandidateStalled) else "implementation_incomplete"
+                self.state.report = {"status": "blocked", "summary": str(exc), "stop_reason": reason,
                                      "findings": ["See latest-candidate-feedback.json and candidate-checks for retained failure evidence."],
                                      "review_revisions": revision}
                 (output / "crew-report.md").write_text(str(exc))
-                (output / "no-progress.json").write_text(json.dumps(self.state.report, indent=2))
+                (output / ("no-progress.json" if reason == "no_progress" else "implementation-incomplete.json")).write_text(json.dumps(self.state.report, indent=2))
                 (output / "token-usage.json").write_text(json.dumps({"available": False, "reason": "Crew execution stopped before returning usage totals"}))
                 return self.state.report
             if not isinstance(result.pydantic, StageReport):

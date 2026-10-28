@@ -390,6 +390,26 @@ uv run ai-pipeline status 77a35451dc69
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
+## Implementation handoff contract
+
+The writer's deliverable is working source, not an assessment or proposed next
+steps. Before the writer can hand off to the reviewer, a deterministic CrewAI
+task guardrail requires passing configured verify/security checks for the current
+source digest. Missing or stale evidence causes fresh checks. A narrative claim
+cannot substitute for those results, and an already-correct candidate need not
+be edited merely to satisfy the contract.
+
+One rejected handoff is returned to the same writer with explicit instructions
+to edit source and check it. A second incomplete handoff stops with
+`stop_reason: implementation_incomplete`; it does not proceed to review. The
+existing no-progress controls remain active across this bounded correction.
+`implementation-handoff.jsonl` records each decision and its evidence. Independent
+review and external verification still follow a successful writer handoff.
+
+Network-free tests exercise the actual CrewAI path for an assessment followed
+by a tool-written correction, an assessment-only writer stopped after one
+correction, and rejection of stale passing evidence after a source change.
+
 ## Trust boundary and production roadmap
 
 This version runs **trusted adapters with the current user's host permissions and environment**. Git worktrees isolate file changes; they are not security sandboxes. External acceptance files, state, and approvals are not access-controlled against a malicious adapter on the same host. Detection of unexpected source changes is not prevention. No claim of tamper-proof verification is made.

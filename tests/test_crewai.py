@@ -12,7 +12,7 @@ os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
 os.environ["CREWAI_TRACING_ENABLED"] = "false"
 
 from crewai import BaseLLM
-from ai_pipeline.crewai_adapter import CandidateProgress, CandidateStalled, concise_report, SDLCStageFlow, build_crew, run_candidate_checks, safe_path, stage_inputs, workspace_tools
+from ai_pipeline.crewai_adapter import CandidateProgress, CandidateStalled, ImplementationIncomplete, implementation_guardrail, concise_report, SDLCStageFlow, build_crew, run_candidate_checks, safe_path, stage_inputs, workspace_tools
 from ai_pipeline.cli import demo_config
 from ai_pipeline.engine import Factory, FactoryError, load_config, write_json
 
@@ -154,6 +154,57 @@ class CrewAITests(unittest.TestCase):
     def test_candidate_check_missing_results_fail_closed(self):
         context = {**self.context, "checks": {name: {"command": [sys.executable, "-c", "pass"]} for name in ("verify", "security")}}
         self.assertTrue(all(check["status"] == "failed" for check in json.loads(run_candidate_checks(context))["checks"]))
+
+    def implementation_context(self):
+        checker = self.root / "check.py"
+        checker.write_text("import json,os\nfrom pathlib import Path\nok=Path('candidate.txt').read_text()=='fixed'\nPath(os.environ['FACTORY_OUTPUT'],'result.json').write_text(json.dumps({'status':'passed' if ok else 'failed','summary':'candidate must be fixed'}))\nraise SystemExit(0 if ok else 1)\n")
+        (self.workspace / "candidate.txt").write_text("broken")
+        return {**self.context, "stage": "implement", "checks": {name: {"command": [sys.executable, str(checker)]} for name in ("verify", "security")}}
+
+    def test_handoff_rechecks_stale_passing_evidence(self):
+        from types import SimpleNamespace
+        context = self.implementation_context()
+        source = self.workspace / "candidate.txt"
+        source.write_text("fixed")
+        run_candidate_checks(context)
+        guard = implementation_guardrail(context)
+        self.assertTrue(guard(SimpleNamespace(raw="done"))[0])
+        source.write_text("broken again")
+        self.assertFalse(guard(SimpleNamespace(raw="done"))[0])
+        with self.assertRaises(ImplementationIncomplete):
+            guard(SimpleNamespace(raw="assessment only"))
+
+    def test_real_writer_corrects_assessment_before_review(self):
+        context = self.implementation_context()
+        class WriterLLM(LocalTestLLM):
+            def call(self, *args, **kwargs):
+                responses = [
+                    'Final Answer: The implementation is missing; implement it next.',
+                    'Thought: Implement now.\nAction: write_source_file\nAction Input: {"path":"candidate.txt","content":"fixed"}',
+                    'Thought: Verify.\nAction: check_current_candidate\nAction Input: {}',
+                    'Final Answer: Implemented candidate.txt and checks pass.',
+                    'Thought: Review independently.\nAction: check_current_candidate\nAction Input: {}',
+                    'Final Answer: {"status":"passed","summary":"Independent checks passed","findings":[],"next_actions":[]}',
+                ]
+                result = responses[min(self.calls, len(responses)-1)]
+                self.calls += 1
+                return result
+        model = WriterLLM()
+        with patch("ai_pipeline.crewai_adapter.build_crew", side_effect=lambda ctx: build_crew(ctx, llm=model)):
+            result = SDLCStageFlow(tracing=False).kickoff(inputs={"context": context})
+        self.assertEqual(result["status"], "passed")
+        self.assertEqual((self.workspace / "candidate.txt").read_text(), "fixed")
+        records = [json.loads(line) for line in (self.output / "implementation-handoff.jsonl").read_text().splitlines()]
+        self.assertEqual([record["passed"] for record in records], [False, True])
+
+    def test_assessment_only_writer_stops_after_one_correction(self):
+        context = self.implementation_context()
+        model = LocalTestLLM()
+        with patch("ai_pipeline.crewai_adapter.build_crew", side_effect=lambda ctx: build_crew(ctx, llm=model)):
+            result = SDLCStageFlow(tracing=False).kickoff(inputs={"context": context})
+        self.assertEqual(result["status"], "failed")
+        self.assertEqual(result["stop_reason"], "implementation_incomplete")
+        self.assertEqual(model.calls, 2)
 
     def test_feedback_groups_modes_and_retains_distinct_failures(self):
         failures = [{"case": "delimiter", "delimiter": delimiter, "mode": mode,
