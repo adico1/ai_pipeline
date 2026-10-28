@@ -344,6 +344,52 @@ uv run ai-pipeline status 51c8a1f85810
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
+## Controlled implementation-model trial — 2026-10-28
+
+Configuration commit `aea2a3f` adds
+`projects/csvjson-strong-implementation.json`. Relative to the previous trial,
+only implementation model routing changes: the writer uses
+`openai/gpt-4.1-2025-04-14`; its reviewer explicitly remains
+`openai/gpt-4o-mini`. All other stage configuration, the task, baseline, 259
+acceptance scenarios, nine original tests and stop controls are unchanged.
+The adapter's constructed models and saved run context confirmed this routing.
+The model supports the existing Chat Completions, tool-calling and structured
+output interface ([official model documentation](https://developers.openai.com/api/docs/models/gpt-4.1)).
+All **52 factory tests passed** before execution.
+
+The one authorized fresh trial, **`77a35451dc69`, failed at implementation**.
+Requirements, design and planning passed. The implementation writer returned an
+assessment of missing delimiter support rather than editing source; identical
+before/after source digests confirm that the candidate remained at baseline.
+The reviewer correctly blocked it. There were zero operator retries, zero manual
+candidate edits, no release and no deployment. The no-progress guard did not
+trigger; the writer and reviewer each checked the unchanged source once.
+
+| Measurement | Previous GPT-4o-mini writer | GPT-4.1 writer trial |
+| --- | --- | --- |
+| Run | `51c8a1f85810` | `77a35451dc69` |
+| Last advisory acceptance results | 215/259 | 204/259 (unchanged baseline) |
+| Original baseline tests | 9 passed | 9 passed |
+| Implementation-stage seconds | 168.260 | 62.688 |
+| Implementation crew tokens (writer + reviewer) | 200,850 | 24,501 |
+| Total active stage seconds | 210.938 | 103.321 |
+| Elapsed run seconds | 239.211 | 137.409 |
+| Total reported tokens | 229,082 | 53,051 |
+| Total reported requests | 42 | 18 |
+
+The current total consists of 48,405 prompt tokens and 4,646 completion tokens.
+These are CrewAI-reported usage totals, not billed cost. Fewer tokens and less
+time do not indicate success: the stronger writer performed no implementation.
+This single trial does not establish whether model capability is the bottleneck.
+The next investigation should focus on why the implementation task accepted an
+assessment as the writer's final deliverable, before another paid comparison.
+
+```sh
+cd /Users/adicohen/work/ai_pipeline
+uv run ai-pipeline status 77a35451dc69
+.venv/bin/python -m unittest discover -s tests -v
+```
+
 ## Trust boundary and production roadmap
 
 This version runs **trusted adapters with the current user's host permissions and environment**. Git worktrees isolate file changes; they are not security sandboxes. External acceptance files, state, and approvals are not access-controlled against a malicious adapter on the same host. Detection of unexpected source changes is not prevention. No claim of tamper-proof verification is made.
