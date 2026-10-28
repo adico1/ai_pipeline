@@ -57,6 +57,14 @@ A real run creates a detached Git worktree from the repository's committed HEAD.
 
 ## CrewAI execution
 
+### First real target: Textstats
+
+The separate local Git repository `/Users/adicohen/work/ai_pipeline_first_run` contains a text-statistics CLI with a deliberate word-counting bug. Its baseline fails 12 of 16 external checks. `projects/textstats.json` connects it to CrewAI and the trusted adapters in `integrations/textstats/`.
+
+Verification exercises stdin and file input, empty/whitespace-only text, Unicode separators, repeated spaces, and line endings. The security adapter is a limited static policy check, not a full audit. After human approvals, release creates a ZIP and digest manifest; deployment installs the verified script in a separate artifact directory; observation checks that installed copy. No cloud hosting or network listener is involved. The paths in this configuration are specific to this machine.
+
+Once your factory `.env` has a model and matching key, use `uv run ai-pipeline list` to find the queued `textstats-first-run`, then `uv run ai-pipeline advance RUN_ID`. This begins real model calls and pauses at the configured approval gates. The target repository intentionally remains unfixed until the agent works in its candidate worktree.
+
 `SDLCStageFlow` prepares context, executes a sequential crew, and saves a validated result. A specialist completes the stage; a second agent reviews it and returns `passed` or `blocked`. Blocked reports fail the stage. Prior reports and verification failures are carried into subsequent prompts. Each attempt saves `crew-report.md`, `token-usage.json`, and `result.json`.
 
 Only the implementation specialist receives a file-write tool. Other specialists and all reviewers receive source read/list tools. Tools reject path traversal, symlinks, and sensitive paths and cap file size. Agents have no shell or deployment tool. The implementation can write any source language; project commands compile, test, and deliver it. These restrictions do not constitute an OS sandbox.
