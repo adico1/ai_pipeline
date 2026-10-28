@@ -529,6 +529,35 @@ python3 -m unittest discover -s tests -v
 git log -1 --oneline
 ```
 
+## HTTP-service trial setup — 2026-10-28
+
+The third target is `/Users/adicohen/work/httpstats-third-run`, a standard-library
+Python HTTP service with a working `GET /health` baseline (commit `9fa3c58`).
+The bounded task in `projects/httpstats-task.txt` adds `POST /analyze`. The
+configuration is `projects/httpstats.json`; the implementation writer remains
+GPT-4.1 with GPT-4o-mini review and other AI stages. This setup is not yet a
+successful live-run result.
+
+The independent sensor in `integrations/httpstats/` starts a real process on an
+ephemeral loopback port, exercises 44 HTTP cases (including three baseline health
+and unknown-path cases), and always terminates the process. It covers Unicode,
+empty/whitespace input, line endings, malformed bodies, invalid text types,
+unsupported methods, and health after errors. Release/deploy use a ZIP and SHA-256
+manifest; observe repeats the HTTP suite against the separately installed bytes.
+These are temporary local services, not persistent or cloud deployments.
+
+Five integration tests establish that the sensor rejects the missing-feature
+baseline and incorrect implementations, accepts a test-only reference, detects
+package/installed tampering, and stops services even when checks raise. The
+reference is never copied into a factory candidate. Running these tests requires
+permission to bind loopback ports.
+
+```sh
+uv run ai-pipeline create --config projects/httpstats.json --task "$(cat projects/httpstats-task.txt)"
+# Use the returned ID; review each gate before approving.
+uv run ai-pipeline advance RUN_ID
+```
+
 ## Trust boundary and production roadmap
 
 This version runs **trusted adapters with the current user's host permissions and environment**. Git worktrees isolate file changes; they are not security sandboxes. External acceptance files, state, and approvals are not access-controlled against a malicious adapter on the same host. Detection of unexpected source changes is not prevention. No claim of tamper-proof verification is made.
