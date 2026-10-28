@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "name": "taskboard-greenfield",
+  "max_repairs": 2,
+  "gates": [
+    "design"
+  ],
+  "stages": {
+    "requirements": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4o-mini",
+        "review_model": "openai/gpt-4o-mini",
+        "max_iter": 24
+      },
+      "timeout_seconds": 600
+    },
+    "design": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4o-mini",
+        "review_model": "openai/gpt-4o-mini",
+        "max_iter": 24
+      },
+      "timeout_seconds": 600
+    },
+    "plan": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4o-mini",
+        "review_model": "openai/gpt-4o-mini",
+        "max_iter": 24
+      },
+      "timeout_seconds": 600
+    },
+    "implement": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4.1-2025-04-14",
+        "review_model": "openai/gpt-4o-mini",
+        "max_iter": 24
+      },
+      "timeout_seconds": 600
+    },
+    "verify": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/adapter.py"
+      ],
+      "timeout_seconds": 120
+    },
+    "security": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/adapter.py"
+      ],
+      "timeout_seconds": 120
+    },
+    "review": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4o-mini",
+        "review_model": "openai/gpt-4o-mini",
+        "max_iter": 24
+      },
+      "timeout_seconds": 600
+    },
+    "release": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/adapter.py"
+      ],
+      "timeout_seconds": 120
+    },
+    "deploy": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/adapter.py"
+      ],
+      "timeout_seconds": 120
+    },
+    "observe": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/adapter.py"
+      ],
+      "timeout_seconds": 120
+    },
+    "retrospective": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4o-mini",
+        "review_model": "openai/gpt-4o-mini",
+        "max_iter": 24
+      },
+      "timeout_seconds": 600
+    }
+  },
+  "starting_point": "blank"
+}

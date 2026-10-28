@@ -74,7 +74,9 @@ def specialist_instructions(stage, document_type, revision):
             " Your deliverable is working source in the workspace. You must actually use "
             "write_source_file when the requested change is missing. A bug report, "
             "proposed patch, or advice to implement later is not a completed "
-            "implementation."
+            "implementation. An empty workspace is valid: create the project structure, "
+            "modules, tests, configuration and documentation required by the task. "
+            "Do not wait for starter files. Read files only after listing confirms they exist."
         )
         instruction += (
             " First call check_current_candidate to obtain CURRENT failures and policy "

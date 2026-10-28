@@ -118,7 +118,7 @@ uv run ai-pipeline create --config factory.json --task "Describe the desired beh
 uv run ai-pipeline advance RUN_ID
 ```
 
-A real run creates a detached Git worktree from the repository's committed HEAD. Uncommitted changes are not copied. The original working directory remains separate. Runs retain worktrees and artifacts for review; clean them up with Git's worktree removal command after preserving needed work. The factory does not commit, push, open pull requests, merge, or deploy unless you explicitly configure adapters that do so.
+An existing-repository run creates a detached Git worktree from the repository's committed HEAD. Uncommitted changes are not copied. The original working directory remains separate. Runs retain worktrees and artifacts for review; clean them up with Git's worktree removal command after preserving needed work. The factory does not commit, push, open pull requests, merge, or deploy unless you explicitly configure adapters that do so.
 
 ## CrewAI execution
 
@@ -748,3 +748,40 @@ Usage totals are incomplete for the stopped crews and must not be treated as a
 complete token or cost measurement.
 
 [Saved-history trial evidence](reports/httpstats-history-20261028.json).
+
+
+### Start from a blank project
+
+The factory can start with no application files and no existing repository:
+
+```sh
+uv run ai-pipeline init --blank --name my-project --output factory.json
+```
+
+Fill in the independent verification, security, release, deployment and observation
+commands before creating a run. The template is not a universal acceptance suite;
+checks must reflect the project's requirements. `starting_point: "blank"` creates
+an isolated repository with an empty baseline commit. CrewAI creates the modules,
+tests, metadata and documentation. New untracked files are included in review
+snapshots. Existing-repository mode remains available with `--repository`.
+
+A configured example is the requirements-driven Taskboard CLI trial:
+
+```sh
+uv run ai-pipeline create --config projects/taskboard-blank.json --task "$(cat projects/taskboard-blank-task.txt)"
+uv run ai-pipeline advance RUN_ID
+uv run ai-pipeline status RUN_ID
+```
+
+This example uses a standard-library Python package with add/list/complete commands
+and SQLite persistence. CrewAI chooses the internal module layout. The independent
+adapter checks the CLI from an unrelated working directory, runs generated tests
+on an isolated copy, and executes the README examples. `project_bundle.py` packages
+explicit source roots with per-file hashes; deployment validates every archive
+entry before writing the complete project into a separate directory. The same
+checks run against that installed source bundle. This is source-bundle delivery,
+not a wheel installation or a claim of support for every language/dependency stack.
+
+Agent stages may set `crewai.max_iter` from 1 to 40; the default remains 12. The
+blank-project example uses 24 to accommodate creating multiple files. Existing
+no-progress and incomplete-handoff guards remain active.

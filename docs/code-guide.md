@@ -108,3 +108,13 @@ whether upstream storage closes every connection. If it does, remove the scoped
 replacement and keep the connection-lifetime regressions against the new storage.
 Do not bypass the version guard without revalidating the private extension point.
 The remaining internal `multimodal` deprecation is documented rather than filtered.
+
+
+For greenfield projects, `starting_point: "blank"` in `engine.py` initializes an
+empty Git baseline inside the run workspace. `cli.py init --blank` creates its
+configuration template. `crewai_adapter.py` includes new untracked source in
+review snapshots and uses the configured bounded `max_iter` budget.
+`project_bundle.py` provides manifest-verified multi-file source packaging;
+`integrations/taskboard/` demonstrates requirements-specific acceptance checks
+and complete installed-copy observation. Test fixtures remain under `tests/` and
+are never seeded into candidate workspaces.

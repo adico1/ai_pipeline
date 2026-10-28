@@ -88,6 +88,11 @@ def load_config(path: Path):
         raise FactoryError("Project configuration must have version: 1")
     if not isinstance(config.get("name"), str) or not config["name"].strip():
         raise FactoryError("Project name is required")
+    starting_point = config.get("starting_point", "repository")
+    if starting_point not in {"repository", "blank"}:
+        raise FactoryError("starting_point must be repository or blank")
+    if starting_point == "blank" and (config.get("repository") or config.get("demo")):
+        raise FactoryError("A blank project cannot also specify repository or demo")
     stages = config.get("stages", {})
     if set(stages) != set(STAGES):
         raise FactoryError("Configure every SDLC stage: " + ", ".join(STAGES))
@@ -102,6 +107,9 @@ def load_config(path: Path):
         if stage.get("backend") == "crewai":
             if name not in AI_STAGES:
                 raise FactoryError(f"{name}: requires an independent command adapter")
+            iterations = stage.get("crewai", {}).get("max_iter", 12)
+            if type(iterations) is not int or not 1 <= iterations <= 40:
+                raise FactoryError(f"{name}: crewai.max_iter must be an integer from 1 to 40")
             continue
         command = stage.get("command")
         if (
@@ -174,6 +182,19 @@ class Factory:
                 "def add(a, b):\n    return a - b\n"
             )
             base = None
+        elif config.get("starting_point") == "blank":
+            workspace.mkdir()
+            git = ["git", "-C", str(workspace)]
+            try:
+                subprocess.run(git + ["init", "-q"], check=True, capture_output=True, text=True)
+                subprocess.run(git + ["-c", "user.name=SDLC Factory", "-c",
+                                     "user.email=factory@example.invalid", "-c",
+                                     "commit.gpgsign=false", "commit", "--allow-empty",
+                                     "-qm", "Initialize blank SDLC project"],
+                               check=True, capture_output=True, text=True)
+                base = subprocess.check_output(git + ["rev-parse", "HEAD"], text=True).strip()
+            except subprocess.CalledProcessError as exc:
+                raise FactoryError(f"Cannot initialize blank project: {exc.stderr}") from exc
         else:
             if config.get("demo"):
                 raise FactoryError("Use the demo command for demo configurations")

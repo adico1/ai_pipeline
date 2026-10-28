@@ -58,7 +58,10 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("demo", help="Create and start a local simulated lifecycle")
     init = commands.add_parser("init", help="Write a project configuration template")
-    init.add_argument("--repository", required=True, type=Path)
+    source = init.add_mutually_exclusive_group(required=True)
+    source.add_argument("--repository", type=Path)
+    source.add_argument("--blank", action="store_true", help="Start without application files or an existing repository")
+    init.add_argument("--name", help="Project name for a blank project")
     init.add_argument("--output", default=Path("factory.json"), type=Path)
     init.add_argument(
         "--model",
@@ -93,8 +96,9 @@ def main():
                 args.output,
                 {
                     "version": 1,
-                    "name": args.repository.resolve().name,
-                    "repository": str(args.repository.resolve()),
+                    "name": (args.name or "new-project") if args.blank else args.repository.resolve().name,
+                    **({"starting_point": "blank"} if args.blank else
+                       {"repository": str(args.repository.resolve())}),
                     "max_repairs": 2,
                     "gates": ["design"],
                     "stages": {

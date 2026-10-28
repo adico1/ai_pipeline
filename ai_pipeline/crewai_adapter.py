@@ -98,9 +98,14 @@ def current_changed_source(context):
         capture_output=True,
         timeout=10,
     )
+    untracked = subprocess.check_output(
+        ["git", "-C", str(workspace), "ls-files", "--others", "--exclude-standard", "-z"],
+        timeout=10,
+    )
+    paths = set(result.stdout.decode().split("\0")) | set(untracked.decode().split("\0"))
     snapshots = []
     size = 0
-    for relative in result.stdout.decode().split("\0"):
+    for relative in sorted(paths):
         if not relative:
             continue
         try:
@@ -483,7 +488,7 @@ def build_crew(context, llm=None):
     common = dict(
         llm=llm,
         allow_delegation=False,
-        max_iter=12,
+        max_iter=context.get("crewai", {}).get("max_iter", 12),
         max_retry_limit=1,
         verbose=False,
         cache=False,
