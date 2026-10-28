@@ -410,6 +410,49 @@ Network-free tests exercise the actual CrewAI path for an assessment followed
 by a tool-written correction, an assessment-only writer stopped after one
 correction, and rejection of stale passing evidence after a source change.
 
+## Successful CSVJSON delivery after handoff fix — 2026-10-28
+
+Fresh run **`6b760521d51f` completed all 11 stages** using factory commit
+`8db0192` and the same GPT-4.1 writer / GPT-4o-mini reviewer configuration as the
+previous model trial. It started from CSVJSON baseline
+`c43bfa62a1f2d28a10cf00e3f31987a4c5547b8f`. The task and independent checks were
+unchanged. All **55 factory tests passed** before execution.
+
+The writer implemented a general delimiter predicate using `string.punctuation`,
+a single-character requirement, double-quote exclusion and an ASCII range check.
+Operator source review confirmed this was not a list of test-specific exclusions.
+The writer corrected an intermediate syntax failure during its own implementation
+work. Its first final handoff passed the new deterministic contract, so no handoff
+correction was needed in this live run. Network-free CrewAI tests cover the
+rejected-handoff correction path; one live success does not isolate which prompt
+or contract change caused the improvement.
+
+| Evidence | Result |
+| --- | --- |
+| Independent candidate CLI scenarios | 259/259 passed |
+| External original baseline tests | 9/9 passed |
+| Security policy and source review | Passed |
+| ZIP and manifest | Both hashes recomputed; packaged source matches verified candidate |
+| Installed-copy CLI scenarios / baseline tests | 259/259 and 9/9 passed |
+| Operator retries / manual candidate edits | 0 / 0 |
+| Engine repair cycles / handoff rejections | 0 / 0 |
+| Existing approval gates | 3 evidence reviews under user authorization |
+| Active stage time / elapsed run time | 239.757 / 292.380 seconds |
+| CrewAI-reported tokens / requests | 157,359 / 38 |
+
+Reported usage comprises 148,011 prompt and 9,348 completion tokens; it is not a
+billing statement. This includes delivery/retrospective stages that failed trials
+never reached. The candidate was delivered as a local ZIP and separate installed
+copy. The original repository checkout and public hosting were not changed.
+
+Inspect and try the delivered CLI:
+
+```sh
+cd /Users/adicohen/work/ai_pipeline
+uv run ai-pipeline status 6b760521d51f
+printf 'name;count\nAda;007\n' | .venv/bin/python .factory/6b760521d51f/artifacts/009-deploy-3043ec3a/installed/csvjson.py --delimiter ';'
+```
+
 ## Trust boundary and production roadmap
 
 This version runs **trusted adapters with the current user's host permissions and environment**. Git worktrees isolate file changes; they are not security sandboxes. External acceptance files, state, and approvals are not access-controlled against a malicious adapter on the same host. Detection of unexpected source changes is not prevention. No claim of tamper-proof verification is made.
