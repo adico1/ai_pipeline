@@ -1,0 +1,80 @@
+import argparse
+import json
+from pathlib import Path
+import sys
+
+from dotenv import load_dotenv
+
+from .engine import AI_STAGES, Factory, FactoryError, STAGES, write_json
+
+
+def demo_config(path):
+    adapter = Path(__file__).with_name("demo_adapter.py").resolve()
+    config = {"version": 1, "name": "calculator-demo", "demo": True, "max_repairs": 2,
+              "gates": ["design"], "stages": {
+                  stage: {"command": [sys.executable, str(adapter)], "timeout_seconds": 15}
+                  for stage in STAGES}}
+    write_json(path, config)
+    return path
+
+
+def display(state):
+    print(json.dumps(state, indent=2))
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Evidence-driven SDLC factory")
+    parser.add_argument("--state-dir", type=Path, default=Path(".factory"))
+    parser.add_argument("--env-file", type=Path, default=Path(".env"),
+                        help="Load settings from this file (default: .env in the current directory); shell settings take precedence")
+    commands = parser.add_subparsers(dest="command", required=True)
+    commands.add_parser("demo", help="Create and start a local simulated lifecycle")
+    init = commands.add_parser("init", help="Write a project configuration template")
+    init.add_argument("--repository", required=True, type=Path)
+    init.add_argument("--output", default=Path("factory.json"), type=Path)
+    init.add_argument("--model", help="CrewAI provider/model name; otherwise use FACTORY_MODEL at execution")
+    create = commands.add_parser("create")
+    create.add_argument("--config", required=True, type=Path)
+    create.add_argument("--task", required=True)
+    for name in ("advance", "status", "retry"):
+        commands.add_parser(name).add_argument("run_id")
+    approve = commands.add_parser("approve")
+    approve.add_argument("run_id")
+    approve.add_argument("--actor", required=True)
+    approve.add_argument("--note", required=True)
+    commands.add_parser("list")
+    commands.add_parser("metrics")
+    args = parser.parse_args()
+    load_dotenv(dotenv_path=args.env_file, override=False)
+    try:
+        factory = Factory(args.state_dir)
+        if args.command == "init":
+            if args.output.exists():
+                raise FactoryError("Refusing to overwrite an existing configuration")
+            write_json(args.output, {"version": 1, "name": args.repository.resolve().name,
+                "repository": str(args.repository.resolve()), "max_repairs": 2, "gates": ["design"],
+                "stages": {stage: ({"backend": "crewai", "crewai": {"model": args.model}, "timeout_seconds": 300}
+                                   if stage in AI_STAGES else {"backend": "command", "command": [], "timeout_seconds": 300})
+                           for stage in STAGES}})
+            print(f"Created {args.output.resolve()}. CrewAI handles agent stages; configure verification, security, release, deploy and observe commands before creating a run.")
+        elif args.command == "demo":
+            config = demo_config(factory.root / "demo-config.json")
+            state = factory.create(config, "Fix addition for positive, negative, and zero inputs.", demo=True)
+            display(factory.advance(state["id"]))
+        elif args.command == "create":
+            display(factory.create(args.config, args.task))
+        elif args.command == "approve":
+            display(factory.approve(args.run_id, args.actor, args.note))
+        elif args.command == "list":
+            display(factory.list_runs())
+        elif args.command == "metrics":
+            display(factory.metrics())
+        else:
+            display(getattr(factory, args.command)(args.run_id))
+    except (FactoryError, OSError, ValueError) as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        raise SystemExit(1)
+
+
+if __name__ == "__main__":
+    main()
