@@ -1,11 +1,25 @@
 import argparse
 import json
+import os
 from pathlib import Path
 import sys
 
-from dotenv import load_dotenv
+from dotenv import dotenv_values, load_dotenv
 
 from .engine import AI_STAGES, Factory, FactoryError, STAGES, write_json
+
+
+def load_environment(path):
+    values = dotenv_values(path)
+    load_dotenv(dotenv_path=path, override=False)
+    direct = values.get("FACTORY_OPENAI_DIRECT", os.environ.get("FACTORY_OPENAI_DIRECT", ""))
+    if (direct or "").lower() in {"true", "1", "yes"}:
+        # Explicit per-project opt-in overrides inherited gateway routing only
+        # in this CLI process and its children, never the user's shell.
+        for name in ("OPENAI_BASE_URL", "OPENAI_API_BASE", "OPENAI_API_BASE_URL"):
+            os.environ[name] = "https://api.openai.com/v1"
+        if "OPENAI_API_KEY" in values:
+            os.environ["OPENAI_API_KEY"] = values["OPENAI_API_KEY"] or ""
 
 
 def demo_config(path):
@@ -45,7 +59,7 @@ def main():
     commands.add_parser("list")
     commands.add_parser("metrics")
     args = parser.parse_args()
-    load_dotenv(dotenv_path=args.env_file, override=False)
+    load_environment(args.env_file)
     try:
         factory = Factory(args.state_dir)
         if args.command == "init":

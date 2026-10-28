@@ -36,6 +36,8 @@ Use `--state-dir /absolute/path` before the subcommand to keep runs elsewhere. D
 
 The local `.env` contains empty model/key fields and is excluded from Git. Fill `FACTORY_MODEL` with your provider/model ID and fill that provider's API key. A shareable, key-free template is tracked as `.env.example`.
 
+`FACTORY_OPENAI_DIRECT=true` opts this project into direct OpenAI access at `https://api.openai.com/v1`, overriding inherited gateway URL variables. In this mode, the `.env` OpenAI key takes precedence over a shell key, including when the file's key is blank. This affects only the CLI and its child processes; it does not edit global shell settings. Set it to false to retain inherited routing.
+
 The CLI loads `.env` from the current directory before running commands; existing shell variables take precedence. For another location, use `uv run ai-pipeline --env-file /absolute/path/to/settings.env ...`. Settings are inherited by CrewAI subprocesses even though they execute in isolated worktrees. The `.env` file itself is not copied into candidate repositories.
 
 Optional `FACTORY_MODEL_REQUIREMENTS`, `FACTORY_MODEL_DESIGN`, `FACTORY_MODEL_PLAN`, `FACTORY_MODEL_IMPLEMENT`, `FACTORY_MODEL_REVIEW`, and `FACTORY_MODEL_RETROSPECTIVE` select specialist models per stage. `FACTORY_REVIEW_MODEL` selects the second reviewer agent's model across all stages. Blank overrides fall back to the default/specialist model. Explicit `crewai.model` and `crewai.review_model` in project configuration take precedence over environment model settings. Do not put API keys in project configuration.
