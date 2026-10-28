@@ -18,18 +18,9 @@ from crewai import Agent, Crew, LLM, Process, Task
 from crewai.flow.flow import Flow, listen, start
 from crewai.tools import tool
 from ai_pipeline.engine import digest_tree
-from ai_pipeline.stage_contracts import (
-    StageReport,
-    RequirementsDocument,
-    DesignDocument,
-    PlanStep,
-    PlanDocument,
-    StageState,
-    DOCUMENTS,
-)
+from ai_pipeline import stage_contracts
 from ai_pipeline.prompts import (
     ROLES,
-    DOCUMENT_INSTRUCTIONS,
     specialist_instructions,
     reviewer_description,
 )
@@ -501,7 +492,7 @@ def build_crew(context, llm=None):
         specialist_tools.append(candidate_check_tool(context, enforce_progress=True))
 
     # Document reviewers evaluate the deliverable, not unfinished future source.
-    document_stage = stage in DOCUMENTS
+    document_stage = stage in stage_contracts.DOCUMENTS
     reviewer_tools = []
     if not document_stage:
         reviewer_tools = workspace_tools(workspace)
@@ -545,7 +536,7 @@ def build_crew(context, llm=None):
         raise ValueError(
             "Stage context exceeds 120000 characters; reduce task/report size"
         )
-    document_type = DOCUMENTS.get(stage)
+    document_type = stage_contracts.DOCUMENTS.get(stage)
     instruction = specialist_instructions(stage, document_type, revision)
     task_options = {}
     if document_type:
@@ -575,7 +566,7 @@ def build_crew(context, llm=None):
         expected_output="A structured stage report with status, summary, findings and next_actions.",
         agent=reviewer,
         context=[work],
-        output_pydantic=StageReport,
+        output_pydantic=stage_contracts.StageReport,
     )
     return Crew(
         agents=[specialist, reviewer],
@@ -588,7 +579,7 @@ def build_crew(context, llm=None):
     )
 
 
-class SDLCStageFlow(Flow[StageState]):
+class SDLCStageFlow(Flow[stage_contracts.StageState]):
     @start()
     def prepare(self):
         if self.state.context.get("stage") not in ROLES:
@@ -600,7 +591,7 @@ class SDLCStageFlow(Flow[StageState]):
         output = Path(context["output"])
         max_revisions = (
             2
-            if context["stage"] in DOCUMENTS
+            if context["stage"] in stage_contracts.DOCUMENTS
             or context["stage"] in {"review", "retrospective"}
             else 0
         )
@@ -642,7 +633,7 @@ class SDLCStageFlow(Flow[StageState]):
                     )
                 )
                 return self.state.report
-            if not isinstance(result.pydantic, StageReport):
+            if not isinstance(result.pydantic, stage_contracts.StageReport):
                 raise ValueError("CrewAI did not produce a validated StageReport")
             if result.token_usage:
                 for key, value in result.token_usage.model_dump().items():
@@ -663,7 +654,7 @@ class SDLCStageFlow(Flow[StageState]):
             **result.pydantic.model_dump(),
             "review_revisions": revision,
         }
-        document_type = DOCUMENTS.get(context["stage"])
+        document_type = stage_contracts.DOCUMENTS.get(context["stage"])
         if document_type:
             document = result.tasks_output[0].pydantic
             if not isinstance(document, document_type):

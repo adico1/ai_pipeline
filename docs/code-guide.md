@@ -58,8 +58,26 @@ as failures and retains evidence.
   started, changed source requires reconciliation instead of automatic replay.
 - A passed agent review does not replace external verification or installed-copy
   observation. The example adapters use real commands for those stages.
-- Existing public imports and JSON field names remain stable through the readability
-  refactor. Old run directories do not need migration.
+- JSON field names and saved-run formats remain stable. Old run directories do not
+  need migration. Schema imports now use their canonical module, as described below.
+
+## Schema import migration
+
+Import stage schemas directly from `ai_pipeline.stage_contracts`:
+
+```python
+from ai_pipeline.stage_contracts import DesignDocument, PlanDocument, StageReport
+```
+
+The compatibility exports from `ai_pipeline.crewai_adapter` have been removed:
+`RequirementsDocument`, `DesignDocument`, `PlanStep`, `PlanDocument`, `StageReport`,
+`StageState`, and `DOCUMENTS`. External Python callers using those old paths must
+update their imports. This does not change the CLI, prompt text, schema fields,
+or persisted run data. The adapter now references the `stage_contracts` module
+explicitly instead of exposing the schemas through its own imports.
+
+`DOCUMENT_INSTRUCTIONS` is also no longer re-exported by the adapter; its canonical
+location is `ai_pipeline.prompts`.
 
 ## Validate a change
 

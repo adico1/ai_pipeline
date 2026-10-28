@@ -23,7 +23,9 @@ trials requires separate checkouts at the recorded baseline commits.
 Start with `Factory.advance()` in `ai_pipeline/engine.py` for the lifecycle.
 Agent instructions live in `ai_pipeline/prompts.py`; structured deliverables live
 in `ai_pipeline/stage_contracts.py`. See the [code-reading guide](docs/code-guide.md)
-for the stage flow, module responsibilities and evidence rules.
+for the stage flow, module responsibilities and evidence rules. Python callers
+should import schemas from `ai_pipeline.stage_contracts`; the old adapter
+re-exports were removed. See the guide’s schema import migration section.
 
 ## Run locally
 

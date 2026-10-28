@@ -113,7 +113,7 @@ class CrewAITests(unittest.TestCase):
 
     def test_bug_report_does_not_satisfy_design_or_plan_schema(self):
         from pydantic import ValidationError
-        from ai_pipeline.crewai_adapter import DesignDocument, PlanDocument
+        from ai_pipeline.stage_contracts import DesignDocument, PlanDocument
         for schema in (DesignDocument, PlanDocument):
             with self.subTest(schema=schema.__name__), self.assertRaises(ValidationError):
                 schema.model_validate({"summary": "Current implementation is broken", "next_actions": ["Fix code"]})
