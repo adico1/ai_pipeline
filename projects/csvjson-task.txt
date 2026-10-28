@@ -1,0 +1,8 @@
+Add an optional --delimiter CHARACTER argument to csvjson.py.
+Default remains comma, with existing successful output bytes and error behavior unchanged.
+Accept a single printable ASCII punctuation character, excluding the double quote, as the delimiter. Reject empty strings, multiple characters, letters, digits, whitespace, control characters, double quotes and non-ASCII characters with exit code 2, a clear stderr message, and no stdout.
+Support semicolon and pipe-separated inputs from stdin and UTF-8 files. Accept the option before or after the positional file argument.
+Preserve csv quoting, escaped double quotes, quoted multiline fields, Unicode values, string values, empty input/header-only behavior, unique nonblank headers and strict field counts.
+Retain the existing positional file argument and use only the standard library. No auto-detection, type inference, pretty-printing or other features.
+Deliver a local ZIP plus SHA-256 manifest, install in a separate local artifact directory, and run independent acceptance checks against both candidate and installed copies.
+Completion requires baseline tests and new independent acceptance checks passing, with no manual code repair. Retain the factory's existing approval gates. Do not publish a release or start a network service.
