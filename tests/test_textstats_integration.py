@@ -65,6 +65,13 @@ class TextstatsTests(unittest.TestCase):
         self.source.write_text(SOURCE + "\nexec('print(1)')\n")
         self.assertEqual(self.stage("security")["status"], "failed")
 
+    def test_security_failure_identifies_import_and_allowed_alternatives(self):
+        self.source.write_text("import re\n" + SOURCE)
+        result = self.stage("security")
+        self.assertEqual(result["status"], "failed")
+        self.assertIn("'re'", result["findings"][0])
+        self.assertIn("allowed imports:", result["findings"][0])
+
 
 if __name__ == "__main__":
     unittest.main()

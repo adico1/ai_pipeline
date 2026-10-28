@@ -42,8 +42,9 @@ def execute(context):
         allowed = {"argparse", "json", "pathlib", "sys"}
         for node in ast.walk(tree):
             imports = [a.name.split('.')[0] for a in node.names] if isinstance(node, ast.Import) else [node.module] if isinstance(node, ast.ImportFrom) else []
-            if any(name not in allowed for name in imports):
-                violations.append(f"Unapproved import at line {node.lineno}")
+            for name in imports:
+                if name not in allowed:
+                    violations.append(f"Unapproved import {name!r} at line {node.lineno}; allowed imports: {', '.join(sorted(allowed))}. Remove the import or implement the behavior without it.")
             if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in {"eval", "exec", "compile", "__import__"}:
                 violations.append(f"Dynamic code execution at line {node.lineno}")
         return {"status": "failed" if violations else "passed", "summary": "Limited static import/dynamic-execution policy check; not a comprehensive security audit.", "findings": violations}

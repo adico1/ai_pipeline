@@ -71,7 +71,11 @@ Once your factory `.env` has a model and matching key, use `uv run ai-pipeline l
 
 Requirements also produce `requirements.json` with objective, scope, measurable acceptance criteria, constraints, and open questions. Requirements/design/plan reviewers evaluate documents without source-code tools. Only successful upstream stages are carried forward as accepted context; failed attempts remain in the audit history. Implementation separately receives the latest failure as repair feedback. This prevents a retry from treating an earlier mistaken implementation judgment as a requirement to finish coding before planning.
 
+Design and planning similarly produce validated `design.json` and `plan.json`. Design records the approach, interfaces, data flow, decisions/tradeoffs, edge cases, and verification strategy. Planning records ordered actions with targets and completion criteria, verification steps, and risks. The full documents are passed to downstream agents; a list of bugs alone cannot satisfy these document contracts.
+
 Only the implementation specialist receives a file-write tool. Other specialists and all reviewers receive source read/list tools. Tools reject path traversal, symlinks, and sensitive paths and cap file size. Agents have no shell or deployment tool. The implementation can write any source language; project commands compile, test, and deliver it. These restrictions do not constitute an OS sandbox.
+
+Implementation agents and their reviewers also have `check_current_candidate`, a no-argument tool that runs only the operator-configured verify/security commands against the current candidate. Each call saves its own reports under the implementation attempt. The model cannot choose arbitrary commands. These checks provide repair feedback; the independent verify/security stages still rerun afterward and remain the release gates.
 
 The durable ledger, repair loop, and human approval gates remain outside CrewAI. Each agent stage uses a fresh Flow; lifecycle resume uses the factory ledger. Crew memory, caching, telemetry, and tracing are disabled by default. Live model calls send the task, prior reports, and selected source to your configured provider. Limits are 12 agent iterations, one agent retry, and the outer stage timeout; monetary budgets are not implemented.
 

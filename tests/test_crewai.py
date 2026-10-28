@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 import tempfile
+import sys
 import unittest
 from unittest.mock import patch
 
@@ -10,7 +11,7 @@ os.environ["CREWAI_TELEMETRY_OPT_OUT"] = "true"
 os.environ["CREWAI_TRACING_ENABLED"] = "false"
 
 from crewai import BaseLLM
-from ai_pipeline.crewai_adapter import SDLCStageFlow, build_crew, safe_path, stage_inputs, workspace_tools
+from ai_pipeline.crewai_adapter import SDLCStageFlow, build_crew, run_candidate_checks, safe_path, stage_inputs, workspace_tools
 from ai_pipeline.cli import demo_config
 from ai_pipeline.engine import Factory, FactoryError, load_config, write_json
 
@@ -27,7 +28,12 @@ class LocalTestLLM(BaseLLM):
         return 'Final Answer: ' + json.dumps({"status": "blocked" if self.blocked else "passed",
             "summary": "Local integration-test deliverable", "findings": ["Acceptance criteria recorded"], "next_actions": [],
             "objective": "Correct addition", "scope": ["Integer inputs"],
-            "acceptance_criteria": ["2 + 3 returns 5"], "constraints": ["Preserve API"], "open_questions": []})
+            "acceptance_criteria": ["2 + 3 returns 5"], "constraints": ["Preserve API"], "open_questions": [],
+            "approach": "Use integer addition", "interfaces": ["Preserve add(a, b)"],
+            "data_flow": ["Inputs to addition to return value"], "decisions_and_tradeoffs": ["Use the built-in operator, no dependencies"],
+            "edge_cases": ["Negative and zero inputs"], "verification_strategy": ["Run independent addition cases"],
+            "ordered_steps": [{"action": "Replace subtraction with addition", "target": "calculator.py", "done_when": "Function uses the addition operator"}],
+            "verification_steps": ["Run independent addition cases"], "risks_and_mitigations": ["Preserve the existing signature"]})
 
     def supports_function_calling(self):
         return False
@@ -78,6 +84,25 @@ class CrewAITests(unittest.TestCase):
             result = SDLCStageFlow().kickoff(inputs={"context": self.context})
         self.assertEqual(result["status"], "failed")
 
+    def test_design_and_plan_documents_survive_stage_handoff(self):
+        for stage, field in (("design", "decisions_and_tradeoffs"), ("plan", "ordered_steps")):
+            with self.subTest(stage=stage), patch("ai_pipeline.crewai_adapter.build_crew", side_effect=lambda context: build_crew(context, llm=LocalTestLLM())):
+                result = SDLCStageFlow(tracing=False).kickoff(inputs={"context": {**self.context, "stage": stage}})
+                self.assertEqual(result["status"], "passed")
+                document = json.loads((self.output / f"{stage}.json").read_text())
+                self.assertTrue(document[field])
+                self.assertEqual(result["deliverable"], document)
+                upstream = {"stage": stage, "status": "passed", "result": result}
+                downstream = stage_inputs({**self.context, "stage": "implement", "history": [upstream]})
+                self.assertEqual(downstream["completed_upstream_stages"][0]["result"]["deliverable"], document)
+
+    def test_bug_report_does_not_satisfy_design_or_plan_schema(self):
+        from pydantic import ValidationError
+        from ai_pipeline.crewai_adapter import DesignDocument, PlanDocument
+        for schema in (DesignDocument, PlanDocument):
+            with self.subTest(schema=schema.__name__), self.assertRaises(ValidationError):
+                schema.model_validate({"summary": "Current implementation is broken", "next_actions": ["Fix code"]})
+
     def test_only_implementation_can_write(self):
         for stage in ("requirements", "implement", "review"):
             crew = build_crew({**self.context, "stage": stage}, llm=LocalTestLLM())
@@ -97,6 +122,35 @@ class CrewAITests(unittest.TestCase):
             build_crew({**self.context, "crewai": {"model": "config-model", "review_model": "config-review"}})
             self.assertEqual([call.kwargs["model"] for call in model.call_args_list],
                              ["config-model", "config-review"])
+
+    def test_candidate_check_tool_observes_current_files_not_previous_failures(self):
+        checker = self.root / "checker.py"
+        checker.write_text("import os,json\nfrom pathlib import Path\nok = Path('candidate.txt').read_text() == 'fixed'\nPath(os.environ['FACTORY_OUTPUT'],'result.json').write_text(json.dumps({'status':'passed' if ok else 'failed','summary':'current file checked'}))\nraise SystemExit(0 if ok else 1)\n")
+        context = {**self.context, "checks": {name: {"command": [sys.executable, str(checker)]} for name in ("verify", "security")}}
+        candidate = self.workspace / "candidate.txt"
+        candidate.write_text("broken")
+        first = json.loads(run_candidate_checks(context))
+        self.assertTrue(all(check["status"] == "failed" for check in first["checks"]))
+        candidate.write_text("fixed")
+        second = json.loads(run_candidate_checks(context))
+        self.assertTrue(all(check["status"] == "passed" for check in second["checks"]))
+        self.assertEqual(len(list((self.output / "candidate-checks").iterdir())), 4)
+
+    def test_candidate_check_missing_results_fail_closed(self):
+        context = {**self.context, "checks": {name: {"command": [sys.executable, "-c", "pass"]} for name in ("verify", "security")}}
+        self.assertTrue(all(check["status"] == "failed" for check in json.loads(run_candidate_checks(context))["checks"]))
+
+    def test_candidate_check_tool_has_no_model_command_parameters(self):
+        crew = build_crew({**self.context, "stage": "implement"}, llm=LocalTestLLM())
+        for agent in crew.agents:
+            tool = next(tool for tool in agent.tools if tool.name == "check_current_candidate")
+            self.assertEqual(tool.args_schema.model_fields, {})
+
+    def test_reviewer_does_not_receive_historical_failure_verdict(self):
+        failed = {"stage": "implement", "status": "failed", "result": {"summary": "HISTORICAL_POLICY_FAILURE"}}
+        crew = build_crew({**self.context, "stage": "implement", "previous_attempt": failed}, llm=LocalTestLLM())
+        self.assertIn("HISTORICAL_POLICY_FAILURE", crew.tasks[0].description)
+        self.assertNotIn("HISTORICAL_POLICY_FAILURE", crew.tasks[1].description)
 
     def test_tools_write_and_read_candidate(self):
         tools = {t.name: t for t in workspace_tools(self.workspace, writable=True)}

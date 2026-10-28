@@ -216,6 +216,8 @@ class Factory:
                    "history": [{"stage": a["stage"], "status": a["status"], "result": a["result"],
                                 "artifact_directory": a["artifact_directory"]} for a in state["attempts"]],
                    "crewai": spec.get("crewai", {})}
+        config = json.loads((directory / "config.json").read_text())
+        context["checks"] = {stage: config["stages"][stage] for stage in ("verify", "security")}
         write_json(artifact / "context.json", context)
         env = {**os.environ, "FACTORY_CONTEXT": str(artifact / "context.json"),
                "FACTORY_OUTPUT": str(artifact), "PYTHONDONTWRITEBYTECODE": "1",
