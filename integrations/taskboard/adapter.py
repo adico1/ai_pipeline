@@ -11,7 +11,7 @@ import tempfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from ai_pipeline.project_bundle import build_bundle, install_bundle, source_files
-from checks import verify
+from taskboard_checks import verify
 
 INCLUDES = ['taskboard', 'tests', 'README.md', 'pyproject.toml', '.gitignore']
 

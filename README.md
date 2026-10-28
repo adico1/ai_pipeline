@@ -805,3 +805,8 @@ passed 91 tests (88 in the main batch and 3 new integration tests).
 
 [Completed greenfield evidence](reports/taskboard-blank-20261028.json) and
 [earlier planning failure](reports/taskboard-blank-initial-20261028.json).
+
+Post-trial CI caught an import-name collision between Taskboard and Textstats test
+adapters when running together. Taskboard's sensor was renamed to
+`taskboard_checks.py`; all 91 factory tests then passed in one combined local run.
+The generated application and its acceptance behavior were unchanged.

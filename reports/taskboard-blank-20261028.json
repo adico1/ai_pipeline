@@ -77,5 +77,11 @@
     "generated_tests_passed": 6,
     "added_operator_file": "provenance.json",
     "validation_note": "The first promotion unittest invocation used the factory working directory and could not import taskboard; rerunning from the documented project root passed all six tests without source changes. Independent CLI checks also passed from unrelated temporary directories."
+  },
+  "post_trial_factory_validation": {
+    "combined_tests_passed": 91,
+    "initial_ci_failure": "Taskboard and Textstats imported colliding checks modules when the suites ran together.",
+    "fix": "Renamed the Taskboard sensor to taskboard_checks; generated application and acceptance behavior unchanged.",
+    "failed_ci_url": "https://github.com/adico1/ai_pipeline/actions/runs/40758248721"
   }
 }
