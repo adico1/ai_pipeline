@@ -1,0 +1,9 @@
+{
+  "run_id": "a7760439fc9f",
+  "status": "failed",
+  "stage": "plan",
+  "source_files_created": 0,
+  "baseline_was_empty": true,
+  "reason": "The planning stage exhausted document revisions without an accepted plan; no source was implemented.",
+  "action": "Preserve failure and use the existing implementation model for planning and final review in a new blank run; requirements and external acceptance contract unchanged."
+}
