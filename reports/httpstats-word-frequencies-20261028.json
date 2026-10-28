@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-28",
+  "run_id": "d6a512cbd7e3",
+  "status": "completed",
+  "factory_commit": "6a9bc7967c762e6459d76bbd2735dfc1aedd8a40",
+  "baseline_commit": "a299ec9bbef4c0fff8bc45121a8232dcc8d31834",
+  "configuration": "projects/httpstats-word-frequencies.json",
+  "task": "projects/httpstats-word-frequencies-task.txt",
+  "frozen_inputs_verified": true,
+  "stages_completed": 11,
+  "factory_tests_passed": 74,
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "engine_repairs": 0,
+  "approval_gates_reviewed": 3,
+  "active_seconds": 161.77,
+  "elapsed_seconds": 221.742,
+  "models": {
+    "implementation_writer": "openai/gpt-4.1-2025-04-14",
+    "reviewer_and_other_stages": "openai/gpt-4o-mini"
+  },
+  "results": {
+    "verify": {
+      "scenarios_passed": 63,
+      "baseline_scenarios_passed": 44
+    },
+    "observe": {
+      "scenarios_passed": 63,
+      "baseline_scenarios_passed": 44
+    }
+  },
+  "reported_usage": {
+    "total_tokens": 149145,
+    "prompt_tokens": 138893,
+    "cached_prompt_tokens": 0,
+    "completion_tokens": 10252,
+    "successful_requests": 29
+  },
+  "limitations": [
+    "One bounded ongoing-development trial, not proof of reliability for arbitrary projects.",
+    "Deployment is a separate local directory with temporary loopback processes, not a hosted service.",
+    "Static import policy is not a comprehensive security audit.",
+    "Usage is framework-reported, not billed cost."
+  ],
+  "source_sha256": "522701c67a0cab5633679d4bfd0727ddb8a50c4bc42c68e9c9155b186a85adea",
+  "installed_script": "/Users/adicohen/work/ai_pipeline/.factory/d6a512cbd7e3/artifacts/009-deploy-a2f0702f/installed/server.py",
+  "promotion": {
+    "repository": "https://github.com/adico1/httpstats-third-run",
+    "commit": "2da1271c86c789a48ea2634025ccb712f9982c93",
+    "source_copied_unchanged": true,
+    "promoted_http_scenarios_passed": 63
+  }
+}

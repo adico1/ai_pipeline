@@ -8,7 +8,7 @@ A local, project-adaptable SDLC factory using **CrewAI** for agent work and a du
 
 - [Textstats](https://github.com/adico1/ai_pipeline_first_run): verified word-counting fix.
 - [CSVJSON](https://github.com/adico1/csvjson-second-run): promoted delimiter feature, with regression tests.
-- [HTTPStats](https://github.com/adico1/httpstats-third-run): promoted `POST /analyze`, with 44 real HTTP regression scenarios and source provenance.
+- [HTTPStats](https://github.com/adico1/httpstats-third-run): promoted `POST /analyze` with opt-in word frequencies and 63 real HTTP regression scenarios and source provenance.
 
 HTTPStats was promoted byte-for-byte from run `dfd4d8e1e18d` in commit `a299ec9`;
 all 44 scenarios passed in its normal checkout. CSVJSON's 12 repository tests also
@@ -649,7 +649,7 @@ Inspired by [Building an agentic software factory? Start with the sensor](https:
 
 ### Ongoing HTTPStats development: optional word frequencies
 
-The next bounded feature starts from the published HTTPStats analyze implementation.
+This bounded feature starts from the published HTTPStats analyze implementation.
 `projects/httpstats-word-frequencies-task.txt` defines a strict opt-in boolean:
 existing responses remain unchanged; enabled requests also return case-sensitive
 counts of whitespace-delimited tokens. No dependencies or new routes are needed.
@@ -664,3 +664,15 @@ uv run ai-pipeline status RUN_ID
 At each approval gate, inspect its artifacts and approve with an actor and a
 specific evidence note, then advance again. The CrewAI team owns candidate
 implementation; the operator owns acceptance checks and evidence review.
+
+Run **`d6a512cbd7e3` completed all 11 stages**, starting from published target
+commit `a299ec9`. Candidate and installed-copy verification each passed 63/63
+scenarios, including all 44 existing scenarios. There were zero operator retries,
+manual candidate edits, or engine repair cycles. Codex reviewed three gates;
+CrewAI wrote the feature and usage example. The exact verified source was promoted
+to HTTPStats commit `2da1271` and its packaged 63-case regression suite passed.
+The factory suite passed 74 tests. Active execution took 161.77 seconds; total
+elapsed time was 221.742 seconds. CrewAI reported 149,145 tokens across 29 requests.
+This was local deployment, with temporary services stopped after observation.
+
+[Machine-readable evidence](reports/httpstats-word-frequencies-20261028.json).
