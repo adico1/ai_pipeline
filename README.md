@@ -35,6 +35,27 @@ uv run python -m unittest discover -s tests -v
 
 Use `--state-dir /absolute/path` before the subcommand to keep runs elsewhere. Different run IDs can execute concurrently in separate processes; each individual run has an exclusive lock. There is no background worker or fleet scheduler yet.
 
+## Automated tests
+
+The `Tests` GitHub Actions workflow runs on pushes, pull requests, and manual
+workflow dispatch. It uses Ubuntu, the Python version in `.python-version`, uv
+0.13.0, and `uv sync --locked`. The suite uses scripted local models and simulated
+or temporary local delivery; it needs no provider API keys and makes no paid model
+calls. Telemetry is disabled. The workflow has read-only repository permissions
+and a 15-minute job timeout.
+
+To reproduce a failure locally:
+
+```sh
+uv sync --locked
+uv run --locked python -m unittest discover -s tests -v
+```
+
+On GitHub, open **Actions → Tests → the failed run → Python 3.13 tests** and inspect
+the first failing step. Dependency-install failures are separate from test failures.
+The local macOS result and the GitHub Linux result validate their respective
+platforms; neither substitutes for a fresh live factory trial.
+
 ## Connect a project
 
 The local `.env` contains empty model/key fields and is excluded from Git. Fill `FACTORY_MODEL` with your provider/model ID and fill that provider's API key. A shareable, key-free template is tracked as `.env.example`.
