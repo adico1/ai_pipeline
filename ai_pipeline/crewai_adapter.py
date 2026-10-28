@@ -256,6 +256,9 @@ def build_crew(context, llm=None):
         instruction += " First call check_current_candidate to obtain CURRENT failures and policy details. Inspect the current source. During repairs, prioritize these concrete failures over earlier design suggestions. Preserve working corrections. A prior design choice is not permission to violate project policy. After source edits, call check_current_candidate again and address remaining failures before finishing. Do not package or deploy. If the current candidate already passes both checks, preserve it instead of reimplementing the old design."
     if document_type:
         instruction += " Existing bugs explain why the task exists. An unfixed implementation is expected at this stage; produce the document instead of a bug report or implementation audit. Keep the document proportional to the requested change."
+        instruction += " Make concrete decisions, including the exact existing API or algorithm to use and expected behavior for each edge case. Preserve each acceptance criterion independently; do not conflate empty input with nonempty whitespace input. Do not introduce new performance or error-handling requirements. Questions already answered by the task are resolved, not open questions."
+    if revision:
+        instruction += " This is a revision, not a restatement. Read the rejected draft and reviewer findings in the input, then write a materially corrected replacement. Explicitly resolve each in-scope finding in the relevant document field. Do not return the rejected draft unchanged."
     work = Task(description=f"Stage: {stage}. {goal}\n{instruction}\nRead relevant source using tools as background.\nInput data:\n{evidence}",
                 expected_output=f"A complete {stage} document containing: {', '.join(document_type.model_fields)}."
                     if document_type else "Detailed stage deliverable, actual changed paths if any, evidence used, open questions and follow-up actions.",
@@ -265,6 +268,7 @@ def build_crew(context, llm=None):
                   "For requirements, design, and plan, evaluate the document's completeness and clarity, not whether the implementation is already fixed. "
                   "Existing bugs are expected input to these stages and are not a reason to block a complete document. "
                   "Do not require work belonging to later stages before passing the current stage. "
+                  "Scale completeness to the requested change: a small function fix needs a precise algorithm, preserved interfaces, edge-case behavior and verification approach, not diagrams or a new system architecture. Do not invent requirements for visualizations, performance, or new error handling. Block concrete contradictions or missing decisions, not stylistic preferences or optional elaboration. "
                   "Implementation passing means ready for external verification, never proof of correctness. "
                   "Repair feedback describes a PREVIOUS source version. Check whether the reported issue still exists in CURRENT source. "
                   "The original task and README may describe the pre-change bug. When current_changed_source is provided, ground source claims in that actual current text, not in historical descriptions. "
