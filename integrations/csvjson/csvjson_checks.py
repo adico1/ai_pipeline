@@ -54,4 +54,12 @@ def verify(script):
                   [{'a': '1', 'b': '2'}], delimiter, modes=('stdin',))
         for delimiter in ('', ';;', 'a', 'Z', '0', ' ', '\t', '\n', '\r', '\x01', '\x7f', '"', 'é', '；'):
             check('invalid-delimiter', 'a,b\n1,2\n', delimiter=delimiter, error=True)
+        # Empty input avoids accidentally rejecting malformed CSV instead of the
+        # invalid option. Cover every representable ASCII character outside the
+        # allowed set, not just a handful of examples the candidate could memorize.
+        allowed = set(string.punctuation) - {'"'}
+        invalid = [chr(code) for code in range(1, 128) if chr(code) not in allowed]
+        invalid += ['', ';;', 'é', '；', 'Ω', '中', '😀', '\u00a0', '\u2003']
+        for delimiter in invalid:
+            check('invalid-delimiter-empty-input', '', delimiter=delimiter, error=True, modes=('stdin',))
     return results

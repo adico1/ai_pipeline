@@ -55,3 +55,19 @@ class CSVJSONTests(unittest.TestCase):
         (self.root / 'deploy/installed/csvjson.py').write_text('print([])')
         with self.assertRaisesRegex(ValueError, 'differs from deployment receipt'):
             self.stage('observe')
+
+    def test_checks_detect_hardcoded_invalid_delimiter_examples(self):
+        self.source.write_text('''import argparse
+import sys
+p = argparse.ArgumentParser()
+p.add_argument('--delimiter', default=',')
+p.add_argument('file', nargs='?')
+a = p.parse_args()
+if len(a.delimiter) != 1 or not a.delimiter.isprintable() or a.delimiter in ['"', ' ', 'Z', '0', 'é', '；']:
+    print('invalid delimiter', file=sys.stderr)
+    raise SystemExit(2)
+print('[]')
+''')
+        cases = adapter.verify(self.source)
+        failures = {c['delimiter'] for c in cases if c['case'] == 'invalid-delimiter-empty-input' and not c['passed']}
+        self.assertTrue({'a', 'B', '1', 'Ω', '中', '😀'} <= failures)
