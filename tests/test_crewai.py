@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import tempfile
 import sys
+import subprocess
 import unittest
 from unittest.mock import patch
 
@@ -151,6 +152,18 @@ class CrewAITests(unittest.TestCase):
         crew = build_crew({**self.context, "stage": "implement", "previous_attempt": failed}, llm=LocalTestLLM())
         self.assertIn("HISTORICAL_POLICY_FAILURE", crew.tasks[0].description)
         self.assertNotIn("HISTORICAL_POLICY_FAILURE", crew.tasks[1].description)
+
+    def test_review_context_contains_actual_repaired_source(self):
+        subprocess.run(["git", "init", "-q", str(self.workspace)], check=True)
+        source = self.workspace / "app.py"
+        source.write_text('words = text.split(" ")\n')
+        subprocess.run(["git", "-C", str(self.workspace), "add", "app.py"], check=True)
+        subprocess.run(["git", "-C", str(self.workspace), "-c", "user.name=Test", "-c", "user.email=test@example.invalid", "-c", "commit.gpgsign=false", "commit", "-qm", "baseline"], check=True)
+        base = subprocess.check_output(["git", "-C", str(self.workspace), "rev-parse", "HEAD"], text=True).strip()
+        source.write_text('words = text.split()\n')
+        context = {**self.context, "stage": "review", "base_commit": base}
+        snapshot = stage_inputs(context)["current_changed_source"]
+        self.assertEqual(snapshot, [{"path": "app.py", "current_text": 'words = text.split()\n'}])
 
     def test_tools_write_and_read_candidate(self):
         tools = {t.name: t for t in workspace_tools(self.workspace, writable=True)}

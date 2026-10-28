@@ -87,7 +87,35 @@ def stage_inputs(context):
     history = [a for a in context.get("history", []) if a["status"] == "passed" and a["stage"] in upstream]
     previous = context.get("previous_attempt")
     feedback = previous if context["stage"] == "implement" and previous and previous.get("status") == "failed" else None
-    return {"task": context["task"], "completed_upstream_stages": history[-20:], "repair_feedback": feedback}
+    inputs = {"task": context["task"], "completed_upstream_stages": history[-20:], "repair_feedback": feedback}
+    if context["stage"] in {"review", "retrospective"} and context.get("base_commit"):
+        inputs["current_changed_source"] = current_changed_source(context)
+    return inputs
+
+
+def current_changed_source(context):
+    """Capture actual tracked changes so historical bug reports cannot stand in for source."""
+    workspace = Path(context["workspace"]).resolve()
+    result = subprocess.run(["git", "-C", str(workspace), "diff", "--no-ext-diff", "--no-textconv",
+                             "--name-only", "-z", context["base_commit"], "--"],
+                            check=True, capture_output=True, timeout=10)
+    snapshots = []
+    size = 0
+    for relative in result.stdout.decode().split("\0"):
+        if not relative:
+            continue
+        try:
+            path = safe_path(workspace, relative)
+        except ValueError:
+            continue
+        if not path.exists():
+            snapshots.append({"path": relative, "deleted": True})
+            continue
+        size += path.stat().st_size
+        if size > 80000:
+            raise ValueError("Changed source exceeds the bounded review snapshot; reduce the change size")
+        snapshots.append({"path": relative, "current_text": path.read_text()})
+    return snapshots
 
 
 class StageState(BaseModel):
@@ -219,6 +247,8 @@ def build_crew(context, llm=None):
         raise ValueError("Stage context exceeds 120000 characters; reduce task/report size")
     document_type = DOCUMENTS.get(stage)
     instruction = DOCUMENT_INSTRUCTIONS.get(stage, "Produce the complete deliverable for this stage, not a promise to do it later.")
+    if stage in {"review", "retrospective"}:
+        instruction += " The task and README describe the ORIGINAL defect before implementation. Assess current_changed_source, which contains the actual current file text, and completed verification results. Do not report the original defect as still present unless you can cite the exact current expression that causes it. Explicitly distinguish the original behavior from the repaired behavior."
     if stage == "implement":
         instruction += " First call check_current_candidate to obtain CURRENT failures and policy details. Inspect the current source. During repairs, prioritize these concrete failures over earlier design suggestions. Preserve working corrections. A prior design choice is not permission to violate project policy. After source edits, call check_current_candidate again and address remaining failures before finishing. Do not package or deploy. If the current candidate already passes both checks, preserve it instead of reimplementing the old design."
     if document_type:
@@ -234,6 +264,7 @@ def build_crew(context, llm=None):
                   "Do not require work belonging to later stages before passing the current stage. "
                   "Implementation passing means ready for external verification, never proof of correctness. "
                   "Repair feedback describes a PREVIOUS source version. Check whether the reported issue still exists in CURRENT source. "
+                  "The original task and README may describe the pre-change bug. When current_changed_source is provided, ground source claims in that actual current text, not in historical descriptions. "
                   "Block unresolved source defects or policy violations, but do not block merely because the prior test failed or because the subsequent verification stage has not rerun yet. "
                   + ("For this implementation review, call check_current_candidate yourself. Base your verdict on its CURRENT results rather than copied findings from previous attempts. " if stage == "implement" else "") +
                   "Preserve important requirements, design decisions and plan details in findings so later stages can use them.\n"
