@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-28",
+  "run_id": "e20e5202da3a",
+  "status": "completed",
+  "factory_commit": "ac23c1ea5d4f6a164810e48daa99171fe99478ef",
+  "baseline_commit": "f0120f3ca402880c6be27751a3bea0e3f47b204e",
+  "configuration": "projects/httpstats-history.json",
+  "task": "projects/httpstats-history-task.txt",
+  "frozen_inputs_verified": true,
+  "factory_tests_passed": 82,
+  "stages_completed": 11,
+  "attempts": 12,
+  "failed_attempts": 1,
+  "manual_candidate_edits": 0,
+  "operator_retries": 1,
+  "engine_repairs": 0,
+  "operator_directed_crewai_recoveries": 2,
+  "unattended_success": false,
+  "approval_gates_reviewed": 3,
+  "results": {
+    "verify": {
+      "total_passed": 122,
+      "baseline_scenarios_passed": 89,
+      "history_http_checks_passed": 30,
+      "documentation_checks_passed": 3
+    },
+    "observe": {
+      "total_passed": 122,
+      "baseline_scenarios_passed": 89,
+      "history_http_checks_passed": 30,
+      "documentation_checks_passed": 3
+    }
+  },
+  "interventions": [
+    {
+      "type": "operator-focused CrewAI implementation recovery",
+      "exit_code": 1,
+      "error": null,
+      "duration_seconds": 123.272,
+      "source_before": "c5b7fb05735f444204b17ddf876152dd820bd9e271a1aa44d525c4c5b7a4fb8d",
+      "source_after": "15216b948ea809ae275b01a2d4388c3b2864d712d5c7bdd95c9ce8a836eb9c22",
+      "manual_candidate_edits": 0,
+      "reason": "Initial writer made no edits and failed handoff twice; narrower context and explicit missing-feature feedback, unchanged acceptance contract."
+    },
+    {
+      "type": "operator-focused CrewAI implementation recovery",
+      "exit_code": 0,
+      "error": null,
+      "duration_seconds": 162.645,
+      "source_before": "15216b948ea809ae275b01a2d4388c3b2864d712d5c7bdd95c9ce8a836eb9c22",
+      "source_after": "ddd63c199c6cc9ad3e2905393f85a7c775cfaf9a8130de876931b112fd81fb87",
+      "manual_candidate_edits": 0,
+      "reason": "Recovery implemented feature but overflow ID disconnects; targeted integer-domain, database-ignore and README-count corrections requested."
+    }
+  ],
+  "factory_active_seconds": 203.09,
+  "supplemental_recovery_seconds": 285.917,
+  "elapsed_seconds": 2149.287,
+  "models": {
+    "implementation_writer": "openai/gpt-4.1-2025-04-14",
+    "reviewer_and_other_stages": "openai/gpt-4o-mini"
+  },
+  "reported_usage_available_totals": {
+    "total_tokens": 297870,
+    "prompt_tokens": 271961,
+    "cached_prompt_tokens": 0,
+    "completion_tokens": 25909,
+    "successful_requests": 35
+  },
+  "usage_missing_artifacts": [
+    "004-implement-ee67505f",
+    "operator-focused-implementation"
+  ],
+  "limitations": [
+    "Assisted success: initial writer made no edits; first focused recovery implemented history but failed oversized-ID handling; targeted CrewAI repair passed before one factory retry.",
+    "Source-only local installation; no hosted deployment, accounts, listing, deletion or production hardening.",
+    "Static import/dynamic-execution policy is not a comprehensive security audit.",
+    "Factory-reported usage is incomplete for stopped crews and is not billed cost.",
+    "Codex corrected stale README test-count and provenance wording and extended database sidecar exclusions during regression-suite packaging; generated server.py remained byte-for-byte unchanged."
+  ],
+  "source_sha256": "916bf14ec487827e62c99138eef9006b5dbea52abcd4d525eb340f908c863f84",
+  "installed_script": "/Users/adicohen/work/ai_pipeline/.factory/e20e5202da3a/artifacts/010-deploy-ba8c47cd/installed/server.py",
+  "promotion": {
+    "repository": "https://github.com/adico1/httpstats-third-run",
+    "commit": "308c65f4f1ef4d035b42e23cfb7a3d2bc4fb8a0d",
+    "source_copied_unchanged": true,
+    "standalone_checks_passed": 122,
+    "sqlite_database_and_sidecars_ignored": true,
+    "packaging_edits": [
+      "Expanded standalone regression suite",
+      "Corrected README test count and historical provenance wording",
+      "Added current provenance",
+      "Extended SQLite sidecar exclusions"
+    ]
+  }
+}

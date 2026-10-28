@@ -8,7 +8,7 @@ A local, project-adaptable SDLC factory using **CrewAI** for agent work and a du
 
 - [Textstats](https://github.com/adico1/ai_pipeline_first_run): verified word-counting fix.
 - [CSVJSON](https://github.com/adico1/csvjson-second-run): promoted delimiter feature, with regression tests.
-- [HTTPStats](https://github.com/adico1/httpstats-third-run): promoted `POST /analyze` with opt-in word frequencies, UTF-8 byte counts, and 89 real HTTP regression scenarios and source provenance.
+- [HTTPStats](https://github.com/adico1/httpstats-third-run): promoted `POST /analyze` with opt-in word frequencies, UTF-8 byte counts, SQLite saved history, and 122 acceptance checks and source provenance.
 
 HTTPStats was promoted byte-for-byte from run `dfd4d8e1e18d` in commit `a299ec9`;
 all 44 scenarios passed in its normal checkout. CSVJSON's 12 repository tests also
@@ -730,3 +730,21 @@ uv run ai-pipeline status RUN_ID
 Review requirements, verified source and release evidence at the approval gates.
 CrewAI writes the candidate; acceptance sensors and test-only reference fixtures
 are operator-owned and are never copied into candidate implementation.
+
+Run **`e20e5202da3a` completed all 11 stages** from published target `f0120f3`.
+Candidate and installed-copy verification each passed 122/122 checks: 89 prior
+regressions, 30 history/API checks, and 3 documentation checks. The factory suite
+passed 82 tests. The exact verified server.py was promoted as target commit
+`308c65f`; its standalone 122-check suite also passed. SQLite data and sidecars
+are excluded from Git, and the release archive contains only server.py.
+
+This was an **assisted success**: the initial writer made no edits and was stopped
+by the handoff guardrail. A focused CrewAI recovery implemented the feature but
+failed oversized-ID handling; a second targeted recovery repaired it. One factory
+retry then passed normal independent verification and review. Codex reviewed
+three gates and packaged tests, corrected test-count/provenance wording, and
+extended data-file exclusions without rewriting the generated implementation.
+Usage totals are incomplete for the stopped crews and must not be treated as a
+complete token or cost measurement.
+
+[Saved-history trial evidence](reports/httpstats-history-20261028.json).
