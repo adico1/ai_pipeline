@@ -6,7 +6,7 @@ import unittest
 from test_httpstats_integration import INTEGRATION
 from test_httpstats_word_frequencies import frequency_reference
 sys.path.insert(0, str(INTEGRATION))
-from utf8_checks import verify
+from utf8_checks import verify, documentation_findings
 sys.path.pop(0)
 
 
@@ -43,3 +43,14 @@ class UTF8SensorTests(unittest.TestCase):
                               ('if byte_flag:', 'if True:')]:
             with self.subTest(mutation=after):
                 self.assertTrue(any(not c['passed'] for c in self.cases(utf8_reference().replace(before, after))))
+
+
+class UTF8DocumentationTests(unittest.TestCase):
+    def test_missing_or_old_readme_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.assertTrue(documentation_findings(root))
+            (root / 'README.md').write_text('curl /analyze include_word_frequencies')
+            self.assertTrue(documentation_findings(root))
+            (root / 'README.md').write_text('curl /analyze include_utf8_bytes response utf8_bytes')
+            self.assertEqual(documentation_findings(root), [])

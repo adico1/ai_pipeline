@@ -38,9 +38,14 @@ def execute(context, *, word_frequencies=False, utf8_bytes=False):
             from utf8_checks import verify as checker
         scenarios = checker(script)
         (output / "scenarios.json").write_text(json.dumps(scenarios, indent=2, ensure_ascii=False))
+        documentation_errors = []
+        if utf8_bytes:
+            from utf8_checks import documentation_findings
+            documentation_errors = documentation_findings(Path(context["workspace"]))
         passed = sum(r["passed"] for r in scenarios)
-        return {"status": "passed" if passed == len(scenarios) else "failed",
+        return {"status": "passed" if passed == len(scenarios) and not documentation_errors else "failed",
                 "summary": f"{passed}/{len(scenarios)} real HTTP scenarios passed against {stage} target.",
+                "findings": documentation_errors,
                 "baseline_tests_passed": all(r["passed"] for r in scenarios if r["baseline"]),
                 "failed_cases": [r for r in scenarios if not r["passed"]]}
     if stage == "security":

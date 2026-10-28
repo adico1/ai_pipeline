@@ -1,0 +1,10 @@
+{
+  "run_id": "42ffe90fe4c4",
+  "outcome": "release approval withheld",
+  "recorded_factory_status": "awaiting_approval",
+  "reason": "CrewAI review claimed README was updated, but git diff contains only server.py changes. Required documentation is missing.",
+  "http_scenarios_passed": 89,
+  "released": false,
+  "manual_candidate_edits": 0,
+  "action": "Add independent README documentation check and create a new run from the same published baseline. Preserve original artifacts; do not alter recorded state."
+}

@@ -29,3 +29,12 @@ def verify(script):
         check('utf8-unpaired-surrogate', {'text': '\ud800', 'include_utf8_bytes': True})
         check('utf8-still-healthy', {'text': 'ok', 'include_utf8_bytes': True}, {'characters': 2, 'words': 1, 'lines': 1, 'utf8_bytes': 2})
     return results
+
+
+def documentation_findings(workspace):
+    """Require a runnable opt-in example, not just a claim in a crew report."""
+    readme = workspace / 'README.md'
+    text = readme.read_text() if readme.exists() else ''
+    required = ('curl', '/analyze', 'include_utf8_bytes', 'utf8_bytes')
+    missing = [token for token in required if token not in text]
+    return [f'README.md must document the UTF-8 opt-in with a curl example and expected response; missing: {", ".join(missing)}'] if missing else []
