@@ -535,8 +535,7 @@ The third target is `/Users/adicohen/work/httpstats-third-run`, a standard-libra
 Python HTTP service with a working `GET /health` baseline (commit `9fa3c58`).
 The bounded task in `projects/httpstats-task.txt` adds `POST /analyze`. The
 configuration is `projects/httpstats.json`; the implementation writer remains
-GPT-4.1 with GPT-4o-mini review and other AI stages. This setup is not yet a
-successful live-run result.
+GPT-4.1 with GPT-4o-mini review and other AI stages. The first fresh live trial completed successfully; see the result below.
 
 The independent sensor in `integrations/httpstats/` starts a real process on an
 ephemeral loopback port, exercises 44 HTTP cases (including three baseline health
@@ -557,6 +556,45 @@ uv run ai-pipeline create --config projects/httpstats.json --task "$(cat project
 # Use the returned ID; review each gate before approving.
 uv run ai-pipeline advance RUN_ID
 ```
+
+## HTTP-service trial result — 2026-10-28
+
+Run `dfd4d8e1e18d` completed all 11 stages from baseline `9fa3c58`, using factory
+commit `8eadee8`. All **68 factory tests passed**, and the [integration CI run](https://github.com/adico1/ai_pipeline/actions/runs/40692697150)
+passed on GitHub. Frozen task, configuration and tracked factory hashes were
+verified unchanged throughout the trial.
+
+- Candidate and separately installed service: **44/44 real HTTP checks each**, including three baseline checks.
+- Zero operator retries, manual candidate edits or engine repair cycles.
+- Three approval gates reviewed by Codex under user authorization.
+- Only `server.py` changed. Source review confirmed the general Unicode counting
+  formulas and request validation; ZIP and installed hashes matched the candidate.
+- Active stage time: 111.908 seconds; elapsed: 151.817 seconds.
+- Framework-reported tokens: 98,309; requests: 22.
+  Usage is not billed cost, and elapsed time includes review waits.
+
+The source baseline remains unchanged. The feature is delivered in the run ZIP
+and installed artifact, not promoted into the baseline or publicly hosted. The
+checker stops each temporary service. This is one local HTTP success, not a
+production or arbitrary-project reliability guarantee. Adversarial HTTP framing,
+request limits and concurrency were out of scope.
+
+[Machine-readable result](reports/httpstats-trial-20261028.json).
+To inspect the run and start the delivered service yourself:
+
+```sh
+cd /Users/adicohen/work/ai_pipeline
+uv run ai-pipeline status dfd4d8e1e18d
+.venv/bin/python .factory/dfd4d8e1e18d/artifacts/009-deploy-c4a1eedd/installed/server.py --port 8000
+```
+
+In another terminal:
+
+```sh
+curl -X POST http://127.0.0.1:8000/analyze -H 'Content-Type: application/json' -d '{"text":"hello world"}'
+```
+
+Expected counts: `characters: 11`, `words: 2`, `lines: 1`. Stop the server with Ctrl-C.
 
 ## Trust boundary and production roadmap
 

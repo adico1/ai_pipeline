@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-28",
+  "run_id": "dfd4d8e1e18d",
+  "status": "completed",
+  "factory_commit": "8eadee8a727bb47fb198cde9e3ae8a6617ef0239",
+  "baseline_commit": "9fa3c5848a526a5db894393f7ea239f16237893a",
+  "configuration": "projects/httpstats.json",
+  "configuration_sha256": "5e1611e62a29fc5692bd5636f042a32686f6f2e9d7a3886f17a807429df4534a",
+  "task_sha256": "cc8a0e072bef3fde3aba3dcfd596d8b9bb81bab132a42a53780b73bfeb90041c",
+  "models": {
+    "implementation_writer": "openai/gpt-4.1-2025-04-14",
+    "reviewer_and_other_stages": "openai/gpt-4o-mini"
+  },
+  "frozen_inputs_verified": true,
+  "stages_completed": 11,
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "engine_repairs": 0,
+  "approval_gates_reviewed": 3,
+  "factory_tests_passed": 68,
+  "results": {
+    "verify": {
+      "scenarios_passed": 44,
+      "baseline_scenarios_passed": 3
+    },
+    "observe": {
+      "scenarios_passed": 44,
+      "baseline_scenarios_passed": 3
+    }
+  },
+  "active_seconds": 111.908,
+  "elapsed_seconds": 151.817,
+  "reported_usage": {
+    "total_tokens": 98309,
+    "prompt_tokens": 92637,
+    "completion_tokens": 5672,
+    "successful_requests": 22
+  },
+  "installed_script": "/Users/adicohen/work/ai_pipeline/.factory/dfd4d8e1e18d/artifacts/009-deploy-c4a1eedd/installed/server.py",
+  "source_sha256": "dfe956e4f489c7007cdfc7bbfaee6da563884450bef2cdb5eb390d795967601f",
+  "baseline_repository_unchanged": true,
+  "integration_ci_url": "https://github.com/adico1/ai_pipeline/actions/runs/40692697150",
+  "limitations": [
+    "One bounded local HTTP service trial, not a general reliability or production-readiness guarantee.",
+    "The 44 scenarios include three preserved baseline scenarios; these are not 44 plus three.",
+    "Codex reviewed the three approval gates under user authorization.",
+    "Temporary loopback services are stopped after checks; no persistent or cloud deployment.",
+    "Normal Content-Length framing only; adversarial framing, request size limits, concurrency and production hardening were not part of this trial.",
+    "Tokens are framework-reported, not billed cost; elapsed time includes review waits.",
+    "Generated source remains in run artifacts; baseline repository was not promoted or published."
+  ]
+}
