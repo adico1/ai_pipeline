@@ -126,7 +126,13 @@ def build_crew(context, llm=None):
         raise ValueError("Stage context exceeds 120000 characters; reduce task/report size")
     work = Task(description=f"Stage: {stage}. {goal}\nRead relevant source using tools. Produce substantive work, not a plan to do this stage later.\nInput data:\n{evidence}",
                 expected_output="Detailed stage deliverable, actual changed paths if any, evidence used, open questions and follow-up actions.", agent=specialist)
-    review = Task(description="Inspect the specialist output and relevant source. Report passed only if this stage's requested deliverable is complete. Otherwise report blocked. Implementation passing means ready for external verification, never proof of correctness. Preserve important requirements, design decisions and plan details in findings so later stages can use them.",
+    review = Task(description=f"You are reviewing the {stage} stage ONLY. Its deliverable is: {goal}\n"
+                  "Inspect the specialist output and relevant source. Report passed only if this stage's requested deliverable is complete. Otherwise report blocked. "
+                  "For requirements, design, and plan, evaluate the document's completeness and clarity, not whether the implementation is already fixed. "
+                  "Existing bugs are expected input to these stages and are not a reason to block a complete document. "
+                  "Do not require work belonging to later stages before passing the current stage. "
+                  "Implementation passing means ready for external verification, never proof of correctness. "
+                  "Preserve important requirements, design decisions and plan details in findings so later stages can use them.",
                   expected_output="A structured stage report with status, summary, findings and next_actions.",
                   agent=reviewer, context=[work], output_pydantic=StageReport)
     return Crew(agents=[specialist, reviewer], tasks=[work, review], process=Process.sequential,
