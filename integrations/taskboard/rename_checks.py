@@ -8,6 +8,48 @@ import tempfile
 from taskboard_checks import invoke, connection_lifecycle
 
 
+class DocumentationError(ValueError):
+    def __init__(self, message, expected, actual):
+        super().__init__(message)
+        self.expected = expected
+        self.actual = actual
+
+
+def rename_examples(root):
+    """Read the exact executable README contract and report actionable differences."""
+    expected = {'path': 'README.md', 'block': 'json taskboard-rename-examples',
+                'block_count': 1, 'example_count': 4,
+                'commands': ['add', 'complete', 'rename', 'list']}
+    actual = {'path': 'README.md', 'block': expected['block']}
+    try:
+        text = (Path(root) / 'README.md').read_text()
+        blocks = re.findall(r'```json taskboard-rename-examples\s*\n(.*?)\n```', text, re.S)
+        actual['block_count'] = len(blocks)
+        if len(blocks) != 1:
+            raise ValueError('Expected exactly one matching fenced block')
+        examples = json.loads(blocks[0])
+        if not isinstance(examples, list):
+            raise ValueError('Block must contain a JSON array')
+        actual['example_count'] = len(examples)
+        actual['commands'] = [
+            item['args'][0] if isinstance(item, dict) and isinstance(item.get('args'), list) and item['args'] else None
+            for item in examples
+        ]
+        if actual['example_count'] != 4 or actual['commands'] != expected['commands']:
+            raise ValueError('Example count or command order differs')
+        return examples
+    except (OSError, ValueError) as exc:
+        actual['error'] = str(exc)
+        actual['required_action'] = (
+            'Edit only the json taskboard-rename-examples block in README.md to contain '
+            'four examples in order add, complete, rename, list on one fresh database. '
+            'Use the same task ID and preserve completed=true after rename. '
+            'Keep the original taskboard-examples block unchanged. Write the correction '
+            'with write_source_file before calling check_current_candidate again.'
+        )
+        raise DocumentationError('Executable rename examples do not match the required README block', expected, actual) from exc
+
+
 def verify_rename(root):
     cases = []
 
@@ -55,18 +97,13 @@ def verify_rename(root):
         check('fresh-remains-empty', ['list'], [], db=fresh)
         check('other-db-unchanged', ['list'], [{**first, 'completed': True}, second, third])
         try:
-            text = (Path(root) / 'README.md').read_text()
-            blocks = re.findall(r'```json taskboard-rename-examples\s*\n(.*?)\n```', text, re.S)
-            if len(blocks) != 1:
-                raise ValueError('README needs exactly one json taskboard-rename-examples block')
-            examples = json.loads(blocks[0])
-            if len(examples) != 4 or [item['args'][0] for item in examples] != ['add', 'complete', 'rename', 'list']:
-                raise ValueError('Four examples required in order: add, complete, rename, list')
+            examples = rename_examples(root)
             docs_db = Path(directory) / 'docs.sqlite3'
             for index, example in enumerate(examples):
                 check(f'documentation-{index}', example['args'], example['stdout'], db=docs_db)
         except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
-            record('documentation', False, 'Executable rename examples in README', str(exc))
+            record('documentation', False, getattr(exc, 'expected', 'Executable rename examples in README'),
+                   getattr(exc, 'actual', str(exc)))
     lifecycle = connection_lifecycle(root, rename=True)
     lifecycle['case'] = 'rename-connection-lifecycle'
     cases.append(lifecycle)

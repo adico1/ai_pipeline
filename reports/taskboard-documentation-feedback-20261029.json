@@ -1,0 +1,43 @@
+{
+  "change": "Actionable executable README feedback for Taskboard rename",
+  "validation": {
+    "factory_tests_passed": 133,
+    "duration_seconds": 101.175,
+    "command": ".venv/bin/python -m unittest discover -s tests",
+    "focused_documentation_tests": 4,
+    "focused_crewai_tests": 27,
+    "diff_check": "passed"
+  },
+  "offline_writer_regression": {
+    "framework": "CrewAI with scripted network-free model",
+    "sequence": [
+      "check_current_candidate",
+      "write_source_file README.md",
+      "check_current_candidate",
+      "handoff"
+    ],
+    "result": "passed",
+    "scope": "Proves diagnostic delivery, source editing and rechecking integration; does not establish live model behavior."
+  },
+  "preserved_failure_replay": {
+    "run_id": "40bc26ebeb3a",
+    "candidate_unchanged": true,
+    "expected_commands": [
+      "add",
+      "complete",
+      "rename",
+      "list"
+    ],
+    "actual_commands": [
+      "add",
+      "add",
+      "complete",
+      "rename",
+      "rename",
+      "list"
+    ]
+  },
+  "no_progress_safeguard": "Unchanged; existing regression tests pass.",
+  "live_trial_started": false,
+  "recommendation": "Run one fresh end-to-end trial with the updated feedback, normal gates, no manual candidate edits and no operator retry. Preserve previous runs."
+}

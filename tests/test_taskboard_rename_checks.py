@@ -72,3 +72,24 @@ class TaskboardRenameChecksTests(unittest.TestCase):
             readme.write_text(readme.read_text().replace('"title": "new"', '"title": "wrong"'))
             cases = {case['case']: case for case in checks.verify_rename(root)}
             self.assertFalse(cases['rename-documentation-2']['passed'])
+
+    def test_documentation_feedback_identifies_exact_block_and_observed_sequence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            readme = root / 'README.md'
+            commands = ['add', 'add', 'complete', 'rename', 'rename', 'list']
+            def write(items):
+                readme.write_text('```json taskboard-rename-examples\n' + json.dumps(items) + '\n```')
+            write([{'args': [command]} for command in commands])
+            with self.assertRaises(checks.DocumentationError) as caught:
+                checks.rename_examples(root)
+            error = caught.exception
+            self.assertEqual(error.expected['commands'], ['add', 'complete', 'rename', 'list'])
+            self.assertEqual(error.actual['commands'], commands)
+            self.assertEqual(error.actual['example_count'], 6)
+            self.assertEqual(error.expected['path'], 'README.md')
+            self.assertIn('write_source_file', error.actual['required_action'])
+            for invalid in ({'not': 'an array'}, [{'args': []}], [None]):
+                write(invalid)
+                with self.assertRaises(checks.DocumentationError):
+                    checks.rename_examples(root)

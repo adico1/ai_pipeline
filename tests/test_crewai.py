@@ -200,6 +200,53 @@ class CrewAITests(unittest.TestCase):
         records = [json.loads(line) for line in (self.output / "implementation-handoff.jsonl").read_text().splitlines()]
         self.assertEqual([record["passed"] for record in records], [False, True])
 
+    def test_writer_corrects_documentation_sequence_before_rechecking(self):
+        integration = Path(__file__).resolve().parents[1] / 'integrations/taskboard'
+        checker = self.root / 'check_docs.py'
+        checker.write_text(
+            "import sys,os,json\nfrom pathlib import Path\n"
+            + f"sys.path.insert(0, {str(integration)!r})\n"
+            + "from rename_checks import rename_examples,DocumentationError\n"
+            + "try:\n rename_examples(Path.cwd())\n result={'status':'passed','summary':'README sequence valid'}\n"
+            + "except DocumentationError as exc:\n result={'status':'failed','summary':str(exc),'failed_cases':[{'case':'rename-documentation','expected':exc.expected,'actual':exc.actual}]}\n"
+            + "Path(os.environ['FACTORY_OUTPUT'],'result.json').write_text(json.dumps(result))\n"
+            + "raise SystemExit(result['status']!='passed')\n"
+        )
+        def document(commands):
+            return 'Existing documentation stays.\n```json taskboard-rename-examples\n' + json.dumps([
+                {'args': [command]} for command in commands]) + '\n```\n'
+        source = self.workspace / 'README.md'
+        source.write_text(document(['add', 'add', 'complete', 'rename', 'rename', 'list']))
+        corrected = document(['add', 'complete', 'rename', 'list'])
+        context = {**self.context, 'stage': 'implement', 'checks': {
+            name: {'command': [sys.executable, str(checker)]} for name in ('verify', 'security')}}
+        test = self
+        class WriterLLM(LocalTestLLM):
+            def call(self, messages, **kwargs):
+                step = self.calls
+                self.calls += 1
+                if step == 0:
+                    return 'Thought: Check docs.\nAction: check_current_candidate\nAction Input: {}'
+                if step == 1:
+                    feedback = json.loads((Path(context['output']) / 'latest-candidate-feedback.json').read_text())
+                    example = feedback['checks'][0]['report']['failure_groups'][0]['example']
+                    test.assertEqual(example['actual']['example_count'], 6)
+                    test.assertEqual(example['expected']['commands'], ['add', 'complete', 'rename', 'list'])
+                    test.assertIn('write_source_file', str(messages))
+                    return 'Thought: Correct the identified block.\nAction: write_source_file\nAction Input: ' + json.dumps({'path': 'README.md', 'content': corrected})
+                if step == 2:
+                    test.assertEqual(source.read_text(), corrected)
+                    return 'Thought: Check corrected docs.\nAction: check_current_candidate\nAction Input: {}'
+                return 'Final Answer: README block corrected and checks pass.'
+        model = WriterLLM()
+        crew = build_crew(context, llm=model)
+        crew.tasks[0].execute_sync(agent=crew.agents[0])
+        self.assertEqual(model.calls, 4)
+        self.assertEqual(source.read_text(), corrected)
+        feedback = json.loads((self.output / 'latest-candidate-feedback.json').read_text())
+        self.assertTrue(all(check['status'] == 'passed' for check in feedback['checks']))
+        self.assertFalse((self.output / 'no-progress.json').exists())
+
     def test_assessment_only_writer_stops_after_one_correction(self):
         context = self.implementation_context()
         model = LocalTestLLM()
