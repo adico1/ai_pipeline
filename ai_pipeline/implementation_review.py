@@ -8,6 +8,7 @@ from typing import Literal
 from pydantic import BaseModel, Field, ValidationError
 
 from ai_pipeline.engine import digest_tree
+from ai_pipeline.evidence_facts import describe_check
 from ai_pipeline.stage_contracts import StageReport
 
 
@@ -29,6 +30,7 @@ class ImplementationReview(StageReport):
     source_digest: str = Field(pattern=r"^[0-9a-f]{64}$")
     blocking_findings: list[BlockingFinding]
     resolved_check_evidence: dict[str, dict] = Field(default_factory=dict)
+    unverified_model_interpretation: dict = Field(default_factory=dict)
 
 
 REVIEW_INSTRUCTIONS = (
@@ -48,6 +50,9 @@ REVIEW_INSTRUCTIONS = (
     "and both current checks must pass. Passing checks do not rule out source "
     "defects: cite the current defective expression and explain the violated "
     "requirement. Do not invent absent behavior from historical baseline failures. "
+    "Your prose, including diagnoses and suggested actions, remains unverified. "
+    "The factory generates authoritative check descriptions from expected/actual "
+    "data; source concerns remain explicitly unverified. "
     "Return one JSON object matching the requested structured report."
 )
 
@@ -132,6 +137,30 @@ class ReviewerEvidence:
                         errors.append(str(exc))
         return errors, locations
 
+    def attach_facts(self, report):
+        """Keep model prose visible without presenting it as measured evidence."""
+        report.unverified_model_interpretation = {
+            "summary": report.summary, "findings": report.findings,
+            "next_actions": report.next_actions,
+            "blocking_findings": [item.model_dump() for item in report.blocking_findings],
+        }
+        for finding in report.blocking_findings:
+            facts = []
+            for citation in finding.citations:
+                if citation.kind == 'check':
+                    facts.append(describe_check(report.resolved_check_evidence[citation.evidence_id]))
+                else:
+                    facts.append(f'Unverified source concern at {citation.path}; quoted passage exists, but the claimed defect requires review.')
+            finding.finding = "\n".join(dict.fromkeys(facts))
+            finding.inferred_cause = None
+        report.findings = [item.finding for item in report.blocking_findings]
+        report.summary = (
+            'Reviewer passed; current verify and security checks passed. Model interpretation is unverified.'
+            if report.status == 'passed' else
+            'Reviewer blocked; see recorded check facts and explicitly unverified source concerns.'
+        )
+        report.next_actions = []
+
     def guardrail(self, output):
         report, locations = None, []
         try:
@@ -145,6 +174,7 @@ class ReviewerEvidence:
                                      "raw_report": output.raw, "source_locations": locations}) + "\n")
         if errors:
             return False, "REVIEW EVIDENCE INVALID: " + json.dumps(errors)
+        self.attach_facts(report)
         output.pydantic = report
         output.raw = report.model_dump_json()
         output.json_dict = None

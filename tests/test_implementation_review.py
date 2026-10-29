@@ -113,6 +113,40 @@ class ImplementationEvidenceTests(unittest.TestCase):
             report = self.blocked({'kind': 'source', 'path': path, 'quote': 'outside = True'})
             self.assertTrue(self.evidence.validate(report)[0])
 
+    def test_known_misinterpretations_are_replaced_by_facts_and_retained_as_unverified(self):
+        examples = [
+            ('rename-complete-after-rename', {'id': 1, 'title': 'trimmed', 'completed': True},
+             {'id': 1, 'title': '  trimmed  ', 'completed': True}, 'Completion state is lost'),
+            ('rename-failed-operations-no-write', [{'id': 1, 'title': 'trimmed'}],
+             [{'id': 1, 'title': '  '}], 'Invalid IDs are accepted'),
+        ]
+        for case, expected, actual, claim in examples:
+            with self.subTest(case=case):
+                payload = {'source_digest': digest_tree(self.workspace), 'checks': [
+                    {'stage': 'verify', 'status': 'failed', 'report': {'failure_groups': [
+                        {'example': {'case': case, 'expected': expected, 'actual': {'exit_code': 0, 'body': actual}}}]}},
+                    {'stage': 'security', 'status': 'passed', 'report': {}},
+                ]}
+                self.evidence.run_checks = lambda context: json.dumps(payload)
+                receipt = json.loads(self.evidence.check())
+                key = next(iter(receipt['check_evidence']))
+                report = self.blocked({'kind': 'check', 'check_stage': 'verify', 'evidence_id': key})
+                report.findings = [claim]
+                report.blocking_findings[0].finding = claim
+                report.summary = claim
+                report.next_actions = ['Repair SQL']
+                output = SimpleNamespace(pydantic=report, raw=report.model_dump_json())
+                valid, output = self.evidence.guardrail(output)
+                self.assertTrue(valid)
+                self.assertIn('/title:', output.pydantic.findings[0])
+                self.assertNotIn('/completed:', output.pydantic.findings[0])
+                self.assertNotIn('/id:', output.pydantic.findings[0])
+                self.assertNotIn(claim, output.pydantic.summary)
+                self.assertEqual(output.pydantic.next_actions, [])
+                self.assertEqual(output.pydantic.unverified_model_interpretation['findings'], [claim])
+                self.assertEqual(output.pydantic.unverified_model_interpretation['next_actions'], ['Repair SQL'])
+                self.assertEqual(output.pydantic.status, 'blocked')
+
     def test_invalid_report_is_retained(self):
         passed, _ = self.evidence.guardrail(SimpleNamespace(pydantic=None, raw='not JSON'))
         self.assertFalse(passed)

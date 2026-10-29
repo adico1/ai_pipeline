@@ -38,3 +38,15 @@ the original evidence to `resolved_check_evidence`, replacing any model-supplied
 contents. IDs are resolved only against this reviewer’s latest receipt. Findings
 must describe observed mismatches. Optional `inferred_cause` requires a current
 source citation. These rules cannot establish semantic correctness by themselves.
+
+Accepted reports now separate check facts from model interpretations. The factory
+renders expected/actual field differences (JSON Pointer paths) from cited evidence;
+unchanged fields are not described as failures. For command-response envelopes,
+structured expected values are compared with the returned `body`. Textual
+expectations and other formats are displayed literally without a diagnosis.
+The complete original evidence remains attached, including exit codes.
+
+All original model prose, diagnoses and suggested repairs are retained under
+`unverified_model_interpretation`. Canonical summaries and findings are generated
+by code; source concerns remain explicitly unverified. This preserves the
+reviewer's verdict and does not bypass checks or establish semantic correctness.

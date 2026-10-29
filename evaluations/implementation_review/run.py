@@ -30,7 +30,7 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     load_environment(ROOT / ".env")
     frozen = {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in (
-        "ai_pipeline/implementation_review.py", "ai_pipeline/crewai_adapter.py",
+        "ai_pipeline/implementation_review.py", "ai_pipeline/evidence_facts.py", "ai_pipeline/crewai_adapter.py",
         "ai_pipeline/prompts.py", "evaluations/implementation_review/run.py",
     )}
     report = {
