@@ -1,0 +1,437 @@
+{
+  "factory_commit": "e2b072c1db142d542382cc2637c286ecbac005fc",
+  "source_run": "661421cdcbae",
+  "source_digest": "130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a",
+  "input_hashes": {
+    "ai_pipeline/implementation_review.py": "495997f49be87d82ece3f844a024c57dba78f037cc9e0d80a854dae514674f76",
+    "ai_pipeline/evidence_facts.py": "5b97ea6254710b8caeb9e14368ad6b3e9612d3f61bce9ed5bab147f7e1b6df47",
+    "ai_pipeline/crewai_adapter.py": "77a88fb87210155a367bf4d68dbc783257ea94a1e1ad21dcd3ae69be702fbb1d",
+    "ai_pipeline/prompts.py": "7c779e4bb7e6a183d2a2d0a1fbff0cb8cf3744caf2d64806f6ead791d9b9180a",
+    "evaluations/implementation_review/run.py": "444407e04bd4dadd822286183d4c01a8ddc906eb2c63d8ccbd255910b832c58a"
+  },
+  "models": {
+    "model": "openai/gpt-4.1-2025-04-14",
+    "review_model": "openai/gpt-4o-mini",
+    "max_iter": 24
+  },
+  "results": [
+    {
+      "variant": "passing",
+      "expected_status": "passed",
+      "preflight": [
+        {
+          "stage": "verify",
+          "status": "passed",
+          "summary": "49/49 project checks passed."
+        },
+        {
+          "stage": "security",
+          "status": "passed",
+          "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit."
+        }
+      ],
+      "review": {
+        "status": "passed",
+        "summary": "Reviewer passed; current verify and security checks passed. Model interpretation is unverified.",
+        "findings": [],
+        "next_actions": [],
+        "source_digest": "130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a",
+        "blocking_findings": [],
+        "resolved_check_evidence": {},
+        "unverified_model_interpretation": {
+          "commentary": "",
+          "source_concerns": []
+        }
+      },
+      "verdict_matches": true,
+      "report_validation": [
+        {
+          "valid": true,
+          "errors": [],
+          "raw_report": "{\n  \"status\": \"passed\",\n  \"evidence_ids\": [],\n  \"source_concerns\": [],\n  \"commentary\": \"\"\n}",
+          "source_locations": []
+        }
+      ],
+      "source_unchanged": true,
+      "reviewer_check_calls": 1
+    },
+    {
+      "variant": "missing_whitespace_trim",
+      "expected_status": "blocked",
+      "preflight": [
+        {
+          "stage": "verify",
+          "status": "failed",
+          "summary": "41/49 project checks passed."
+        },
+        {
+          "stage": "security",
+          "status": "passed",
+          "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit."
+        }
+      ],
+      "review": {
+        "status": "blocked",
+        "summary": "Reviewer blocked; see recorded check facts and explicitly unverified source concerns.",
+        "findings": [
+          "verify check \"generated-tests\": /: expected \"At least 3 generated unittest tests pass\"; observed \"test_persistence_across_runs (test_taskboard.TestPersistence.test_persistence_across_runs) ... ok\\ntest_rename_invalid_inputs_and_no_write (test_taskboard.TestRenameFeature.test_rename_invalid_inputs_and_no_write) ... FAIL\\ntest_rename_preserves_completed_state (test_taskboard.TestRenameFeature.test_rename_preserves_completed_state) ... ok\\ntest_rename_preserves_internal_whitespace (test_taskboard.Te\"",
+          "verify check \"rename-trim\": /title: expected \"updated title\"; observed \"  updated title  \"",
+          "verify check \"rename-persisted-across-processes\": /0/title: expected \"updated title\"; observed \"  updated title  \"",
+          "verify check \"rename-preserve-internal-whitespace\": /title: expected \"MiXeD\\tinternal\\nspacing\"; observed \"  MiXeD\\tinternal\\nspacing  \"",
+          "verify check \"rename-blank-1\": /: expected \"exit 2 with nonempty JSON error\"; observed {\"exit_code\": 0, \"body\": {\"id\": 1, \"title\": \" \\t\\n\u2003 \", \"completed\": false}}",
+          "verify check \"rename-failed-operations-no-write\": /0/title: expected \"MiXeD\\tinternal\\nspacing\"; observed \" \\t\\n\u2003 \"",
+          "verify check \"rename-complete-after-rename\": /title: expected \"MiXeD\\tinternal\\nspacing\"; observed \" \\t\\n\u2003 \"",
+          "verify check \"rename-other-db-unchanged\": /0/title: expected \"MiXeD\\tinternal\\nspacing\"; observed \" \\t\\n\u2003 \""
+        ],
+        "next_actions": [],
+        "source_digest": "b3bf0704ca5faf675415a7363665cde98d57c46e394d52bef38286137237597f",
+        "blocking_findings": [
+          {
+            "finding": "verify check \"generated-tests\": /: expected \"At least 3 generated unittest tests pass\"; observed \"test_persistence_across_runs (test_taskboard.TestPersistence.test_persistence_across_runs) ... ok\\ntest_rename_invalid_inputs_and_no_write (test_taskboard.TestRenameFeature.test_rename_invalid_inputs_and_no_write) ... FAIL\\ntest_rename_preserves_completed_state (test_taskboard.TestRenameFeature.test_rename_preserves_completed_state) ... ok\\ntest_rename_preserves_internal_whitespace (test_taskboard.Te\"",
+            "inferred_cause": null,
+            "citations": [
+              {
+                "kind": "check",
+                "quote": null,
+                "evidence_id": "verify:d35fd30de832112d",
+                "path": null,
+                "check_stage": "verify"
+              }
+            ]
+          },
+          {
+            "finding": "verify check \"rename-trim\": /title: expected \"updated title\"; observed \"  updated title  \"",
+            "inferred_cause": null,
+            "citations": [
+              {
+                "kind": "check",
+                "quote": null,
+                "evidence_id": "verify:142b6ae630fc875e",
+                "path": null,
+                "check_stage": "verify"
+              }
+            ]
+          },
+          {
+            "finding": "verify check \"rename-persisted-across-processes\": /0/title: expected \"updated title\"; observed \"  updated title  \"",
+            "inferred_cause": null,
+            "citations": [
+              {
+                "kind": "check",
+                "quote": null,
+                "evidence_id": "verify:ac0825d4274a4638",
+                "path": null,
+                "check_stage": "verify"
+              }
+            ]
+          },
+          {
+            "finding": "verify check \"rename-preserve-internal-whitespace\": /title: expected \"MiXeD\\tinternal\\nspacing\"; observed \"  MiXeD\\tinternal\\nspacing  \"",
+            "inferred_cause": null,
+            "citations": [
+              {
+                "kind": "check",
+                "quote": null,
+                "evidence_id": "verify:291b441eee7e2185",
+                "path": null,
+                "check_stage": "verify"
+              }
+            ]
+          },
+          {
+            "finding": "verify check \"rename-blank-1\": /: expected \"exit 2 with nonempty JSON error\"; observed {\"exit_code\": 0, \"body\": {\"id\": 1, \"title\": \" \\t\\n\u2003 \", \"completed\": false}}",
+            "inferred_cause": null,
+            "citations": [
+              {
+                "kind": "check",
+                "quote": null,
+                "evidence_id": "verify:607f2585ee7f2399",
+                "path": null,
+                "check_stage": "verify"
+              }
+            ]
+          },
+          {
+            "finding": "verify check \"rename-failed-operations-no-write\": /0/title: expected \"MiXeD\\tinternal\\nspacing\"; observed \" \\t\\n\u2003 \"",
+            "inferred_cause": null,
+            "citations": [
+              {
+                "kind": "check",
+                "quote": null,
+                "evidence_id": "verify:103f6358c1797080",
+                "path": null,
+                "check_stage": "verify"
+              }
+            ]
+          },
+          {
+            "finding": "verify check \"rename-complete-after-rename\": /title: expected \"MiXeD\\tinternal\\nspacing\"; observed \" \\t\\n\u2003 \"",
+            "inferred_cause": null,
+            "citations": [
+              {
+                "kind": "check",
+                "quote": null,
+                "evidence_id": "verify:98e4fce6a667577f",
+                "path": null,
+                "check_stage": "verify"
+              }
+            ]
+          },
+          {
+            "finding": "verify check \"rename-other-db-unchanged\": /0/title: expected \"MiXeD\\tinternal\\nspacing\"; observed \" \\t\\n\u2003 \"",
+            "inferred_cause": null,
+            "citations": [
+              {
+                "kind": "check",
+                "quote": null,
+                "evidence_id": "verify:9e1a958dcc2374c9",
+                "path": null,
+                "check_stage": "verify"
+              }
+            ]
+          }
+        ],
+        "resolved_check_evidence": {
+          "verify:d35fd30de832112d": {
+            "stage": "verify",
+            "status": "failed",
+            "detail": {
+              "case": "generated-tests",
+              "baseline": false,
+              "expected": "At least 3 generated unittest tests pass",
+              "actual": "test_persistence_across_runs (test_taskboard.TestPersistence.test_persistence_across_runs) ... ok\ntest_rename_invalid_inputs_and_no_write (test_taskboard.TestRenameFeature.test_rename_invalid_inputs_and_no_write) ... FAIL\ntest_rename_preserves_completed_state (test_taskboard.TestRenameFeature.test_rename_preserves_completed_state) ... ok\ntest_rename_preserves_internal_whitespace (test_taskboard.Te"
+            }
+          },
+          "verify:142b6ae630fc875e": {
+            "stage": "verify",
+            "status": "failed",
+            "detail": {
+              "case": "rename-trim",
+              "baseline": false,
+              "expected": {
+                "id": 1,
+                "title": "updated title",
+                "completed": false
+              },
+              "actual": {
+                "exit_code": 0,
+                "body": {
+                  "id": 1,
+                  "title": "  updated title  ",
+                  "completed": false
+                }
+              }
+            }
+          },
+          "verify:ac0825d4274a4638": {
+            "stage": "verify",
+            "status": "failed",
+            "detail": {
+              "case": "rename-persisted-across-processes",
+              "baseline": false,
+              "expected": [
+                {
+                  "id": 1,
+                  "title": "updated title",
+                  "completed": false
+                },
+                {
+                  "id": 2,
+                  "title": "done renamed",
+                  "completed": true
+                }
+              ],
+              "actual": {
+                "exit_code": 0,
+                "body": [
+                  {
+                    "id": 1,
+                    "title": "  updated title  ",
+                    "completed": false
+                  },
+                  {
+                    "id": 2,
+                    "title": "done renamed",
+                    "completed": true
+                  }
+                ]
+              }
+            }
+          },
+          "verify:291b441eee7e2185": {
+            "stage": "verify",
+            "status": "failed",
+            "detail": {
+              "case": "rename-preserve-internal-whitespace",
+              "baseline": false,
+              "expected": {
+                "id": 1,
+                "title": "MiXeD\tinternal\nspacing",
+                "completed": false
+              },
+              "actual": {
+                "exit_code": 0,
+                "body": {
+                  "id": 1,
+                  "title": "  MiXeD\tinternal\nspacing  ",
+                  "completed": false
+                }
+              }
+            }
+          },
+          "verify:607f2585ee7f2399": {
+            "stage": "verify",
+            "status": "failed",
+            "detail": {
+              "case": "rename-blank-1",
+              "baseline": false,
+              "expected": "exit 2 with nonempty JSON error",
+              "actual": {
+                "exit_code": 0,
+                "body": {
+                  "id": 1,
+                  "title": " \t\n\u2003 ",
+                  "completed": false
+                }
+              }
+            }
+          },
+          "verify:103f6358c1797080": {
+            "stage": "verify",
+            "status": "failed",
+            "detail": {
+              "case": "rename-failed-operations-no-write",
+              "baseline": false,
+              "expected": [
+                {
+                  "id": 1,
+                  "title": "MiXeD\tinternal\nspacing",
+                  "completed": false
+                },
+                {
+                  "id": 2,
+                  "title": "done renamed",
+                  "completed": true
+                }
+              ],
+              "actual": {
+                "exit_code": 0,
+                "body": [
+                  {
+                    "id": 1,
+                    "title": " \t\n\u2003 ",
+                    "completed": false
+                  },
+                  {
+                    "id": 2,
+                    "title": "done renamed",
+                    "completed": true
+                  }
+                ]
+              }
+            }
+          },
+          "verify:98e4fce6a667577f": {
+            "stage": "verify",
+            "status": "failed",
+            "detail": {
+              "case": "rename-complete-after-rename",
+              "baseline": false,
+              "expected": {
+                "id": 1,
+                "title": "MiXeD\tinternal\nspacing",
+                "completed": true
+              },
+              "actual": {
+                "exit_code": 0,
+                "body": {
+                  "id": 1,
+                  "title": " \t\n\u2003 ",
+                  "completed": true
+                }
+              }
+            }
+          },
+          "verify:9e1a958dcc2374c9": {
+            "stage": "verify",
+            "status": "failed",
+            "detail": {
+              "case": "rename-other-db-unchanged",
+              "baseline": false,
+              "expected": [
+                {
+                  "id": 1,
+                  "title": "MiXeD\tinternal\nspacing",
+                  "completed": true
+                },
+                {
+                  "id": 2,
+                  "title": "done renamed",
+                  "completed": true
+                },
+                {
+                  "id": 3,
+                  "title": "third",
+                  "completed": false
+                }
+              ],
+              "actual": {
+                "exit_code": 0,
+                "body": [
+                  {
+                    "id": 1,
+                    "title": " \t\n\u2003 ",
+                    "completed": true
+                  },
+                  {
+                    "id": 2,
+                    "title": "done renamed",
+                    "completed": true
+                  },
+                  {
+                    "id": 3,
+                    "title": "third",
+                    "completed": false
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "unverified_model_interpretation": {
+          "commentary": "The implementation of the rename feature has several failures related to input validation and persistence, specifically regarding whitespace handling and error responses for invalid inputs.",
+          "source_concerns": []
+        }
+      },
+      "verdict_matches": true,
+      "report_validation": [
+        {
+          "valid": true,
+          "errors": [],
+          "raw_report": "{\n  \"status\": \"blocked\",\n  \"evidence_ids\": [\n    \"verify:d35fd30de832112d\",\n    \"verify:142b6ae630fc875e\",\n    \"verify:ac0825d4274a4638\",\n    \"verify:291b441eee7e2185\",\n    \"verify:607f2585ee7f2399\",\n    \"verify:103f6358c1797080\",\n    \"verify:98e4fce6a667577f\",\n    \"verify:9e1a958dcc2374c9\"\n  ],\n  \"source_concerns\": [],\n  \"commentary\": \"The implementation of the rename feature has several failures related to input validation and persistence, specifically regarding whitespace handling and error responses for invalid inputs.\"\n}",
+          "source_locations": []
+        }
+      ],
+      "source_unchanged": true,
+      "reviewer_check_calls": 1
+    }
+  ],
+  "limitations": [
+    "One positive and one negative fixture, not broad model reliability evidence.",
+    "Citation checks prove reference validity, not semantic correctness.",
+    "Reviewer-only evaluation; no writer or full lifecycle stages execute."
+  ],
+  "inputs_unchanged": true,
+  "all_controls_passed": true,
+  "validation": {
+    "tests_passed": 131,
+    "duration_seconds": 99.395,
+    "command": ".venv/bin/python -m unittest discover -s tests",
+    "focused_tests_passed": 12,
+    "diff_check": "passed"
+  },
+  "fresh_lifecycle_trial_started": false,
+  "manual_report_inspection_passed": true,
+  "assessment": "Both controls returned expected verdicts with valid selections on their first report attempt. Generated findings describe recorded title differences and the blank-title error-response mismatch. No unsupported completion-state, invalid-ID or database-isolation diagnosis appears in canonical findings. Original candidate and frozen inputs remained unchanged.",
+  "recommendation": "Run one fresh Taskboard rename lifecycle trial with this committed factory, the same project requirements and model configuration, normal approval gates, no manual candidate edits, and no operator retry. Stop and preserve evidence at any failure."
+}
