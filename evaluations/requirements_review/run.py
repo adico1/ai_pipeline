@@ -15,9 +15,10 @@ sys.path.insert(0, str(ROOT))
 from ai_pipeline.cli import load_environment
 from ai_pipeline.crewai_adapter import build_crew
 from ai_pipeline.stage_contracts import RequirementsDocument
+from evaluations.requirements_review.coverage import review_with_coverage
 
 
-def review_document(document, task, model, output):
+def review_document(document, task, model, output, requirements=None):
     """Use the production reviewer task with a saved writer output as context."""
     os.environ["CREWAI_STORAGE_DIR"] = str(output / "storage")
     crew = build_crew({
@@ -28,6 +29,8 @@ def review_document(document, task, model, output):
         "history": [],
         "crewai": {"model": model, "review_model": model, "max_iter": 24},
     })
+    if requirements is not None:
+        return review_with_coverage(crew, document, requirements)
     # Only the reviewer executes. Labels and mutation descriptions are not sent.
     result = crew.tasks[1].execute_sync(
         agent=crew.agents[1], context=json.dumps(document, ensure_ascii=False)
@@ -42,10 +45,17 @@ def main():
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--repetitions", type=int, default=2, choices=range(1, 4))
     parser.add_argument("--validate-only", action="store_true")
+    parser.add_argument("--coverage", action="store_true", help="Evaluate exact draft citations and requirement coverage")
     args = parser.parse_args()
     fixture_path = Path(__file__).with_name("cases.json")
     task_path = ROOT / "projects/taskboard-rename-task.txt"
     cases = json.loads(fixture_path.read_text())
+    requirements_path = Path(__file__).with_name("requirements.json")
+    requirements = json.loads(requirements_path.read_text()) if args.coverage else None
+    if requirements is not None:
+        assert len({r["id"] for r in requirements}) == len(requirements)
+        # This curated inventory must partition the entire original task in order.
+        assert " ".join(r["task_quote"] for r in requirements).split() == task_path.read_text().split()
     for case in cases:
         RequirementsDocument.model_validate(case["document"])
     original = cases[0]["document"]
@@ -61,6 +71,8 @@ def main():
     load_environment(ROOT / ".env")
     frozen_paths = [fixture_path, task_path, Path(__file__), ROOT / "ai_pipeline/prompts.py",
                     ROOT / "ai_pipeline/crewai_adapter.py"]
+    if requirements is not None:
+        frozen_paths.extend([requirements_path, Path(__file__).with_name("coverage.py")])
     frozen = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
               for p in frozen_paths}
     report = {
@@ -68,6 +80,7 @@ def main():
         "input_hashes": frozen,
         "models": ["openai/gpt-4o-mini", "openai/gpt-4.1"],
         "repetitions": args.repetitions,
+        "coverage_audit": args.coverage,
         "method": "Production CrewAI reviewer agent/task, temperature 0, saved document as task context; no writer, stage revision loop, or labels supplied to model.",
         "limitations": ["Small single-project sample; not a full lifecycle or broad reliability result.",
                         "Verdict agreement alone does not prove correct reasoning; inspect findings for the removed criterion.",
@@ -85,8 +98,9 @@ def main():
                 row = {"case": case["id"], "model": model, "repetition": repetition + 1,
                        "expected_status": case["expected_status"]}
                 try:
-                    row["review"] = review_document(case["document"], task_path.read_text(), model, output)
-                    row["verdict_matches"] = row["review"]["status"] == case["expected_status"]
+                    row["review"] = review_document(case["document"], task_path.read_text(), model, output, requirements)
+                    row["verdict_matches"] = (row["review"]["status"] == case["expected_status"]
+                                              and row["review"].get("evidence_valid", True))
                 except Exception as exc:
                     row["error_type"] = type(exc).__name__
                     row["verdict_matches"] = False
