@@ -23,5 +23,5 @@
     "improved_feedback_replayed_on_failed_candidate": "passed",
     "completed_stage_gap_detected": "passed"
   },
-  "next_step": "Restore credits for the configured OpenAI API account. Then explicitly resume the existing run; record any retry as a provider-recovery retry, not an unassisted first-attempt success."
+  "next_step": "Restore credits for the configured OpenAI API account. Then create a fresh run from the current committed baseline and freeze its runner inputs. Preserve both failed runs; subsequent report commits changed the tracked-input set, so do not resume through the old frozen-input helper."
 }
