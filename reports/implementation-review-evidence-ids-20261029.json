@@ -1,0 +1,275 @@
+{
+  "factory_commit": "8f720d97e4212d59c5c8778b14d10d826c2ff756",
+  "source_run": "661421cdcbae",
+  "source_digest": "130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a",
+  "input_hashes": {
+    "ai_pipeline/implementation_review.py": "d95e889a1f7b2d6ebb7671fb3083a918f296aec9310f879b04f81390270a2e3b",
+    "ai_pipeline/crewai_adapter.py": "1dbabe50d52db1e5e7c6ef69f1f7869de01ca95d95050e8e47d5cbef6a4f168b",
+    "ai_pipeline/prompts.py": "7c779e4bb7e6a183d2a2d0a1fbff0cb8cf3744caf2d64806f6ead791d9b9180a",
+    "evaluations/implementation_review/run.py": "0405c3b1ab60f63d44c6e0973c51c047caa35df30d21c6c1d7cdd79e591f0601"
+  },
+  "models": {
+    "model": "openai/gpt-4.1-2025-04-14",
+    "review_model": "openai/gpt-4o-mini",
+    "max_iter": 24
+  },
+  "results": [
+    {
+      "variant": "passing",
+      "expected_status": "passed",
+      "preflight": [
+        {
+          "stage": "verify",
+          "status": "passed",
+          "summary": "49/49 project checks passed."
+        },
+        {
+          "stage": "security",
+          "status": "passed",
+          "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit."
+        }
+      ],
+      "review": {
+        "status": "passed",
+        "summary": "The implementation stage deliverable for the 'rename a task' feature in the Taskboard project is complete and clear. The implementation meets all specified requirements, including the CLI command for renaming tasks, validation of inputs, persistence of task states, and comprehensive testing.",
+        "findings": [],
+        "next_actions": [],
+        "source_digest": "130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a",
+        "blocking_findings": [],
+        "resolved_check_evidence": {}
+      },
+      "verdict_matches": true,
+      "report_validation": [
+        {
+          "valid": true,
+          "errors": [],
+          "raw_report": "{\n  \"status\": \"passed\",\n  \"summary\": \"The implementation stage deliverable for the 'rename a task' feature in the Taskboard project is complete and clear. The implementation meets all specified requirements, including the CLI command for renaming tasks, validation of inputs, persistence of task states, and comprehensive testing.\",\n  \"findings\": [],\n  \"next_actions\": [],\n  \"source_digest\": \"130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a\",\n  \"blocking_findings\": [],\n  \"resolved_check_evidence\": {}\n}",
+          "source_locations": []
+        }
+      ],
+      "source_unchanged": true,
+      "reviewer_check_calls": 1
+    },
+    {
+      "variant": "missing_whitespace_trim",
+      "expected_status": "blocked",
+      "preflight": [
+        {
+          "stage": "verify",
+          "status": "failed",
+          "summary": "41/49 project checks passed."
+        },
+        {
+          "stage": "security",
+          "status": "passed",
+          "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit."
+        }
+      ],
+      "review": {
+        "status": "blocked",
+        "summary": "The implementation stage is blocked due to unresolved verification issues related to the rename feature.",
+        "findings": [
+          "The rename feature does not correctly trim leading and trailing whitespace from the title, as evidenced by the output containing extra spaces.",
+          "The rename feature fails to handle blank or whitespace-only titles correctly, allowing them to be processed instead of returning an error.",
+          "The rename feature does not preserve the completed state of tasks correctly when renaming, as the completed state is not maintained in some test cases.",
+          "The rename feature does not correctly handle invalid IDs, allowing operations on IDs that should be rejected."
+        ],
+        "next_actions": [
+          "Address the issues identified in the verification checks, specifically focusing on trimming whitespace, handling invalid inputs, and preserving task states.",
+          "Re-run the implementation checks after making the necessary corrections to ensure compliance with the requirements."
+        ],
+        "source_digest": "b3bf0704ca5faf675415a7363665cde98d57c46e394d52bef38286137237597f",
+        "blocking_findings": [
+          {
+            "finding": "The rename feature does not correctly trim leading and trailing whitespace from the title, as evidenced by the output containing extra spaces.",
+            "inferred_cause": null,
+            "citations": [
+              {
+                "kind": "check",
+                "quote": null,
+                "evidence_id": "verify:142b6ae630fc875e",
+                "path": null,
+                "check_stage": "verify"
+              }
+            ]
+          },
+          {
+            "finding": "The rename feature fails to handle blank or whitespace-only titles correctly, allowing them to be processed instead of returning an error.",
+            "inferred_cause": null,
+            "citations": [
+              {
+                "kind": "check",
+                "quote": null,
+                "evidence_id": "verify:607f2585ee7f2399",
+                "path": null,
+                "check_stage": "verify"
+              }
+            ]
+          },
+          {
+            "finding": "The rename feature does not preserve the completed state of tasks correctly when renaming, as the completed state is not maintained in some test cases.",
+            "inferred_cause": null,
+            "citations": [
+              {
+                "kind": "check",
+                "quote": null,
+                "evidence_id": "verify:98e4fce6a667577f",
+                "path": null,
+                "check_stage": "verify"
+              }
+            ]
+          },
+          {
+            "finding": "The rename feature does not correctly handle invalid IDs, allowing operations on IDs that should be rejected.",
+            "inferred_cause": null,
+            "citations": [
+              {
+                "kind": "check",
+                "quote": null,
+                "evidence_id": "verify:103f6358c1797080",
+                "path": null,
+                "check_stage": "verify"
+              }
+            ]
+          }
+        ],
+        "resolved_check_evidence": {
+          "verify:142b6ae630fc875e": {
+            "stage": "verify",
+            "status": "failed",
+            "detail": {
+              "case": "rename-trim",
+              "baseline": false,
+              "expected": {
+                "id": 1,
+                "title": "updated title",
+                "completed": false
+              },
+              "actual": {
+                "exit_code": 0,
+                "body": {
+                  "id": 1,
+                  "title": "  updated title  ",
+                  "completed": false
+                }
+              }
+            }
+          },
+          "verify:607f2585ee7f2399": {
+            "stage": "verify",
+            "status": "failed",
+            "detail": {
+              "case": "rename-blank-1",
+              "baseline": false,
+              "expected": "exit 2 with nonempty JSON error",
+              "actual": {
+                "exit_code": 0,
+                "body": {
+                  "id": 1,
+                  "title": " \t\n\u2003 ",
+                  "completed": false
+                }
+              }
+            }
+          },
+          "verify:98e4fce6a667577f": {
+            "stage": "verify",
+            "status": "failed",
+            "detail": {
+              "case": "rename-complete-after-rename",
+              "baseline": false,
+              "expected": {
+                "id": 1,
+                "title": "MiXeD\tinternal\nspacing",
+                "completed": true
+              },
+              "actual": {
+                "exit_code": 0,
+                "body": {
+                  "id": 1,
+                  "title": " \t\n\u2003 ",
+                  "completed": true
+                }
+              }
+            }
+          },
+          "verify:103f6358c1797080": {
+            "stage": "verify",
+            "status": "failed",
+            "detail": {
+              "case": "rename-failed-operations-no-write",
+              "baseline": false,
+              "expected": [
+                {
+                  "id": 1,
+                  "title": "MiXeD\tinternal\nspacing",
+                  "completed": false
+                },
+                {
+                  "id": 2,
+                  "title": "done renamed",
+                  "completed": true
+                }
+              ],
+              "actual": {
+                "exit_code": 0,
+                "body": [
+                  {
+                    "id": 1,
+                    "title": " \t\n\u2003 ",
+                    "completed": false
+                  },
+                  {
+                    "id": 2,
+                    "title": "done renamed",
+                    "completed": true
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "verdict_matches": true,
+      "report_validation": [
+        {
+          "valid": true,
+          "errors": [],
+          "raw_report": "{\n  \"status\": \"blocked\",\n  \"summary\": \"The implementation stage is blocked due to unresolved verification issues related to the rename feature.\",\n  \"findings\": [\n    \"The rename feature does not correctly trim leading and trailing whitespace from the title, as evidenced by the output containing extra spaces.\",\n    \"The rename feature fails to handle blank or whitespace-only titles correctly, allowing them to be processed instead of returning an error.\",\n    \"The rename feature does not preserve the completed state of tasks correctly when renaming, as the completed state is not maintained in some test cases.\",\n    \"The rename feature does not correctly handle invalid IDs, allowing operations on IDs that should be rejected.\"\n  ],\n  \"next_actions\": [\n    \"Address the issues identified in the verification checks, specifically focusing on trimming whitespace, handling invalid inputs, and preserving task states.\",\n    \"Re-run the implementation checks after making the necessary corrections to ensure compliance with the requirements.\"\n  ],\n  \"source_digest\": \"b3bf0704ca5faf675415a7363665cde98d57c46e394d52bef38286137237597f\",\n  \"blocking_findings\": [\n    {\n      \"finding\": \"The rename feature does not correctly trim leading and trailing whitespace from the title, as evidenced by the output containing extra spaces.\",\n      \"inferred_cause\": null,\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"check_stage\": \"verify\",\n          \"evidence_id\": \"verify:142b6ae630fc875e\",\n          \"quote\": null,\n          \"path\": null\n        }\n      ]\n    },\n    {\n      \"finding\": \"The rename feature fails to handle blank or whitespace-only titles correctly, allowing them to be processed instead of returning an error.\",\n      \"inferred_cause\": null,\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"check_stage\": \"verify\",\n          \"evidence_id\": \"verify:607f2585ee7f2399\",\n          \"quote\": null,\n          \"path\": null\n        }\n      ]\n    },\n    {\n      \"finding\": \"The rename feature does not preserve the completed state of tasks correctly when renaming, as the completed state is not maintained in some test cases.\",\n      \"inferred_cause\": null,\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"check_stage\": \"verify\",\n          \"evidence_id\": \"verify:98e4fce6a667577f\",\n          \"quote\": null,\n          \"path\": null\n        }\n      ]\n    },\n    {\n      \"finding\": \"The rename feature does not correctly handle invalid IDs, allowing operations on IDs that should be rejected.\",\n      \"inferred_cause\": null,\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"check_stage\": \"verify\",\n          \"evidence_id\": \"verify:103f6358c1797080\",\n          \"quote\": null,\n          \"path\": null\n        }\n      ]\n    }\n  ],\n  \"resolved_check_evidence\": {}\n}",
+          "source_locations": []
+        }
+      ],
+      "source_unchanged": true,
+      "reviewer_check_calls": 1
+    }
+  ],
+  "limitations": [
+    "One positive and one negative fixture, not broad model reliability evidence.",
+    "Citation checks prove reference validity, not semantic correctness.",
+    "Reviewer-only evaluation; no writer or full lifecycle stages execute."
+  ],
+  "inputs_unchanged": true,
+  "all_controls_passed": true,
+  "validation": {
+    "tests_passed": 125,
+    "duration_seconds": 103.508,
+    "command": ".venv/bin/python -m unittest discover -s tests",
+    "diff_check": "passed"
+  },
+  "semantic_review_passed": false,
+  "fresh_lifecycle_trial_started": false,
+  "assessment": "Both verdicts and citation validation passed on the first attempt, but manual inspection found unsupported interpretations in the negative report. This does not qualify for a fresh full lifecycle trial.",
+  "manual_findings": [
+    {
+      "claim": "Completion state is not preserved",
+      "evidence_id": "verify:98e4fce6a667577f",
+      "assessment": "Contradicted by the cited example: expected and actual completed are both true; the title differs."
+    },
+    {
+      "claim": "Invalid IDs are accepted",
+      "evidence_id": "verify:103f6358c1797080",
+      "assessment": "The cited snapshot shows changed title data after invalid operations. It does not establish that an invalid ID was accepted; the introduced mutation changes whitespace handling only."
+    }
+  ],
+  "recommendation": "Build factual failure descriptions from structured expected/actual differences in code, and keep model interpretations separately labeled as unverified. Test these two known misinterpretations offline before another bounded live evaluation."
+}
