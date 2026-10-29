@@ -18,8 +18,8 @@
     "design": {
       "backend": "crewai",
       "crewai": {
-        "model": "openai/gpt-4o-mini",
-        "review_model": "openai/gpt-4o-mini",
+        "model": "openai/gpt-4.1-2025-04-14",
+        "review_model": "openai/gpt-4.1-2025-04-14",
         "max_iter": 24
       },
       "timeout_seconds": 600
