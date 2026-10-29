@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-29",
+  "run_id": "3ae84bb1dc0c",
+  "status": "failed",
+  "classification": "Fresh trial stopped at requirements writer guardrail; not a completed delivery",
+  "factory_commit": "19e681be9099abbf8dc6ee6f4879c3212128530e",
+  "baseline_commit": "1f2097616fd20ae866d397ccf93015924f2dc9e1",
+  "config_digest": "2386bddf4e0ac84a5d8dbfd1ac2ae90ba9276bb7cb0ad7ec0752912a81d66528",
+  "task_digest": "9a05335381b48db91477745d69e7ed3a02fdfcbaf84278c54fa9f0844f8ac944",
+  "frozen_inputs_unchanged": true,
+  "factory_tests": {
+    "passed": 113,
+    "duration_seconds": 95.941,
+    "focused_tests_passed": 5,
+    "individual_omission_and_changed_text_controls_passed": 110
+  },
+  "implementation": "Optional operator-supplied checklist in the immutable run configuration. CrewAI requirements writer must map each ID to a separate verbatim acceptance criterion. Deterministic validation runs before independent review, permits one writer correction, and validates the returned crew document again. Existing configurations are unchanged.",
+  "writer_validation": {
+    "attempts": [
+      {
+        "passed": false,
+        "errors": [
+          "Map every checklist ID exactly once; no missing, duplicate or unknown IDs"
+        ]
+      },
+      {
+        "passed": false,
+        "errors": [
+          "preserve_validation: preserve the canonical requirement exactly: Existing validation and behavior must not regress.",
+          "readme_syntax: preserve the canonical requirement exactly: README explains rename syntax and behavior.",
+          "new_example_fence: preserve the canonical requirement exactly: Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```.",
+          "no_invented_provenance: preserve the canonical requirement exactly: Do not invent deployment or provenance claims.",
+          "deliverables: preserve the canonical requirement exactly: Passing baseline checks does not satisfy missing feature tests or documentation; complete code, tests and documentation.",
+          "final_check: preserve the canonical requirement exactly: Call check_current_candidate before handoff."
+        ]
+      }
+    ]
+  },
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "supplemental_writer_calls": 0,
+  "writer_guardrail_corrections": 1,
+  "engine_repairs": 0,
+  "approvals": [],
+  "attempts": [
+    {
+      "stage": "requirements",
+      "number": 1,
+      "at": "2026-10-29T10:55:35.890878+00:00",
+      "duration_seconds": 66.687,
+      "exit_code": 1,
+      "source_before": "cd5bae1a2638807d2be998d31fbc679c2f0216be3417d94fdf4368b96aa0c7bd",
+      "source_after": "cd5bae1a2638807d2be998d31fbc679c2f0216be3417d94fdf4368b96aa0c7bd",
+      "status": "failed",
+      "error": "Adapter did not provide a passed result with a summary",
+      "result": {
+        "status": "failed",
+        "summary": "CrewAI stage failed: Exception: Task failed guardrail validation after 1 retries. Last error: REQUIREMENTS CHECKLIST INCOMPLETE: [\"preserve_validation: preserve the canonical requirement exactly: Existing validation and behavior must not regress.\", \"readme_syntax: preserve the canonical requirement exactly: README explains rename syntax and behavior.\", \"new_example_fence: preserve the canonical requirement exactly: Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```.\", \"no_invented_provenance: preserve the canonical requirement exactly: Do not invent deployment or provenance claims.\", \"deliverables: preserve the canonical requirement exactly: Passing baseline checks does not satisfy missing feature tests or documentation; complete code, tests and documentation.\", \"final_check: preserve the canonical requirement exactly: Call check_current_candidate before handoff.\"]",
+        "framework": "crewai"
+      },
+      "artifact_directory": "/Users/adicohen/work/ai_pipeline/.factory/3ae84bb1dc0c/artifacts/001-requirements-b366ab63"
+    }
+  ],
+  "source_unchanged": true,
+  "assessment": "The first writer output lacked full ID mappings. The allowed correction still differed from six canonical requirement strings. The guardrail stopped the stage before independent review rather than accepting a lossy draft. Exact text mismatch is not by itself proof of semantic contradiction; this experiment deliberately requires verbatim preservation.",
+  "limitations": [
+    "The live writer did not satisfy the contract, so clean end-to-end delivery remains unproven.",
+    "Checklist text is operator-authored; preservation does not establish its completeness or semantic correctness.",
+    "Full invalid writer documents were not separately retained by this guardrail; recorded diagnostics identify missing IDs or canonical text mismatches.",
+    "No design, implementation, application verification, release or deployment occurred."
+  ],
+  "next_recommendation": "Assemble canonical acceptance criteria and their ID mappings deterministically from the frozen checklist. Let CrewAI add scope, rationale and questions without rewriting those criteria, and retain validation plus independent review for contradictions. Validate assembly and malformed writer outputs before a new trial; preserve this failed run unchanged."
+}
