@@ -1,0 +1,2219 @@
+{
+  "factory_commit": "adf4b7fc2f5609fa91bbfce5d7f3979242b6829a",
+  "input_hashes": {
+    "evaluations/requirements_review/cases.json": "c72a1352434d65353da114d36ce9af8e48bc84f982b034dbb6f614a2c0f8bc6e",
+    "projects/taskboard-rename-task.txt": "9a05335381b48db91477745d69e7ed3a02fdfcbaf84278c54fa9f0844f8ac944",
+    "evaluations/requirements_review/run.py": "17325a74ea300485e573de291c48f9ba555654864b6298c723bc7d909943b7e1",
+    "ai_pipeline/prompts.py": "7c779e4bb7e6a183d2a2d0a1fbff0cb8cf3744caf2d64806f6ead791d9b9180a",
+    "ai_pipeline/crewai_adapter.py": "3591e0651b3fcdd36cadf41d363657c461b62433c9a1b2d6fd35d8a48148d775",
+    "evaluations/requirements_review/requirements.json": "c33e5aecb8fa311dd0a6da9cc0d85a4c7c02fcaa9dd048e4f228eca8f99c7fba",
+    "evaluations/requirements_review/coverage.py": "0d9ce7a219e2e7247dfe84fde9600e37673ff57d35e5153a09057dca7510954b"
+  },
+  "models": [
+    "openai/gpt-4o-mini",
+    "openai/gpt-4.1"
+  ],
+  "repetitions": 2,
+  "coverage_audit": true,
+  "method": "Production CrewAI reviewer agent with experimental coverage instructions and CoverageReview schema added only inside the evaluator. Same four saved drafts, two models, two repetitions; no writer, stage revisions, labels, or model selection changes.",
+  "limitations": [
+    "Small single-project sample; not a full lifecycle or broad reliability result.",
+    "Verdict agreement alone does not prove correct reasoning; inspect findings for the removed criterion.",
+    "Model/provider internal retries and structured-output conversion may occur; no evaluation-level retries.",
+    "Coverage inventory groups multiple clauses; a correct quotation may still omit required details.",
+    "This experiment is opt-in and has not been wired into the production stage flow.",
+    "Full factory tests pass, but those tests do not establish model judgment reliability."
+  ],
+  "results": [
+    {
+      "case": "complete",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                }
+              ],
+              "explanation": "The draft explicitly states the scope of extending the existing project with the required feature while preserving existing functionalities."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft provides a clear definition of the interface for the rename feature, matching the original task's requirements."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The draft clearly outlines the requirements for preserving task state during the rename operation."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft specifies the requirements for title handling and SQL usage, aligning with the original task."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft comprehensively covers the error handling requirements as specified in the original task."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft outlines the architectural requirements for implementing the feature, including testing and module connections."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total."
+                }
+              ],
+              "explanation": "The draft specifies the need for regression tests, ensuring that the new feature is adequately tested."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft includes comprehensive documentation requirements for the rename feature, as specified in the original task."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 6,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft clearly outlines the handoff process and requirements for completing the implementation."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 16.868
+    },
+    {
+      "case": "complete",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "objective",
+                  "index": null,
+                  "quote": "Add only task renaming to the existing multi-file Taskboard project."
+                },
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft explicitly limits the scope to only task renaming, preserving all existing features and constraints, and prohibits unrelated features or changes."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft details the CLI interface, argument structure, default database, and output format for successful renames."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The draft covers all aspects of state preservation, including ID, completion state, other records, ordering, persistence, and idempotency."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft specifies whitespace trimming, literal preservation, parameterized SQL, and connection handling."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft covers all error handling, validation, and data integrity requirements."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft specifies the required architectural approach, module boundaries, and allowed imports."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft covers all test requirements, including test types, coverage, and isolation."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft covers all documentation requirements, including README content, example blocks, and command documentation."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 6,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft covers the required handoff and implementation process for the feature."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 7.605
+    },
+    {
+      "case": "missing_error_contract",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                }
+              ],
+              "explanation": "The draft explicitly covers the scope of extending the existing Taskboard project with the required feature."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft provides a clear definition of the interface for the rename feature."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The draft specifies that only the title will change while preserving the task ID and completion state."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft clearly outlines the requirements for title handling and SQL usage."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft includes detailed error handling requirements and expected behavior for invalid inputs."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft specifies the architecture for implementing the feature through existing modules."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft outlines the need for regression tests and their expected behavior."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft specifies the documentation requirements for the rename feature."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft includes clear instructions for the handoff process after implementation."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 15.781
+    },
+    {
+      "case": "missing_error_contract",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "objective",
+                  "index": null,
+                  "quote": "Add only task renaming to the existing multi-file Taskboard project."
+                },
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft explicitly limits the scope to only task renaming, preserving all existing features and constraints, and prohibits unrelated features or changes."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft describes the required CLI interface, argument structure, default database, and output format for successful renames."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The draft covers all aspects of state preservation, including ID, completion state, other records, ordering, persistence, and idempotency."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft specifies whitespace trimming, literal preservation, parameterized SQL, and connection handling."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft covers invalid input handling, error reporting, and non-modification of data on error, as well as test requirements for these behaviors."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft requires use of the existing architecture, module boundaries, and allowed imports."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft specifies the required number and types of tests, including CLI subprocess and persistence checks."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft covers all README documentation requirements, including syntax, examples, and test documentation."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft describes the required handoff and completion process for the implementation stage."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 7.991
+    },
+    {
+      "case": "missing_state_preservation",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": false,
+        "validation_errors": [
+          "architecture: quotation not found in referenced draft field"
+        ],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                }
+              ],
+              "explanation": "The draft explicitly states the scope of extending the existing Taskboard project with the required features."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft provides a clear definition of the interface for the rename feature."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally."
+                }
+              ],
+              "explanation": "The draft specifies that only the title should change while preserving the ID and completion state."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft includes requirements for title handling and SQL usage."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft clearly outlines the error handling and constraints for invalid inputs."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                }
+              ],
+              "explanation": "The draft specifies the architecture requirements for implementing the feature."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total."
+                }
+              ],
+              "explanation": "The draft includes requirements for regression testing, specifying the number and type of tests needed."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database."
+                }
+              ],
+              "explanation": "The draft specifies the documentation requirements for the README file."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings."
+                }
+              ],
+              "explanation": "The draft outlines the handoff process and requirements for completing the implementation."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 16.476
+    },
+    {
+      "case": "missing_state_preservation",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "objective",
+                  "index": null,
+                  "quote": "Add only task renaming to the existing multi-file Taskboard project."
+                },
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft explicitly limits the scope to only task renaming, preserving all existing features and constraints, and prohibits unrelated features or changes."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft describes the required CLI interface, argument structure, default database, and output format for successful renames."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft requires that only the title changes, all other task and database state is preserved, and that rename works for both open and completed tasks, with persistence and isolation."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft specifies whitespace trimming, literal preservation of text, use of parameterized SQL, and connection management."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft covers all error handling, validation, and non-modification requirements for invalid operations."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft requires use of the existing architecture, module boundaries, and allowed imports."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft specifies the required number and types of tests, including CLI subprocess and persistence checks."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft covers all README documentation requirements, including examples, syntax, and test documentation."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft describes the required handoff and completion process for the requirements stage."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 7.476
+    },
+    {
+      "case": "missing_regression_tests",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                }
+              ],
+              "explanation": "The draft explicitly states the scope of extending the existing Taskboard project with the required features."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft provides a clear definition of the interface for the rename feature."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The draft specifies that only the title will change while preserving the task ID and completion state."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft clearly outlines the requirements for title handling and SQL usage."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft includes comprehensive error handling requirements."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft specifies the architecture and implementation requirements clearly."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft outlines the need for regression tests and their requirements."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft specifies the documentation requirements for the rename feature."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft includes clear instructions for the handoff process."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 13.764
+    },
+    {
+      "case": "missing_regression_tests",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "regression_tests"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "objective",
+                  "index": null,
+                  "quote": "Add only task renaming to the existing multi-file Taskboard project."
+                },
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft explicitly limits the scope to only task renaming, preserving all existing features and constraints, and prohibits unrelated features or changes."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft describes the required CLI interface, argument structure, default database, and output format for successful renames."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The draft covers all aspects of state preservation, including ID, completion state, other records, ordering, persistence, and idempotency."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft specifies whitespace trimming, literal preservation, parameterized SQL, and connection handling."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft covers all error handling, validation, isolation, and non-regression requirements."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft specifies the required architecture, module boundaries, and allowed imports."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the requirement for at least three meaningful unittest tests for rename (success with persistence, completed-state preservation, invalid-input/no-write), retention of five existing tests, at least eight tests total, CLI subprocess tests, use of temporary databases, or independence from factory files."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft covers all documentation requirements, including README content, example blocks, and command documentation."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft covers the required handoff and implementation process, including the need to complete all deliverables before handoff."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 7.302
+    },
+    {
+      "case": "complete",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "objective",
+                  "index": null,
+                  "quote": "Add only task renaming to the existing multi-file Taskboard project."
+                },
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft explicitly limits the scope to only task renaming, preserving all existing features and constraints, and prohibits unrelated features or changes."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft provides the required CLI interface, argument structure, default behavior, and output format for successful renames."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The draft details all required state preservation and persistence behaviors for the rename feature."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft specifies whitespace trimming, literal preservation, parameterized SQL, and connection handling."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft covers all error handling, validation, and isolation requirements for invalid operations."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft describes the required architectural approach, module boundaries, and allowed imports."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft specifies the required test coverage, test types, and test isolation."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft covers all README documentation requirements, including examples and command documentation."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 6,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft describes the required handoff and completion process for the implementation stage."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 7.015
+    },
+    {
+      "case": "complete",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                }
+              ],
+              "explanation": "The draft explicitly states the scope of extending the existing project with the required features while preserving the specified elements."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft provides a clear definition of the interface required for the rename feature, matching the original task's requirements."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The draft clearly outlines the requirements for preserving task state during the rename operation, fulfilling the original task's criteria."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft specifies the handling of title formatting and SQL usage, which aligns with the requirements set forth in the original task."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft comprehensively covers the error handling requirements, ensuring that all specified conditions are met."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft specifies the architectural requirements for implementing the feature, including testing and module connections, which aligns with the original task."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total."
+                }
+              ],
+              "explanation": "The draft includes detailed requirements for regression testing, ensuring that the necessary tests are in place to validate the new feature."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft clearly outlines the documentation requirements, ensuring that all necessary information is provided as per the original task."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 6,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft includes a clear process for handoff, ensuring that all necessary steps are followed before finalizing the implementation."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 13.863
+    },
+    {
+      "case": "missing_error_contract",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "objective",
+                  "index": null,
+                  "quote": "Add only task renaming to the existing multi-file Taskboard project."
+                },
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft explicitly limits the scope to only task renaming, preserving all required aspects and prohibiting out-of-scope features."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft details the CLI interface, argument structure, default database, exit code, and output format."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The draft covers all aspects of state preservation, including ID, completion state, other records, ordering, persistence, and idempotency."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "Whitespace trimming, literal preservation, parameterized SQL, and connection handling are all explicitly stated."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft covers invalid input handling, error output, and non-modification of data on error, as well as test requirements for these cases."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft specifies the required architectural approach, module boundaries, and allowed imports."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft covers the required number and types of tests, including CLI subprocess and persistence checks."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft covers all documentation requirements, including README content, example blocks, and command documentation."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft covers the required handoff and implementation process, including preconditions and completion checks."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 7.113
+    },
+    {
+      "case": "missing_error_contract",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                }
+              ],
+              "explanation": "The draft explicitly covers the scope of extending the existing Taskboard project with the required feature."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft provides a clear definition of the interface for the rename feature."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The draft specifies that only the title will change while preserving the task ID and completion state."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft clearly outlines the requirements for title handling and SQL usage."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft includes detailed error handling and expected behavior for invalid inputs."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft specifies the architecture for implementing the feature through existing modules."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft outlines the need for regression tests and their expected behavior."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft specifies the documentation requirements for the rename feature."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft includes clear instructions for the handoff process after implementation."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 13.203
+    },
+    {
+      "case": "missing_state_preservation",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "objective",
+                  "index": null,
+                  "quote": "Add only task renaming to the existing multi-file Taskboard project."
+                },
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft explicitly limits the scope to only task renaming, preserving all existing features and constraints, and prohibits unrelated features or changes."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft describes the required CLI interface, argument structure, default database, and output format for successful renames."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft requires that only the title changes, all other task and database state is preserved, and that renaming works for both open and completed tasks, with persistence and isolation."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft specifies whitespace trimming, literal preservation of internal text, use of parameterized SQL, and connection management."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft covers all error handling requirements, including exit codes, error output, ID validation, data integrity, and isolation."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft requires implementation through the existing modular architecture, with explicit allowed imports and no new dependencies."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft details the required test coverage, including regression, new tests for rename, subprocess assertions, and test isolation."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft specifies all README documentation requirements, including syntax, examples, and test documentation."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft includes explicit handoff and completion process requirements for the implementation stage."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 7.877
+    },
+    {
+      "case": "missing_state_preservation",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                }
+              ],
+              "explanation": "The draft explicitly covers the scope of extending the existing Taskboard project with the required feature."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft provides a clear definition of the interface required for the rename feature."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally."
+                }
+              ],
+              "explanation": "The draft specifies that only the title should change while preserving the ID and completion state."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft includes requirements for title handling and SQL usage."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft clearly outlines the error handling and constraints for invalid inputs."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total."
+                }
+              ],
+              "explanation": "The draft specifies the architecture requirements for implementing the feature through existing modules."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft includes requirements for regression testing to ensure the feature works as intended."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database."
+                }
+              ],
+              "explanation": "The draft specifies the documentation requirements for the rename feature."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings."
+                }
+              ],
+              "explanation": "The draft outlines the handoff process and requirements for completing the implementation."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 11.159
+    },
+    {
+      "case": "missing_regression_tests",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "regression_tests"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "objective",
+                  "index": null,
+                  "quote": "Add only task renaming to the existing multi-file Taskboard project."
+                },
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft explicitly limits the scope to only task renaming, preserving all existing features and constraints, and prohibits unrelated features or changes."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft details the CLI interface, argument structure, default database, and output format for successful renaming."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The draft covers all aspects of state preservation, including ID, completion state, other records, ordering, persistence, and behavior for repeated titles."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft specifies whitespace trimming, literal preservation, use of parameterized SQL, and connection handling."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft covers all error handling, validation, and isolation requirements."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The draft describes the required architecture, module boundaries, and allowed imports."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the requirement for at least three meaningful unittest tests for rename (success with persistence, completed-state preservation, invalid-input/no-write), retention of five existing tests, at least eight tests total, CLI subprocess tests, use of temporary databases, or independence from factory files."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft covers all documentation requirements, including README content, example blocks, and command documentation."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft describes the required handoff and implementation process, including checks and deliverable completion."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 7.469
+    },
+    {
+      "case": "missing_regression_tests",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+                }
+              ],
+              "explanation": "The draft explicitly states the scope of extending the existing Taskboard project with the required features."
+            },
+            {
+              "requirement_id": "interface",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+                }
+              ],
+              "explanation": "The draft provides a clear definition of the interface required for the rename feature."
+            },
+            {
+              "requirement_id": "state_preservation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The draft clearly outlines the requirements for preserving task state during the rename operation."
+            },
+            {
+              "requirement_id": "title_and_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The draft specifies the requirements for title handling and SQL usage, ensuring clarity in implementation."
+            },
+            {
+              "requirement_id": "error_contract",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The draft comprehensively covers the error handling requirements for the rename feature."
+            },
+            {
+              "requirement_id": "architecture",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft outlines the architectural requirements for implementing the rename feature within the existing structure."
+            },
+            {
+              "requirement_id": "regression_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft specifies the need for regression tests to ensure the rename feature works as intended."
+            },
+            {
+              "requirement_id": "documentation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims."
+                }
+              ],
+              "explanation": "The draft clearly outlines the documentation requirements for the rename feature."
+            },
+            {
+              "requirement_id": "handoff",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+                }
+              ],
+              "explanation": "The draft provides clear instructions for the handoff process after implementing the rename feature."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 15.151
+    }
+  ],
+  "inputs_unchanged": true,
+  "summary": {
+    "openai/gpt-4o-mini": {
+      "correct_verdicts": 2,
+      "total": 8
+    },
+    "openai/gpt-4.1": {
+      "correct_verdicts": 4,
+      "total": 8
+    }
+  },
+  "date": "2026-10-29",
+  "factory_tests": {
+    "passed": 104,
+    "duration_seconds": 95.939,
+    "new_validator_tests": 5
+  },
+  "fixture_file": "evaluations/requirements_review/cases.json",
+  "inventory_file": "evaluations/requirements_review/requirements.json",
+  "decision": {
+    "selected_model": null,
+    "production_gate_enabled": false,
+    "configuration_changed": false,
+    "full_trial_started": false,
+    "reason": "Neither model accepted both complete drafts AND detected every deliberate omission with valid evidence in both repetitions."
+  },
+  "manual_assessment": {
+    "openai/gpt-4o-mini": {
+      "valid_drafts_accepted": 2,
+      "valid_drafts_total": 2,
+      "genuine_omissions_detected": 0,
+      "incomplete_drafts_total": 6,
+      "invalid_citation_reviews": 1
+    },
+    "openai/gpt-4.1": {
+      "valid_drafts_accepted": 2,
+      "valid_drafts_total": 2,
+      "genuine_omissions_detected": 2,
+      "incomplete_drafts_total": 6,
+      "invalid_citation_reviews": 0
+    },
+    "evidence": [
+      "Both models cite the remaining regression-test criterion as coverage for the removed error contract. That text mentions invalid-input/no-write tests but does not specify exit 2, JSON stderr, ID range or database isolation.",
+      "GPT-4.1 correctly identifies the missing regression-test criterion in both repetitions.",
+      "One mini review contains an invalid architecture quotation; the validator blocks it, but that does not count as detecting the removed state-preservation rule.",
+      "Every complete draft passes citation validation and review."
+    ]
+  },
+  "conclusion": "Exact references improve auditability and catch invalid citations, but do not prove the cited passage entails every clause. Both models still falsely accept incomplete requirements in this bounded sample. Do not promote this experiment to an automatic acceptance gate.",
+  "next_recommendation": "Keep human requirements approval and independent acceptance checks. Before another full run, create an explicit atomic acceptance checklist from the original task, retaining exact values and constraints as the source of truth. Evaluate one-requirement-at-a-time coverage against controlled omissions instead of relying on broad paragraph-level coverage or changing models alone."
+}
