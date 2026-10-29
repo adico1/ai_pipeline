@@ -1,0 +1,454 @@
+{
+  "factory_commit": "2386233f1e3a6074f8c1ac7870132189192c0a4a",
+  "input_hashes": {
+    "evaluations/requirements_review/cases.json": "c72a1352434d65353da114d36ce9af8e48bc84f982b034dbb6f614a2c0f8bc6e",
+    "projects/taskboard-rename-task.txt": "9a05335381b48db91477745d69e7ed3a02fdfcbaf84278c54fa9f0844f8ac944",
+    "evaluations/requirements_review/run.py": "a0cd5b28a85127014a497daec34a8c2fc9f839ef4a739239ccfe923c2320a176",
+    "ai_pipeline/prompts.py": "7c779e4bb7e6a183d2a2d0a1fbff0cb8cf3744caf2d64806f6ead791d9b9180a",
+    "ai_pipeline/crewai_adapter.py": "3591e0651b3fcdd36cadf41d363657c461b62433c9a1b2d6fd35d8a48148d775"
+  },
+  "models": [
+    "openai/gpt-4o-mini",
+    "openai/gpt-4.1"
+  ],
+  "repetitions": 2,
+  "method": "Production CrewAI reviewer agent/task, temperature 0, saved document as task context; no writer, stage revision loop, or labels supplied to model.",
+  "limitations": [
+    "Small single-project sample; not a full lifecycle or broad reliability result.",
+    "Verdict agreement alone does not prove correct reasoning; inspect findings for the removed criterion.",
+    "Model/provider internal retries and structured-output conversion may occur; no evaluation-level retries."
+  ],
+  "results": [
+    {
+      "case": "complete",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "passed",
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete due to missing explicit requirements and unresolved questions that prevent fulfilling the task.",
+        "findings": [
+          "The acceptance criteria do not explicitly mention the requirement for the rename command to handle cases where the task ID does not exist in the database, which is critical for ensuring that invalid operations do not change task data.",
+          "There is ambiguity regarding the handling of whitespace-only titles; while it is stated that they should exit with an error, the specific error message format is not detailed, which could lead to inconsistencies in implementation.",
+          "The acceptance criteria do not specify the expected behavior when the title is the same as the existing title, which could lead to confusion about whether this should be treated as a valid operation or not."
+        ],
+        "next_actions": [
+          "Clarify and explicitly state the expected behavior for handling non-existent task IDs in the acceptance criteria.",
+          "Provide detailed requirements for the error message format when handling whitespace-only titles.",
+          "Define the expected behavior for renaming a task to the same title to eliminate ambiguity."
+        ]
+      },
+      "verdict_matches": false,
+      "duration_seconds": 4.483
+    },
+    {
+      "case": "complete",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "summary": "The requirements deliverable for the 'rename task' feature in the Taskboard project is complete, clear, and unambiguous. It defines the scope, measurable acceptance criteria, constraints, and contains no unresolved questions. All requirements are explicitly stated and mapped to the original task. No contradictions or missing decisions are present.",
+        "findings": [
+          "Scope is clearly defined: Only the 'rename task' feature is to be added, with explicit exclusions (no delete, search, users, web UI, etc.).",
+          "Acceptance criteria are detailed and measurable, covering CLI interface, output format, error handling, persistence, validation, and test/documentation requirements.",
+          "Constraints are explicit: no new dependencies, standard library only, specific allowed imports, no scaffold replacement, and no editing of independent factory adapters.",
+          "All edge cases and error conditions are specified, including whitespace handling, ID validation, and database isolation.",
+          "Test and documentation requirements are precise, including the number and type of tests, CLI subprocess assertions, and README example formatting.",
+          "No open or unresolved questions remain; the open_questions list is empty.",
+          "No contradictions or ambiguities are present that would prevent implementation or verification."
+        ],
+        "next_actions": [
+          "Proceed to the design or implementation stage, using these requirements as the basis for further work."
+        ]
+      },
+      "verdict_matches": true,
+      "duration_seconds": 2.319
+    },
+    {
+      "case": "missing_error_contract",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete due to missing explicit requirements and unresolved questions that prevent fulfilling the task.",
+        "findings": [
+          "The acceptance criteria do not explicitly mention the handling of invalid IDs (nonexistent/malformed/zero/negative/out-of-range) in detail, which is crucial for the rename functionality.",
+          "There is ambiguity regarding the behavior of the system when a task with a blank or whitespace-only title is attempted to be renamed, as the criteria state it should exit with an error but do not specify the exact conditions under which this occurs.",
+          "The constraints mention that no new dependencies are allowed, but there is no explicit mention of whether existing dependencies can be modified or if any new imports are permissible beyond the allowed list.",
+          "The open questions list is empty, but there are implicit questions regarding the exact behavior of the system under edge cases that are not addressed in the acceptance criteria."
+        ],
+        "next_actions": [
+          "Clarify and explicitly define the handling of invalid IDs and blank/whitespace-only titles in the acceptance criteria.",
+          "Ensure that all edge cases related to the rename functionality are covered in the acceptance criteria.",
+          "Review the constraints to confirm whether existing dependencies can be modified or if any additional imports are necessary for the implementation."
+        ]
+      },
+      "verdict_matches": true,
+      "duration_seconds": 3.816
+    },
+    {
+      "case": "missing_error_contract",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "summary": "The requirements deliverable for the 'rename task' feature in the Taskboard project is complete and clear. The document defines the scope, measurable acceptance criteria, constraints, and contains no unresolved questions. All requirements are explicit, unambiguous, and directly traceable to the original task. No contradictions or missing decisions are present.",
+        "findings": [
+          "Scope is clearly defined: Only the 'rename task' feature is to be added, with explicit exclusions (no delete, search, users, web UI, etc.).",
+          "Acceptance criteria are detailed and measurable, covering CLI interface, data persistence, error handling, whitespace trimming, test requirements, and documentation updates.",
+          "Constraints are explicit: no new dependencies, standard library only, specific allowed imports, no scaffold replacement, and no edits to independent factory adapters.",
+          "All acceptance criteria are mapped to the original task and are unambiguous. Each criterion is actionable and testable.",
+          "No open or unresolved questions remain; the open_questions list is empty.",
+          "No contradictions or ambiguities are present in the requirements.",
+          "No invented requirements or constraints are introduced beyond the original task."
+        ],
+        "next_actions": [
+          "Proceed to the design stage, using these requirements as the basis for architectural and interface decisions."
+        ]
+      },
+      "verdict_matches": false,
+      "duration_seconds": 2.662
+    },
+    {
+      "case": "missing_state_preservation",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete due to missing explicit requirements and unresolved questions that prevent fulfilling the task.",
+        "findings": [
+          "The acceptance criteria do not explicitly mention the requirement for the rename command to handle cases where the task ID does not exist in the database, which is critical for ensuring that invalid operations do not change task data.",
+          "There is ambiguity regarding the handling of whitespace-only titles; while it states that they should exit with an error, it does not clarify if titles that are only whitespace should be treated as valid or invalid.",
+          "The acceptance criteria do not specify the expected behavior when the title is the same as the existing title, which could lead to confusion regarding whether this should be treated as a valid operation or not."
+        ],
+        "next_actions": [
+          "Clarify and explicitly state the expected behavior for handling non-existent task IDs in the acceptance criteria.",
+          "Provide a clear definition of how whitespace-only titles should be treated in the context of the rename operation.",
+          "Specify the expected behavior when the new title is identical to the existing title to avoid ambiguity."
+        ]
+      },
+      "verdict_matches": true,
+      "duration_seconds": 3.07
+    },
+    {
+      "case": "missing_state_preservation",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "summary": "The requirements deliverable for the 'rename a task' feature in the Taskboard project is complete and clear. The document defines the scope, measurable acceptance criteria, constraints, and contains no unresolved questions. All requirements are explicit, unambiguous, and directly traceable to the original task. No contradictions or missing decisions are present.",
+        "findings": [
+          "Scope is clearly defined: Only the 'rename a task' feature is to be added, with explicit exclusions (no delete, search, users, web UI, etc.).",
+          "Acceptance criteria are detailed and measurable, covering CLI interface, input validation, output format, persistence, error handling, test requirements, and documentation updates.",
+          "Constraints are explicit: no new dependencies, standard library only, no scaffold replacement, and a fixed set of allowed imports.",
+          "Test requirements are precise: retain five baseline tests, add at least three new tests for rename (covering persistence, completed-state preservation, and invalid-input/no-write), and require CLI subprocess tests that fail if rename is removed.",
+          "Documentation requirements are clear: README must explain rename, add a specific example block, and document the unittest command.",
+          "No open questions remain; the open_questions list is empty.",
+          "No contradictions or ambiguities are present in the requirements.",
+          "All requirements are directly traceable to the original task and are sufficient for implementation and later verification."
+        ],
+        "next_actions": [
+          "Proceed to the design stage, using these requirements as the basis for architectural and interface decisions."
+        ]
+      },
+      "verdict_matches": false,
+      "duration_seconds": 3.436
+    },
+    {
+      "case": "missing_regression_tests",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete due to missing explicit requirements and unresolved questions that prevent fulfilling the task.",
+        "findings": [
+          "The acceptance criteria do not explicitly mention the need for the rename command to handle cases where the task ID does not exist in the database, which is critical for ensuring that invalid operations do not change task data.",
+          "There is ambiguity regarding the handling of whitespace-only titles; while it states that they should exit with an error, it does not clarify if titles that are only whitespace should be treated the same as nonexistent IDs.",
+          "The constraints mention that no new dependencies are allowed, but there is no explicit mention of whether existing dependencies can be modified or if their versions are fixed, which could lead to ambiguity in implementation.",
+          "The open questions list is empty, but there are implicit questions regarding how to handle edge cases that are not addressed in the acceptance criteria."
+        ],
+        "next_actions": [
+          "Clarify the acceptance criteria to explicitly state how to handle nonexistent task IDs and whitespace-only titles.",
+          "Define the constraints more clearly regarding existing dependencies and their modifications.",
+          "Address the implicit questions regarding edge cases in the requirements document."
+        ]
+      },
+      "verdict_matches": true,
+      "duration_seconds": 3.835
+    },
+    {
+      "case": "missing_regression_tests",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "summary": "The requirements deliverable for the 'rename a task' feature in the Taskboard project is complete, clear, and unambiguous. It defines the scope, measurable acceptance criteria, constraints, and contains no unresolved questions. All required details for implementation and verification are present and traceable to the original task.",
+        "findings": [
+          "Scope is explicitly limited to adding a rename feature to the existing CLI, domain/validation, and storage modules, with preservation of all other features and module layout.",
+          "Acceptance criteria are detailed and measurable, including CLI syntax, output format, error handling, persistence, whitespace trimming, and preservation of task properties and database integrity.",
+          "Constraints are clearly stated: no new dependencies, no unrelated features, standard library only, specific allowed imports, and no changes to independent factory adapters.",
+          "README documentation requirements are explicit, including the need for a new example block and documentation of the unittest command.",
+          "Test requirements are clear: at least three new meaningful tests for rename, retention of five baseline tests, and CLI subprocess tests that fail if rename is removed.",
+          "No open or unresolved questions remain; the open_questions list is empty.",
+          "No contradictions or ambiguities are present that would prevent implementation or verification."
+        ],
+        "next_actions": [
+          "Proceed to the design or implementation stage, using these requirements as the basis for development and verification."
+        ]
+      },
+      "verdict_matches": false,
+      "duration_seconds": 2.447
+    },
+    {
+      "case": "complete",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "summary": "The requirements deliverable for the 'rename task' feature in the Taskboard project is complete, clear, and unambiguous. It defines the scope, measurable acceptance criteria, constraints, and contains no unresolved questions. All requirements are explicitly stated and mapped to the original task. No contradictions or missing decisions are present.",
+        "findings": [
+          "Scope is clearly defined: Only the 'rename task' feature is to be added, with explicit exclusions (no delete, search, users, web UI, etc.).",
+          "Acceptance criteria are detailed and measurable, covering CLI interface, data persistence, error handling, whitespace trimming, ID validation, and test/documentation requirements.",
+          "Constraints are explicit: no new dependencies, standard library only, specific allowed imports, no scaffold replacement, and no editing of independent factory adapters.",
+          "All required behaviors for the rename feature are specified, including edge cases (e.g., whitespace-only titles, invalid IDs, persistence, completed-state preservation).",
+          "Test and documentation requirements are precise, including the number and type of tests, CLI subprocess assertions, and README example formatting.",
+          "No open or unresolved questions remain; the open_questions list is empty.",
+          "No contradictions or ambiguities are present that would prevent implementation or verification."
+        ],
+        "next_actions": [
+          "Proceed to the design stage, using these requirements as the basis for architectural and interface decisions."
+        ]
+      },
+      "verdict_matches": true,
+      "duration_seconds": 2.563
+    },
+    {
+      "case": "complete",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "passed",
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete due to missing explicit requirements and unresolved questions that prevent fulfilling the task.",
+        "findings": [
+          "The acceptance criteria do not explicitly mention the need for the rename command to handle cases where the task ID does not exist in the database, which is critical for ensuring that invalid operations do not change task data.",
+          "There is ambiguity regarding the handling of whitespace-only titles; while it is stated that they should exit with an error, the specific error message format is not detailed.",
+          "The acceptance criteria do not clarify how to handle the scenario where a task with the same title already exists, which could lead to confusion in implementation.",
+          "The constraints mention that no new dependencies are allowed, but do not specify if any existing dependencies can be modified or if their usage is restricted in any way."
+        ],
+        "next_actions": [
+          "Clarify and explicitly state the handling of non-existent task IDs in the acceptance criteria.",
+          "Provide a detailed specification for the error message format when handling whitespace-only titles.",
+          "Define the expected behavior when renaming a task to a title that already exists.",
+          "Review and refine the constraints to ensure clarity on the modification of existing dependencies."
+        ]
+      },
+      "verdict_matches": false,
+      "duration_seconds": 4.113
+    },
+    {
+      "case": "missing_error_contract",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "summary": "The requirements deliverable for the 'rename a task' feature in the Taskboard project is complete and clear. The document defines the scope, measurable acceptance criteria, constraints, and contains no unresolved questions. All requirements are explicit, unambiguous, and directly traceable to the original task. No contradictions or missing decisions are present.",
+        "findings": [
+          "Scope is clearly defined: Only the rename feature is to be added, with explicit exclusions (no delete, search, users, web UI, etc.).",
+          "Acceptance criteria are detailed and measurable, covering CLI interface, data persistence, error handling, whitespace trimming, test requirements, and documentation updates.",
+          "Constraints are explicit: no new dependencies, standard library only, specific allowed imports, no scaffold replacement, and no editing of independent factory adapters.",
+          "All acceptance criteria are mapped to concrete behaviors and outputs, including error cases and edge conditions (e.g., whitespace-only titles, invalid IDs, persistence across processes).",
+          "Test and documentation requirements are precise, including the number and type of tests, CLI subprocess assertions, and README example formatting.",
+          "No open or unresolved questions remain; the open_questions list is empty.",
+          "No contradictions or ambiguities are present in the requirements document."
+        ],
+        "next_actions": [
+          "Proceed to the design stage, using these requirements as the basis for architectural and interface decisions."
+        ]
+      },
+      "verdict_matches": false,
+      "duration_seconds": 3.182
+    },
+    {
+      "case": "missing_error_contract",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete due to missing explicit requirements and unresolved questions that prevent fulfilling the task.",
+        "findings": [
+          "The acceptance criteria do not explicitly mention the handling of invalid IDs (nonexistent/malformed/zero/negative/out-of-range) in detail, which is crucial for the rename functionality.",
+          "There is ambiguity regarding the behavior of the system when a task with a blank or whitespace-only title is attempted to be renamed, as the criteria only state that it should exit with an error but do not specify the exact error handling process.",
+          "The constraints do not explicitly address how to handle the scenario of a missing task in a fresh database, which is mentioned in the original task but not clearly defined in the requirements.",
+          "The open questions list is empty, which may indicate that there are unresolved questions that need to be addressed, particularly regarding edge cases and error handling."
+        ],
+        "next_actions": [
+          "Clarify and explicitly define the acceptance criteria for handling invalid IDs and blank titles.",
+          "Ensure that all edge cases related to task renaming are covered in the requirements.",
+          "Add any necessary constraints that address the behavior of the system when a task is missing in a fresh database."
+        ]
+      },
+      "verdict_matches": true,
+      "duration_seconds": 4.075
+    },
+    {
+      "case": "missing_state_preservation",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "summary": "The requirements deliverable for the 'rename a task' feature in the Taskboard project is complete, clear, and unambiguous. It defines the scope, measurable acceptance criteria, constraints, and contains no unresolved questions. All required details for implementation and verification are present and traceable to the original task.",
+        "findings": [
+          "Scope is clearly defined: only the rename feature is to be added, with explicit exclusions (no delete, search, users, web UI, etc.).",
+          "Acceptance criteria are precise and measurable, covering CLI interface, argument handling, output format, whitespace trimming, error handling, persistence, test requirements, and documentation updates.",
+          "Constraints are explicit: no new dependencies, no scaffold replacement, only standard library imports, and no edits to independent factory adapters.",
+          "All required behaviors for valid and invalid input are specified, including ID and title validation, error codes, and data integrity requirements.",
+          "Test and documentation requirements are detailed, including the number and type of tests, CLI subprocess assertions, and README example formatting.",
+          "No open or unresolved questions remain; the open_questions list is empty.",
+          "No contradictions or ambiguities are present that would prevent implementation or verification."
+        ],
+        "next_actions": [
+          "Proceed to the design or implementation stage, using these requirements as the basis for development and verification."
+        ]
+      },
+      "verdict_matches": false,
+      "duration_seconds": 2.297
+    },
+    {
+      "case": "missing_state_preservation",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete due to missing explicit requirements and unresolved questions that prevent fulfilling the task.",
+        "findings": [
+          "The acceptance criteria do not explicitly mention the requirement for the rename command to handle cases where the task ID does not exist in the database, which is critical for ensuring that invalid operations do not change task data.",
+          "There is ambiguity regarding the handling of whitespace-only titles; while it is stated that they should exit with an error, the specific error message format is not detailed, which could lead to inconsistencies in implementation.",
+          "The acceptance criteria do not specify the expected behavior when a task is renamed to a title that is identical to its current title, which could lead to confusion in implementation.",
+          "The constraints mention that no new dependencies are allowed, but do not clarify whether existing dependencies can be updated or modified, which could impact the implementation.",
+          "The open questions list is empty, but there are implicit questions regarding error handling and edge cases that need to be addressed."
+        ],
+        "next_actions": [
+          "Clarify and explicitly state the requirements for handling non-existent task IDs and whitespace-only titles in the acceptance criteria.",
+          "Define the expected behavior for renaming a task to its current title to avoid ambiguity.",
+          "Provide clarification on whether existing dependencies can be modified or updated within the constraints.",
+          "Address the implicit questions regarding error handling and edge cases to ensure completeness of the requirements."
+        ]
+      },
+      "verdict_matches": true,
+      "duration_seconds": 3.691
+    },
+    {
+      "case": "missing_regression_tests",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "summary": "The requirements deliverable for the 'rename task' feature in the Taskboard project is complete, clear, and unambiguous. It defines the scope, measurable acceptance criteria, constraints, and contains no unresolved questions. All requirements are explicitly stated and mapped to the original task. No contradictions or missing decisions are present.",
+        "findings": [
+          "Scope is clearly defined: Only the 'rename task' feature is to be added, with explicit exclusions (no delete, search, users, web UI, etc.).",
+          "Acceptance criteria are detailed and measurable, covering CLI interface, output format, error handling, persistence, validation, and documentation requirements.",
+          "Constraints are explicit: module structure, allowed imports, no new dependencies, no scaffold replacement, and no edits to independent factory adapters.",
+          "All edge cases and error conditions are specified, including whitespace handling, ID validation, and database isolation.",
+          "Documentation requirements are precise, including README changes and example blocks.",
+          "No open or unresolved questions remain; the open_questions list is empty.",
+          "No contradictions or ambiguities are present in the requirements document."
+        ],
+        "next_actions": [
+          "Proceed to the design or implementation stage, using these requirements as the basis for further work."
+        ]
+      },
+      "verdict_matches": false,
+      "duration_seconds": 2.463
+    },
+    {
+      "case": "missing_regression_tests",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete due to missing explicit requirements and unresolved questions that prevent fulfilling the task.",
+        "findings": [
+          "The acceptance criteria do not explicitly mention the need for the rename command to handle cases where the task ID does not exist in the database, which is critical for ensuring that invalid operations do not change task data.",
+          "There is ambiguity regarding the handling of whitespace-only titles; while it states that they should exit with an error, it does not clarify if titles that are only whitespace should be treated the same as blank titles.",
+          "The constraints mention that no new dependencies are allowed, but it does not clarify if any existing dependencies can be modified or if the implementation must strictly adhere to the current imports without any changes.",
+          "The open questions list is empty, but there are implicit questions regarding how to handle edge cases that are not addressed in the acceptance criteria."
+        ],
+        "next_actions": [
+          "Clarify the handling of nonexistent task IDs in the acceptance criteria to ensure that invalid operations do not affect task data.",
+          "Specify the treatment of whitespace-only titles in the acceptance criteria to eliminate ambiguity.",
+          "Provide explicit guidance on whether existing dependencies can be modified or if the implementation must strictly adhere to the current imports.",
+          "Address any implicit questions regarding edge cases in the requirements to ensure completeness."
+        ]
+      },
+      "verdict_matches": true,
+      "duration_seconds": 4.644
+    }
+  ],
+  "inputs_unchanged": true,
+  "summary": {
+    "openai/gpt-4o-mini": {
+      "correct_verdicts": 6,
+      "total": 8
+    },
+    "openai/gpt-4.1": {
+      "correct_verdicts": 2,
+      "total": 8
+    }
+  },
+  "date": "2026-10-29",
+  "fixture_file": "evaluations/requirements_review/cases.json",
+  "validation": [
+    "Four documents passed RequirementsDocument schema validation.",
+    "Each incomplete document differs from the complete draft by exactly one deleted criterion.",
+    "Offline capture model verified one reviewer call, complete document and original task supplied, expected verdict and rationale withheld, and structured output parsed."
+  ],
+  "decision": {
+    "selected_model": null,
+    "configuration_changed": false,
+    "full_trial_started": false,
+    "reason": "Neither model satisfies the predeclared selection rule: accept the complete draft twice and correctly identify every deliberate omission twice."
+  },
+  "manual_findings_review": {
+    "openai/gpt-4o-mini": {
+      "complete_accepted": 0,
+      "complete_total": 2,
+      "incomplete_blocked": 6,
+      "incomplete_total": 6,
+      "blocks_identifying_at_least_part_of_actual_omission": 4,
+      "notes": [
+        "Both error-contract omissions identify missing invalid-ID behavior.",
+        "Both state-preservation omissions identify missing same-title behavior, but also falsely report missing error rules.",
+        "Neither missing-tests review identifies the omitted test requirements; blocked verdicts alone overstate useful detection.",
+        "Both complete drafts are rejected for rules already present or invented ambiguity."
+      ]
+    },
+    "openai/gpt-4.1": {
+      "complete_accepted": 2,
+      "complete_total": 2,
+      "incomplete_blocked": 0,
+      "incomplete_total": 6,
+      "blocks_identifying_at_least_part_of_actual_omission": 0,
+      "notes": [
+        "Every incomplete draft passed.",
+        "The missing-tests draft is explicitly praised for test requirements that are absent from that draft but present in the original task."
+      ]
+    }
+  },
+  "interpretation": "This sample suggests reviewers do not reliably distinguish original task requirements from coverage in the delivered document. It does not prove the cause or establish general model quality. Neither model is suitable for selection on these results.",
+  "next_recommendation": "Add an explicit requirement-to-document coverage review with exact document field references and quotations, validating that cited text exists. Keep original-task evidence separate from delivered-document evidence. Re-run this same positive/negative set before selecting a reviewer or starting another lifecycle trial; valid citations alone still do not prove semantic coverage."
+}
