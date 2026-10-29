@@ -1,0 +1,31 @@
+{
+  "repository": "https://github.com/adico1/taskboard-evolution",
+  "visibility": "PUBLIC",
+  "commit": "154c3afcdf232e99f349391e59ca869df260a6fc",
+  "source_run": "7009427b20df",
+  "previous_commit": "76047ebc1f37ccabe8491fab14078d42d3d7963a",
+  "release_files_copied_unchanged": 9,
+  "application_code_changed": false,
+  "changed_generated_files": [
+    "README.md",
+    "tests/test_taskboard.py"
+  ],
+  "operator_added_metadata": [
+    "provenance.json",
+    "provenance-history/6521e84b5e7f.json"
+  ],
+  "validation": {
+    "project_checks_passed": 49,
+    "generated_tests_passed": 8,
+    "release_hashes_match": true,
+    "limited_packaging_and_import_check": "passed",
+    "git_diff_check": "passed",
+    "checkout_clean_and_synced": true
+  },
+  "repeatability_report": "reports/taskboard-documentation-repeatability-20261029.json",
+  "limitations": [
+    "Local CLI source-bundle delivery, not cloud deployment.",
+    "The public repo already contained rename; this promotion updates documentation, generated tests and provenance to the verified repeated-run delivery."
+  ],
+  "recommendation": "Treat this bounded milestone as complete. Keep the factory stable and choose a new small project requirement only when ready to test a different capability."
+}
