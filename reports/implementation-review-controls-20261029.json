@@ -1,0 +1,128 @@
+{
+  "factory_commit": "5dac26147db1a176c342c3cb7eae12b6ff4e71e7",
+  "source_run": "661421cdcbae",
+  "source_digest": "130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a",
+  "input_hashes": {
+    "ai_pipeline/implementation_review.py": "5e8507381b03d30bc61c78ce117f6392f41f7af327494ea2badeee8e19fb4ce6",
+    "ai_pipeline/crewai_adapter.py": "1dbabe50d52db1e5e7c6ef69f1f7869de01ca95d95050e8e47d5cbef6a4f168b",
+    "ai_pipeline/prompts.py": "7c779e4bb7e6a183d2a2d0a1fbff0cb8cf3744caf2d64806f6ead791d9b9180a",
+    "evaluations/implementation_review/run.py": "0405c3b1ab60f63d44c6e0973c51c047caa35df30d21c6c1d7cdd79e591f0601"
+  },
+  "models": {
+    "model": "openai/gpt-4.1-2025-04-14",
+    "review_model": "openai/gpt-4o-mini",
+    "max_iter": 24
+  },
+  "setup_failure": {
+    "output": ".factory/implementation-review-controls-20261029",
+    "cause": "Evaluator omitted .gitignore from the fixture copy; packaging preflight stopped before any reviewer call.",
+    "correction_commit": "5dac261"
+  },
+  "results": [
+    {
+      "variant": "passing",
+      "expected_status": "passed",
+      "verdict_matches": true,
+      "review": {
+        "status": "passed",
+        "summary": "The implementation stage deliverable for the 'rename a task' feature in the Taskboard project is complete and clear. The document provides a comprehensive plan for implementing the feature, including all necessary modules, validation logic, testing requirements, and documentation updates. All checks have passed, indicating that the implementation is ready for external verification.",
+        "findings": [],
+        "next_actions": [],
+        "source_digest": "130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a",
+        "blocking_findings": []
+      },
+      "error": null,
+      "reviewer_check_calls": 1,
+      "preflight": [
+        {
+          "stage": "verify",
+          "status": "passed",
+          "summary": "49/49 project checks passed."
+        },
+        {
+          "stage": "security",
+          "status": "passed",
+          "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit."
+        }
+      ],
+      "report_validation": [
+        {
+          "valid": true,
+          "errors": [],
+          "raw_report": "{\n  \"status\": \"passed\",\n  \"summary\": \"The implementation stage deliverable for the 'rename a task' feature in the Taskboard project is complete and clear. The document provides a comprehensive plan for implementing the feature, including all necessary modules, validation logic, testing requirements, and documentation updates. All checks have passed, indicating that the implementation is ready for external verification.\",\n  \"findings\": [],\n  \"next_actions\": [],\n  \"source_digest\": \"130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a\",\n  \"blocking_findings\": []\n}",
+          "source_locations": []
+        }
+      ],
+      "source_unchanged": true
+    },
+    {
+      "variant": "missing_whitespace_trim",
+      "expected_status": "blocked",
+      "verdict_matches": false,
+      "review": null,
+      "error": "Task failed guardrail validation after 1 retries. Last error: REVIEW EVIDENCE INVALID: [\"Check quotation not found in current reviewer evidence\", \"Check quotation not found in current reviewer evidence\", \"Check quotation not found in current reviewer evidence\", \"Check quotation not found in current reviewer evidence\", \"Check quotation not found in current reviewer evidence\", \"Check quotation not found in current reviewer evidence\", \"Check quotation not found in current reviewer evidence\", \"Check quotation not found in current reviewer evidence\"]",
+      "reviewer_check_calls": 2,
+      "preflight": [
+        {
+          "stage": "verify",
+          "status": "failed",
+          "summary": "41/49 project checks passed."
+        },
+        {
+          "stage": "security",
+          "status": "passed",
+          "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit."
+        }
+      ],
+      "report_validation": [
+        {
+          "valid": false,
+          "errors": [
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence"
+          ],
+          "raw_report": "{\n  \"status\": \"blocked\",\n  \"summary\": \"The implementation stage is blocked due to multiple failures in the rename feature tests, specifically related to input validation and persistence behavior.\",\n  \"findings\": [\n    \"The rename feature does not correctly handle blank or whitespace-only titles, allowing them to be processed instead of returning an error as required.\",\n    \"The feature fails to trim whitespace around titles correctly, resulting in titles with leading and trailing spaces being accepted.\",\n    \"The persistence of renamed tasks across processes is not functioning as expected, with incorrect title values being returned.\",\n    \"The feature does not maintain the completed state of tasks correctly after renaming, allowing completed tasks to be altered improperly.\",\n    \"Invalid operations do not prevent changes to task data, violating the requirement that invalid inputs must not change any task data.\",\n    \"The implementation does not ensure that separate databases remain isolated, as changes in one database are affecting others.\",\n    \"The implementation fails to return the correct JSON error response for invalid inputs, instead returning a success response.\",\n    \"The implementation does not adhere to the requirement of using parameterized SQL for updates, risking SQL injection vulnerabilities.\"\n  ],\n  \"next_actions\": [\n    \"Review and correct the input validation logic to ensure blank and whitespace-only titles are rejected.\",\n    \"Implement proper trimming of whitespace around titles to meet the specified requirements.\",\n    \"Ensure that renamed tasks maintain their completed state and that persistence across processes is functioning correctly.\",\n    \"Verify that invalid operations do not alter task data and that separate databases remain isolated.\",\n    \"Adjust the implementation to return the correct JSON error responses for invalid inputs.\",\n    \"Ensure that all SQL updates are performed using parameterized queries to prevent SQL injection risks.\"\n  ],\n  \"source_digest\": \"b3bf0704ca5faf675415a7363665cde98d57c46e394d52bef38286137237597f\",\n  \"blocking_findings\": [\n    {\n      \"finding\": \"The rename feature does not correctly handle blank or whitespace-only titles, allowing them to be processed instead of returning an error as required.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: exit 2 with nonempty JSON error, actual: {\\\"exit_code\\\": 0, \\\"body\\\": {\\\"id\\\": 1, \\\"title\\\": \\\" \\\\t\\\\n\\\\u2003 \\\", \\\"completed\\\": false}}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The feature fails to trim whitespace around titles correctly, resulting in titles with leading and trailing spaces being accepted.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: {\\\"id\\\": 1, \\\"title\\\": \\\"updated title\\\", \\\"completed\\\": false}, actual: {\\\"exit_code\\\": 0, \\\"body\\\": {\\\"id\\\": 1, \\\"title\\\": \\\"  updated title  \\\", \\\"completed\\\": false}}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The persistence of renamed tasks across processes is not functioning as expected, with incorrect title values being returned.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: [{\\\"id\\\": 1, \\\"title\\\": \\\"updated title\\\", \\\"completed\\\": false}, {\\\"id\\\": 2, \\\"title\\\": \\\"done renamed\\\", \\\"completed\\\": true}], actual: {\\\"exit_code\\\": 0, \\\"body\\\": [{\\\"id\\\": 1, \\\"title\\\": \\\"  updated title  \\\", \\\"completed\\\": false}, {\\\"id\\\": 2, \\\"title\\\": \\\"done renamed\\\", \\\"completed\\\": true}]}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The feature does not maintain the completed state of tasks correctly after renaming, allowing completed tasks to be altered improperly.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: {\\\"id\\\": 1, \\\"title\\\": \\\"MiXeD\\\\tinternal\\\\nspacing\\\", \\\"completed\\\": true}, actual: {\\\"exit_code\\\": 0, \\\"body\\\": {\\\"id\\\": 1, \\\"title\\\": \\\" \\\\t\\\\n\\\\u2003 \\\", \\\"completed\\\": true}}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"Invalid operations do not prevent changes to task data, violating the requirement that invalid inputs must not change any task data.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: [{\\\"id\\\": 1, \\\"title\\\": \\\"MiXeD\\\\tinternal\\\\nspacing\\\", \\\"completed\\\": false}, {\\\"id\\\": 2, \\\"title\\\": \\\"done renamed\\\", \\\"completed\\\": true}], actual: {\\\"exit_code\\\": 0, \\\"body\\\": [{\\\"id\\\": 1, \\\"title\\\": \\\" \\\\t\\\\n\\\\u2003 \\\", \\\"completed\\\": false}, {\\\"id\\\": 2, \\\"title\\\": \\\"done renamed\\\", \\\"completed\\\": true}]}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The implementation does not ensure that separate databases remain isolated, as changes in one database are affecting others.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: [{\\\"id\\\": 1, \\\"title\\\": \\\"MiXeD\\\\tinternal\\\\nspacing\\\", \\\"completed\\\": true}, {\\\"id\\\": 2, \\\"title\\\": \\\"done renamed\\\", \\\"completed\\\": true}, {\\\"id\\\": 3, \\\"title\\\": \\\"third\\\", \\\"completed\\\": false}], actual: {\\\"exit_code\\\": 0, \\\"body\\\": [{\\\"id\\\": 1, \\\"title\\\": \\\" \\\\t\\\\n\\\\u2003 \\\", \\\"completed\\\": true}, {\\\"id\\\": 2, \\\"title\\\": \\\"done renamed\\\", \\\"completed\\\": true}, {\\\"id\\\": 3, \\\"title\\\": \\\"third\\\", \\\"completed\\\": false}]}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The implementation fails to return the correct JSON error response for invalid inputs, instead returning a success response.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: exit 2 with nonempty JSON error, actual: {\\\"exit_code\\\": 0, \\\"body\\\": {\\\"id\\\": 1, \\\"title\\\": \\\" \\\\t\\\\n\\\\u2003 \\\", \\\"completed\\\": false}}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The implementation does not adhere to the requirement of using parameterized SQL for updates, risking SQL injection vulnerabilities.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: exit 2 with nonempty JSON error, actual: {\\\"exit_code\\\": 0, \\\"body\\\": {\\\"id\\\": 1, \\\"title\\\": \\\" \\\\t\\\\n\\\\u2003 \\\", \\\"completed\\\": false}}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    }\n  ]\n}",
+          "source_locations": []
+        },
+        {
+          "valid": false,
+          "errors": [
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence",
+            "Check quotation not found in current reviewer evidence"
+          ],
+          "raw_report": "{\n  \"status\": \"blocked\",\n  \"summary\": \"The implementation stage is blocked due to multiple failures in the rename feature tests, specifically related to input validation and persistence behavior.\",\n  \"findings\": [\n    \"The rename feature does not correctly handle blank or whitespace-only titles, allowing them to be processed instead of returning an error as required.\",\n    \"The feature fails to trim whitespace around titles correctly, resulting in titles with leading and trailing spaces being accepted.\",\n    \"The persistence of renamed tasks across processes is not functioning as expected, with incorrect title values being returned.\",\n    \"The feature does not maintain the completed state of tasks correctly after renaming, allowing completed tasks to be altered improperly.\",\n    \"Invalid operations do not prevent changes to task data, violating the requirement that invalid inputs must not change any task data.\",\n    \"The implementation does not ensure that separate databases remain isolated, as changes in one database are affecting others.\",\n    \"The implementation fails to return the correct JSON error response for invalid inputs, instead returning a success response.\",\n    \"The implementation does not adhere to the requirement of using parameterized SQL for updates, risking SQL injection vulnerabilities.\"\n  ],\n  \"next_actions\": [\n    \"Review and correct the input validation logic to ensure blank and whitespace-only titles are rejected.\",\n    \"Implement proper trimming of whitespace around titles to meet the specified requirements.\",\n    \"Ensure that renamed tasks maintain their completed state and that persistence across processes is functioning correctly.\",\n    \"Verify that invalid operations do not alter task data and that separate databases remain isolated.\",\n    \"Adjust the implementation to return the correct JSON error responses for invalid inputs.\",\n    \"Ensure that all SQL updates are performed using parameterized queries to prevent SQL injection risks.\"\n  ],\n  \"source_digest\": \"b3bf0704ca5faf675415a7363665cde98d57c46e394d52bef38286137237597f\",\n  \"blocking_findings\": [\n    {\n      \"finding\": \"The rename feature does not correctly handle blank or whitespace-only titles, allowing them to be processed instead of returning an error as required.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: exit 2 with nonempty JSON error, actual: {\\\"exit_code\\\": 0, \\\"body\\\": {\\\"id\\\": 1, \\\"title\\\": \\\" \\\\t\\\\n\\\\u2003 \\\", \\\"completed\\\": false}}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The feature fails to trim whitespace around titles correctly, resulting in titles with leading and trailing spaces being accepted.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: {\\\"id\\\": 1, \\\"title\\\": \\\"updated title\\\", \\\"completed\\\": false}, actual: {\\\"exit_code\\\": 0, \\\"body\\\": {\\\"id\\\": 1, \\\"title\\\": \\\"  updated title  \\\", \\\"completed\\\": false}}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The persistence of renamed tasks across processes is not functioning as expected, with incorrect title values being returned.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: [{\\\"id\\\": 1, \\\"title\\\": \\\"updated title\\\", \\\"completed\\\": false}, {\\\"id\\\": 2, \\\"title\\\": \\\"done renamed\\\", \\\"completed\\\": true}], actual: {\\\"exit_code\\\": 0, \\\"body\\\": [{\\\"id\\\": 1, \\\"title\\\": \\\"  updated title  \\\", \\\"completed\\\": false}, {\\\"id\\\": 2, \\\"title\\\": \\\"done renamed\\\", \\\"completed\\\": true}]}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The feature does not maintain the completed state of tasks correctly after renaming, allowing completed tasks to be altered improperly.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: {\\\"id\\\": 1, \\\"title\\\": \\\"MiXeD\\\\tinternal\\\\nspacing\\\", \\\"completed\\\": true}, actual: {\\\"exit_code\\\": 0, \\\"body\\\": {\\\"id\\\": 1, \\\"title\\\": \\\" \\\\t\\\\n\\\\u2003 \\\", \\\"completed\\\": true}}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"Invalid operations do not prevent changes to task data, violating the requirement that invalid inputs must not change any task data.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: [{\\\"id\\\": 1, \\\"title\\\": \\\"MiXeD\\\\tinternal\\\\nspacing\\\", \\\"completed\\\": false}, {\\\"id\\\": 2, \\\"title\\\": \\\"done renamed\\\", \\\"completed\\\": true}], actual: {\\\"exit_code\\\": 0, \\\"body\\\": [{\\\"id\\\": 1, \\\"title\\\": \\\" \\\\t\\\\n\\\\u2003 \\\", \\\"completed\\\": false}, {\\\"id\\\": 2, \\\"title\\\": \\\"done renamed\\\", \\\"completed\\\": true}]}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The implementation does not ensure that separate databases remain isolated, as changes in one database are affecting others.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: [{\\\"id\\\": 1, \\\"title\\\": \\\"MiXeD\\\\tinternal\\\\nspacing\\\", \\\"completed\\\": true}, {\\\"id\\\": 2, \\\"title\\\": \\\"done renamed\\\", \\\"completed\\\": true}, {\\\"id\\\": 3, \\\"title\\\": \\\"third\\\", \\\"completed\\\": false}], actual: {\\\"exit_code\\\": 0, \\\"body\\\": [{\\\"id\\\": 1, \\\"title\\\": \\\" \\\\t\\\\n\\\\u2003 \\\", \\\"completed\\\": true}, {\\\"id\\\": 2, \\\"title\\\": \\\"done renamed\\\", \\\"completed\\\": true}, {\\\"id\\\": 3, \\\"title\\\": \\\"third\\\", \\\"completed\\\": false}]}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The implementation fails to return the correct JSON error response for invalid inputs, instead returning a success response.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: exit 2 with nonempty JSON error, actual: {\\\"exit_code\\\": 0, \\\"body\\\": {\\\"id\\\": 1, \\\"title\\\": \\\" \\\\t\\\\n\\\\u2003 \\\", \\\"completed\\\": false}}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The implementation does not adhere to the requirement of using parameterized SQL for updates, risking SQL injection vulnerabilities.\",\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"quote\": \"expected: exit 2 with nonempty JSON error, actual: {\\\"exit_code\\\": 0, \\\"body\\\": {\\\"id\\\": 1, \\\"title\\\": \\\" \\\\t\\\\n\\\\u2003 \\\", \\\"completed\\\": false}}\",\n          \"path\": null,\n          \"check_stage\": \"verify\"\n        }\n      ]\n    }\n  ]\n}",
+          "source_locations": []
+        }
+      ],
+      "source_unchanged": true
+    }
+  ],
+  "all_controls_passed": false,
+  "inputs_unchanged": true,
+  "fresh_lifecycle_trial_started": false,
+  "assessment": "Positive control accepted; negative control failed to produce a valid evidence-backed blocked report. The guardrail rejected both invalid reports, preventing their acceptance.",
+  "observations": [
+    "Negative preflight and reviewer verification passed 41/49 checks; security passed.",
+    "The reviewer correctly noticed missing whitespace trimming but fabricated literal quotations by reformatting structured evidence.",
+    "Claims about lost completion state and database isolation were not established by the cited title mismatches. The SQL parameterization claim was unsupported.",
+    "The positive report referred to a document/plan despite reviewing an implementation; a correct verdict alone does not establish thorough source review."
+  ],
+  "recommendation": "Use stable IDs for check evidence and attach exact evidence in code. Require reviewers to distinguish observed mismatches from inferred root causes. Retain a bounded correction and repeat these controls before another full lifecycle trial.",
+  "limitations": [
+    "One positive and one negative fixture, not broad model reliability evidence.",
+    "Citation checks prove reference validity, not semantic correctness.",
+    "Reviewer-only evaluation; no writer or full lifecycle stages execute."
+  ]
+}

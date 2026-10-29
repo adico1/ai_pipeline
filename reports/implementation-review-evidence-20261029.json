@@ -15,12 +15,16 @@
   },
   "live_controls": {
     "source_run": "661421cdcbae",
-    "planned_variants": ["passing", "missing_whitespace_trim"],
+    "planned_variants": [
+      "passing",
+      "missing_whitespace_trim"
+    ],
     "executed": false,
     "reason": "Automatic approval review rejected sending unpublished candidate source and project context to the configured external model API without explicit authorization for that transfer."
   },
   "limitations": [
     "Citation validity does not prove that the cited evidence supports the reviewer's interpretation.",
     "No new full lifecycle trial was started."
-  ]
+  ],
+  "follow_up": "User subsequently authorized the live controls. See implementation-review-controls-20261029.json for executed results; the pending status above records the earlier checkpoint."
 }
