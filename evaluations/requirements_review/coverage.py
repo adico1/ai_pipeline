@@ -75,6 +75,16 @@ def review_with_coverage(crew, document, requirements):
         "requirements. Return each ID exactly once.\nREQUIREMENTS TO CHECK:\n"
         + json.dumps(requirements, ensure_ascii=False)
     )
+    if any("requirement" in item for item in requirements):
+        review.description += (
+            "\nSINGLE-REQUIREMENT EXPERIMENT: Assess ONLY the explicit requirement "
+            "field for the supplied ID. task_quote provides its origin and may contain "
+            "neighboring clauses; do not grade those neighbors or the whole document. "
+            "Find draft evidence that states this exact behavior or value, not merely "
+            "a related topic. Do not supply missing information from the original task. "
+            "If the draft omits the required detail, mark this requirement missing or "
+            "partial even when its general intent is mentioned."
+        )
     result = review.execute_sync(
         agent=crew.agents[1], context="DRAFT TO REVIEW (only citation source):\n" + json.dumps(document, ensure_ascii=False)
     )

@@ -16,6 +16,7 @@ from ai_pipeline.cli import load_environment
 from ai_pipeline.crewai_adapter import build_crew
 from ai_pipeline.stage_contracts import RequirementsDocument
 from evaluations.requirements_review.coverage import review_with_coverage
+from evaluations.requirements_review.atomic import atomic_cases
 
 
 def review_document(document, task, model, output, requirements=None):
@@ -45,7 +46,9 @@ def main():
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--repetitions", type=int, default=2, choices=range(1, 4))
     parser.add_argument("--validate-only", action="store_true")
-    parser.add_argument("--coverage", action="store_true", help="Evaluate exact draft citations and requirement coverage")
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument("--coverage", action="store_true", help="Evaluate exact draft citations and requirement coverage")
+    modes.add_argument("--atomic", action="store_true", help="Review one requirement at a time against paired precise omissions")
     args = parser.parse_args()
     fixture_path = Path(__file__).with_name("cases.json")
     task_path = ROOT / "projects/taskboard-rename-task.txt"
@@ -63,6 +66,11 @@ def main():
         expected = json.loads(json.dumps(original))
         expected["acceptance_criteria"].pop(case["removed_criterion_index"])
         assert case["document"] == expected, "Mutation changes more than its named criterion"
+    atomic_path = Path(__file__).with_name("atomic-checklist.json")
+    if args.atomic:
+        cases = atomic_cases(original, json.loads(atomic_path.read_text()), task_path.read_text())
+        for case in cases:
+            RequirementsDocument.model_validate(case["document"])
     if args.validate_only:
         print(f"Validated {len(cases)} drafts and their exact omissions; no API calls")
         return
@@ -73,6 +81,8 @@ def main():
                     ROOT / "ai_pipeline/crewai_adapter.py"]
     if requirements is not None:
         frozen_paths.extend([requirements_path, Path(__file__).with_name("coverage.py")])
+    if args.atomic:
+        frozen_paths.extend([atomic_path, Path(__file__).with_name("atomic.py"), Path(__file__).with_name("coverage.py")])
     frozen = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
               for p in frozen_paths}
     report = {
@@ -81,7 +91,8 @@ def main():
         "models": ["openai/gpt-4o-mini", "openai/gpt-4.1"],
         "repetitions": args.repetitions,
         "coverage_audit": args.coverage,
-        "method": "Production CrewAI reviewer agent/task, temperature 0, saved document as task context; no writer, stage revision loop, or labels supplied to model.",
+        "atomic_audit": args.atomic,
+        "method": "Production CrewAI reviewer agent, temperature 0, saved draft as context; optional experimental coverage schema/instructions. No writer, revision loop, expected labels or mutation descriptions supplied to model.",
         "limitations": ["Small single-project sample; not a full lifecycle or broad reliability result.",
                         "Verdict agreement alone does not prove correct reasoning; inspect findings for the removed criterion.",
                         "Model/provider internal retries and structured-output conversion may occur; no evaluation-level retries."],
@@ -98,7 +109,7 @@ def main():
                 row = {"case": case["id"], "model": model, "repetition": repetition + 1,
                        "expected_status": case["expected_status"]}
                 try:
-                    row["review"] = review_document(case["document"], task_path.read_text(), model, output, requirements)
+                    row["review"] = review_document(case["document"], task_path.read_text(), model, output, case.get("requirements", requirements))
                     row["verdict_matches"] = (row["review"]["status"] == case["expected_status"]
                                               and row["review"].get("evidence_valid", True))
                 except Exception as exc:

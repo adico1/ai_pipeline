@@ -1,0 +1,26 @@
+[
+  {
+    "id": "invalid_input_exit_code",
+    "task_quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2",
+    "requirement": "For every listed invalid input, the process must exit with code 2.",
+    "criterion_index": 3,
+    "remove_text": "exit 2 with",
+    "replacement": "return"
+  },
+  {
+    "id": "preserve_insertion_sequence",
+    "task_quote": "preserve ID and completion state, other records, insertion sequence and ID ordering.",
+    "requirement": "Renaming must preserve the insertion sequence.",
+    "criterion_index": 1,
+    "remove_text": ", insertion sequence",
+    "replacement": ""
+  },
+  {
+    "id": "temporary_test_databases",
+    "task_quote": "Tests must use temporary databases",
+    "requirement": "Tests must use temporary databases.",
+    "criterion_index": 4,
+    "remove_text": "use temporary databases and ",
+    "replacement": ""
+  }
+]

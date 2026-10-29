@@ -60,3 +60,30 @@ unchanged. Literal citation validation cannot establish semantic completeness;
 inspect the coverage explanations and retained quotations before drawing a
 conclusion. The task inventory is curated for this project, not an automatic
 requirements extractor.
+
+## Single-requirement experiment
+
+`--atomic` uses a focused three-item acceptance checklist in
+`atomic-checklist.json`: invalid-input exit code 2, preservation of the insertion
+sequence, and temporary databases for tests. Each item quotes the original task
+and states one rule. This checklist is a diagnostic subset, not a replacement
+for the full task or its nine-group inventory.
+
+For each item the evaluator sends the complete draft, then a copy with only the
+named phrase removed or replaced. Other criteria remain unchanged. The reviewer
+sees one checklist item per call; expected verdicts and mutation instructions
+are withheld. Two repetitions for two models produce 24 reviews. The existing
+literal citation validator still applies. All six verdicts per repetition must
+be correct, with valid citations and explanations identifying the omitted detail,
+before considering a model suitable for another experiment.
+
+```sh
+uv run python evaluations/requirements_review/run.py --atomic --validate-only \
+  --output /tmp/atomic-unused
+uv run python evaluations/requirements_review/run.py --atomic \
+  --output .factory/requirements-atomic-comparison
+```
+
+Human requirements approval and independent application checks remain necessary.
+Neither this evaluator nor its results automatically approve a factory run,
+change model settings, or enable a new production gate.
