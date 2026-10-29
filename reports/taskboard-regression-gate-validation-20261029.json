@@ -1,0 +1,207 @@
+{
+  "date": "2026-10-29",
+  "factory_tests_passed": 96,
+  "focused_gate_tests_passed": 4,
+  "recorded_candidate_validation": [
+    {
+      "run_id": "46768d299e83",
+      "result": {
+        "status": "failed",
+        "summary": "24/25 project checks passed.",
+        "failed_cases": [
+          {
+            "case": "generated-lifecycle-regressions",
+            "baseline": false,
+            "passed": false,
+            "expected": "Generated tests pass repaired source; at least two closed-handle assertions (success and exception paths) fail with ProgrammingError not raised against original leaking storage. Import errors do not count.",
+            "actual": {
+              "original_storage_sha256": "766b75d11c66eb443c8d1442b22421c10402d69027a9407d5595c88f0090cec7",
+              "repaired": {
+                "tests_run": 3,
+                "passed_ids": [
+                  "test_taskboard.TestPersistence.test_persistence_across_runs",
+                  "test_taskboard.TestStateTransitions.test_complete_idempotent",
+                  "test_taskboard.TestValidation.test_blank_title_rejected"
+                ],
+                "failures": [],
+                "errors": [],
+                "skipped": [],
+                "expected_failures": [],
+                "unexpected_successes": [],
+                "output": ""
+              },
+              "original_defect": {
+                "tests_run": 3,
+                "passed_ids": [
+                  "test_taskboard.TestPersistence.test_persistence_across_runs",
+                  "test_taskboard.TestStateTransitions.test_complete_idempotent",
+                  "test_taskboard.TestValidation.test_blank_title_rejected"
+                ],
+                "failures": [],
+                "errors": [],
+                "skipped": [],
+                "expected_failures": [],
+                "unexpected_successes": [],
+                "output": ""
+              },
+              "detecting_test_ids": []
+            }
+          }
+        ],
+        "baseline_tests_passed": true
+      },
+      "mutation": {
+        "case": "generated-lifecycle-regressions",
+        "baseline": false,
+        "passed": false,
+        "expected": "Generated tests pass repaired source; at least two closed-handle assertions (success and exception paths) fail with ProgrammingError not raised against original leaking storage. Import errors do not count.",
+        "actual": {
+          "original_storage_sha256": "766b75d11c66eb443c8d1442b22421c10402d69027a9407d5595c88f0090cec7",
+          "repaired": {
+            "tests_run": 3,
+            "passed_ids": [
+              "test_taskboard.TestPersistence.test_persistence_across_runs",
+              "test_taskboard.TestStateTransitions.test_complete_idempotent",
+              "test_taskboard.TestValidation.test_blank_title_rejected"
+            ],
+            "failures": [],
+            "errors": [],
+            "skipped": [],
+            "expected_failures": [],
+            "unexpected_successes": [],
+            "output": ""
+          },
+          "original_defect": {
+            "tests_run": 3,
+            "passed_ids": [
+              "test_taskboard.TestPersistence.test_persistence_across_runs",
+              "test_taskboard.TestStateTransitions.test_complete_idempotent",
+              "test_taskboard.TestValidation.test_blank_title_rejected"
+            ],
+            "failures": [],
+            "errors": [],
+            "skipped": [],
+            "expected_failures": [],
+            "unexpected_successes": [],
+            "output": ""
+          },
+          "detecting_test_ids": []
+        }
+      }
+    },
+    {
+      "run_id": "0c5d859dce04",
+      "result": {
+        "status": "passed",
+        "summary": "25/25 project checks passed.",
+        "failed_cases": [],
+        "baseline_tests_passed": true
+      },
+      "mutation": {
+        "case": "generated-lifecycle-regressions",
+        "baseline": false,
+        "passed": true,
+        "expected": "Generated tests pass repaired source; at least two closed-handle assertions (success and exception paths) fail with ProgrammingError not raised against original leaking storage. Import errors do not count.",
+        "actual": {
+          "original_storage_sha256": "766b75d11c66eb443c8d1442b22421c10402d69027a9407d5595c88f0090cec7",
+          "repaired": {
+            "tests_run": 5,
+            "passed_ids": [
+              "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_exception",
+              "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_success",
+              "test_taskboard.TestPersistence.test_persistence_across_runs",
+              "test_taskboard.TestStateTransitions.test_complete_idempotent",
+              "test_taskboard.TestValidation.test_blank_title_rejected"
+            ],
+            "failures": [],
+            "errors": [],
+            "skipped": [],
+            "expected_failures": [],
+            "unexpected_successes": [],
+            "output": ""
+          },
+          "original_defect": {
+            "tests_run": 5,
+            "passed_ids": [
+              "test_taskboard.TestPersistence.test_persistence_across_runs",
+              "test_taskboard.TestStateTransitions.test_complete_idempotent",
+              "test_taskboard.TestValidation.test_blank_title_rejected"
+            ],
+            "failures": [
+              {
+                "id": "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_exception",
+                "traceback": "Traceback (most recent call last):\n  File \"/private/var/folders/w_/46kg436n2g127pk1f7ljctjh0000gn/T/tmptugr4lca/original_defect/tests/test_taskboard.py\", line 66, in test_connection_closed_on_exception\n    with self.assertRaises(sqlite3.ProgrammingError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProgrammingError not raised\n"
+              },
+              {
+                "id": "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_success",
+                "traceback": "Traceback (most recent call last):\n  File \"/private/var/folders/w_/46kg436n2g127pk1f7ljctjh0000gn/T/tmptugr4lca/original_defect/tests/test_taskboard.py\", line 51, in test_connection_closed_on_success\n    with self.assertRaises(sqlite3.ProgrammingError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProgrammingError not raised\n"
+              }
+            ],
+            "errors": [],
+            "skipped": [],
+            "expected_failures": [],
+            "unexpected_successes": [],
+            "output": ""
+          },
+          "detecting_test_ids": [
+            "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_exception",
+            "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_success"
+          ]
+        }
+      }
+    }
+  ],
+  "installed_validation": [
+    {
+      "stage": "release",
+      "result": {
+        "status": "passed",
+        "summary": "Packaged 9 files with per-file hashes.",
+        "files": {
+          ".gitignore": "7376acd737921fa0716657f9899f48f563ee0d41565f1151bb30d1a7445ae432",
+          "README.md": "2f20b79b07eaba0a4c5922a9e462b744ff038542c6c49f73a7d4f0895e28ac77",
+          "pyproject.toml": "b6a41eb9a25b084b0ce79d4d035931a002852e11df42abee9e7d70581f926cad",
+          "taskboard/__init__.py": "d9b209b9fb16fafb15e31e758110873452aa50c39311f12147b05d40501c6ff4",
+          "taskboard/__main__.py": "3129adff95e0f38b87ab34cddfc27082c7892bcaec267ff5d40f160fdf55b44a",
+          "taskboard/cli.py": "79ffe67de034e03cd75b23fa1ead2ae313a20db0f0c1ea7904678188fa1e1155",
+          "taskboard/domain.py": "d63ea94d27e1229be0b8a3a4c0dfe5a1887528b21b0449b50d9287805aa47557",
+          "taskboard/storage.py": "c83d2f8a78f203697d6e1211ebb13f8e365ada8ad05057aef396ea627c03f453",
+          "tests/test_taskboard.py": "0f65d487d623ea059dc4702b6769b60fae2e447a73ef4f8a02ce6ab31d0c3a8e"
+        },
+        "archive_sha256": "4fb5082f75da4f4aae0805cc2ed367c0adb9bdf9078c3c0c458f0791f1a00f1a"
+      }
+    },
+    {
+      "stage": "deploy",
+      "result": {
+        "status": "passed",
+        "summary": "Installed complete source bundle into separate directory; observation runs from an unrelated working directory.",
+        "files": {
+          ".gitignore": "7376acd737921fa0716657f9899f48f563ee0d41565f1151bb30d1a7445ae432",
+          "README.md": "2f20b79b07eaba0a4c5922a9e462b744ff038542c6c49f73a7d4f0895e28ac77",
+          "pyproject.toml": "b6a41eb9a25b084b0ce79d4d035931a002852e11df42abee9e7d70581f926cad",
+          "taskboard/__init__.py": "d9b209b9fb16fafb15e31e758110873452aa50c39311f12147b05d40501c6ff4",
+          "taskboard/__main__.py": "3129adff95e0f38b87ab34cddfc27082c7892bcaec267ff5d40f160fdf55b44a",
+          "taskboard/cli.py": "79ffe67de034e03cd75b23fa1ead2ae313a20db0f0c1ea7904678188fa1e1155",
+          "taskboard/domain.py": "d63ea94d27e1229be0b8a3a4c0dfe5a1887528b21b0449b50d9287805aa47557",
+          "taskboard/storage.py": "c83d2f8a78f203697d6e1211ebb13f8e365ada8ad05057aef396ea627c03f453",
+          "tests/test_taskboard.py": "0f65d487d623ea059dc4702b6769b60fae2e447a73ef4f8a02ce6ab31d0c3a8e"
+        }
+      }
+    },
+    {
+      "stage": "observe",
+      "result": {
+        "status": "passed",
+        "summary": "25/25 project checks passed.",
+        "failed_cases": [],
+        "baseline_tests_passed": true
+      }
+    }
+  ],
+  "scope": "Repair-specific gate; candidate source is never changed. Original storage snapshot is an intentionally defective mutation input, excluded from releases.",
+  "limitations": [
+    "Two closure assertions are required; operator review still checks that they cover success and exception paths.",
+    "This gate requires unittest assertRaises(sqlite3.ProgrammingError) closure assertions and compatible storage interfaces; it is not a general mutation-testing framework."
+  ]
+}

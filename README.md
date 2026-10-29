@@ -810,3 +810,26 @@ Post-trial CI caught an import-name collision between Taskboard and Textstats te
 adapters when running together. Taskboard's sensor was renamed to
 `taskboard_checks.py`; all 91 factory tests then passed in one combined local run.
 The generated application and its acceptance behavior were unchanged.
+
+### Taskboard connection-repair regression gate
+
+`projects/taskboard-connection-repair.json` adds a repair-specific 25th check to
+verification and installed observation. Generated tests run in separate copies
+of the candidate: one unchanged, one with the recorded original leaking
+`storage.py`. The suite must pass the repaired copy, and at least two
+closed-handle assertions must fail against the original defect. The required
+tests cover success and exception paths using `assertRaises(sqlite3.ProgrammingError)`;
+import errors do not count as regression detection. The original storage snapshot
+is an intentionally defective test input, never a release file. This bounded
+check is specific to the recorded Taskboard repair, not a general mutation-testing
+system. The blank-project adapter retains its existing checks.
+
+```sh
+uv run ai-pipeline create --config projects/taskboard-connection-repair.json \
+  --task "$(cat projects/taskboard-connection-repair-task.txt)"
+uv run ai-pipeline advance RUN_ID
+uv run ai-pipeline status RUN_ID
+```
+
+The repair configuration uses the preserved local baseline under `.factory/`.
+Normal design, release, and deploy approvals still require evidence review.

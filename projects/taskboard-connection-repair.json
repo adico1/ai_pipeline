@@ -46,7 +46,7 @@
       "backend": "command",
       "command": [
         "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
-        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/adapter.py"
+        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/repair_adapter.py"
       ],
       "timeout_seconds": 120
     },
@@ -87,7 +87,7 @@
       "backend": "command",
       "command": [
         "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
-        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/adapter.py"
+        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/repair_adapter.py"
       ],
       "timeout_seconds": 120
     },
