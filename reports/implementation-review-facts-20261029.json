@@ -1,0 +1,121 @@
+{
+  "factory_commit": "aeeab2797ddd62890a9def6968c66184fb254e87",
+  "source_run": "661421cdcbae",
+  "source_digest": "130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a",
+  "input_hashes": {
+    "ai_pipeline/implementation_review.py": "7031a5dc406df024c9b87997cce1f3021fbf5b1498785dd570612467b938cdcf",
+    "ai_pipeline/evidence_facts.py": "5b97ea6254710b8caeb9e14368ad6b3e9612d3f61bce9ed5bab147f7e1b6df47",
+    "ai_pipeline/crewai_adapter.py": "1dbabe50d52db1e5e7c6ef69f1f7869de01ca95d95050e8e47d5cbef6a4f168b",
+    "ai_pipeline/prompts.py": "7c779e4bb7e6a183d2a2d0a1fbff0cb8cf3744caf2d64806f6ead791d9b9180a",
+    "evaluations/implementation_review/run.py": "444407e04bd4dadd822286183d4c01a8ddc906eb2c63d8ccbd255910b832c58a"
+  },
+  "models": {
+    "model": "openai/gpt-4.1-2025-04-14",
+    "review_model": "openai/gpt-4o-mini",
+    "max_iter": 24
+  },
+  "results": [
+    {
+      "variant": "passing",
+      "expected_status": "passed",
+      "preflight": [
+        {
+          "stage": "verify",
+          "status": "passed",
+          "summary": "49/49 project checks passed."
+        },
+        {
+          "stage": "security",
+          "status": "passed",
+          "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit."
+        }
+      ],
+      "review": {
+        "status": "passed",
+        "summary": "Reviewer passed; current verify and security checks passed. Model interpretation is unverified.",
+        "findings": [],
+        "next_actions": [],
+        "source_digest": "130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a",
+        "blocking_findings": [],
+        "resolved_check_evidence": {},
+        "unverified_model_interpretation": {
+          "summary": "The implementation stage deliverable for the 'rename a task' feature in the Taskboard project is complete and clear. All requirements have been addressed, and the implementation is ready for external verification.",
+          "findings": [],
+          "next_actions": [],
+          "blocking_findings": []
+        }
+      },
+      "verdict_matches": true,
+      "report_validation": [
+        {
+          "valid": true,
+          "errors": [],
+          "raw_report": "{\n  \"status\": \"passed\",\n  \"summary\": \"The implementation stage deliverable for the 'rename a task' feature in the Taskboard project is complete and clear. All requirements have been addressed, and the implementation is ready for external verification.\",\n  \"findings\": [],\n  \"next_actions\": [],\n  \"source_digest\": \"130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a\",\n  \"blocking_findings\": [],\n  \"resolved_check_evidence\": {},\n  \"unverified_model_interpretation\": {}\n}",
+          "source_locations": []
+        }
+      ],
+      "source_unchanged": true,
+      "reviewer_check_calls": 1
+    },
+    {
+      "variant": "missing_whitespace_trim",
+      "expected_status": "blocked",
+      "preflight": [
+        {
+          "stage": "verify",
+          "status": "failed",
+          "summary": "41/49 project checks passed."
+        },
+        {
+          "stage": "security",
+          "status": "passed",
+          "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit."
+        }
+      ],
+      "error_type": "Exception",
+      "error": "Task failed guardrail validation after 1 retries. Last error: REVIEW EVIDENCE INVALID: [\"Every findings entry must match a cited blocking finding\", \"Unknown evidence ID or mismatched check stage\", \"Unknown evidence ID or mismatched check stage\"]",
+      "verdict_matches": false,
+      "report_validation": [
+        {
+          "valid": false,
+          "errors": [
+            "Every findings entry must match a cited blocking finding",
+            "Unknown evidence ID or mismatched check stage",
+            "Unknown evidence ID or mismatched check stage"
+          ],
+          "raw_report": "{\n  \"status\": \"blocked\",\n  \"summary\": \"The implementation stage is blocked due to multiple failures in the rename feature tests, specifically related to input validation and persistence.\",\n  \"findings\": [],\n  \"next_actions\": [\n    \"Resolve the issues causing the rename feature tests to fail, particularly focusing on input validation for blank titles and ensuring that the title is trimmed correctly.\",\n    \"Ensure that the rename functionality correctly preserves the completed state of tasks and that invalid operations do not alter task data.\",\n    \"Re-run the implementation checks after addressing the identified issues.\"\n  ],\n  \"source_digest\": \"b3bf0704ca5faf675415a7363665cde98d57c46e394d52bef38286137237597f\",\n  \"blocking_findings\": [\n    {\n      \"finding\": \"The rename feature does not correctly handle blank or whitespace-only titles, allowing them to be set as valid titles.\",\n      \"inferred_cause\": null,\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"check_stage\": \"verify\",\n          \"evidence_id\": \"verify:607f2585ee7f2399\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The rename feature does not correctly trim leading and trailing whitespace from titles, resulting in unexpected output.\",\n      \"inferred_cause\": null,\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"check_stage\": \"verify\",\n          \"evidence_id\": \"verify:rename-trim\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The rename feature fails to preserve the completed state of tasks after renaming.\",\n      \"inferred_cause\": null,\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"check_stage\": \"verify\",\n          \"evidence_id\": \"verify:rename-preserve-completed-state\"\n        }\n      ]\n    }\n  ],\n  \"resolved_check_evidence\": {},\n  \"unverified_model_interpretation\": {}\n}",
+          "source_locations": []
+        },
+        {
+          "valid": false,
+          "errors": [
+            "Every findings entry must match a cited blocking finding",
+            "Unknown evidence ID or mismatched check stage",
+            "Unknown evidence ID or mismatched check stage"
+          ],
+          "raw_report": "{\n  \"status\": \"blocked\",\n  \"summary\": \"The implementation stage is blocked due to multiple failures in the rename feature tests, specifically related to input validation and persistence.\",\n  \"findings\": [],\n  \"next_actions\": [\n    \"Resolve the issues causing the rename feature tests to fail, particularly focusing on input validation for blank titles and ensuring that the title is trimmed correctly.\",\n    \"Ensure that the rename functionality correctly preserves the completed state of tasks and that invalid operations do not alter task data.\",\n    \"Re-run the implementation checks after addressing the identified issues.\"\n  ],\n  \"source_digest\": \"b3bf0704ca5faf675415a7363665cde98d57c46e394d52bef38286137237597f\",\n  \"blocking_findings\": [\n    {\n      \"finding\": \"The rename feature does not correctly handle blank or whitespace-only titles, allowing them to be set as valid titles.\",\n      \"inferred_cause\": null,\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"check_stage\": \"verify\",\n          \"evidence_id\": \"verify:607f2585ee7f2399\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The rename feature does not correctly trim leading and trailing whitespace from titles, resulting in unexpected output.\",\n      \"inferred_cause\": null,\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"check_stage\": \"verify\",\n          \"evidence_id\": \"verify:rename-trim\"\n        }\n      ]\n    },\n    {\n      \"finding\": \"The rename feature fails to preserve the completed state of tasks after renaming.\",\n      \"inferred_cause\": null,\n      \"citations\": [\n        {\n          \"kind\": \"check\",\n          \"check_stage\": \"verify\",\n          \"evidence_id\": \"verify:rename-preserve-completed-state\"\n        }\n      ]\n    }\n  ],\n  \"resolved_check_evidence\": {},\n  \"unverified_model_interpretation\": {}\n}",
+          "source_locations": []
+        }
+      ],
+      "source_unchanged": true,
+      "reviewer_check_calls": 1
+    }
+  ],
+  "limitations": [
+    "One positive and one negative fixture, not broad model reliability evidence.",
+    "Citation checks prove reference validity, not semantic correctness.",
+    "Reviewer-only evaluation; no writer or full lifecycle stages execute."
+  ],
+  "inputs_unchanged": true,
+  "all_controls_passed": false,
+  "validation": {
+    "tests_passed": 129,
+    "duration_seconds": 99.589,
+    "command": ".venv/bin/python -m unittest discover -s tests",
+    "focused_tests_passed": 13,
+    "diff_check": "passed"
+  },
+  "fresh_lifecycle_trial_started": false,
+  "assessment": "Positive control passed. Negative control produced invented evidence IDs and inconsistent findings on both report attempts; guardrail rejected it. Offline regression tests prove valid reports replace the two earlier unsupported claims with measured title differences and retain model prose as unverified.",
+  "recommendation": "Simplify the model-facing review response to evidence selections and explicitly unverified commentary; assemble duplicate findings and other report fields in code. Restrict evidence selections to the IDs in the current receipt. Verify offline before another bounded live control."
+}
