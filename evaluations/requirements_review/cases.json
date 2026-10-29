@@ -1,0 +1,99 @@
+[
+  {
+    "id": "complete",
+    "expected_status": "passed",
+    "rationale": "All explicit task requirements are covered; no additional capabilities or unanswered blocking questions.",
+    "removed_criterion_index": null,
+    "document": {
+      "objective": "Add only task renaming to the existing multi-file Taskboard project.",
+      "scope": [
+        "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+      ],
+      "acceptance_criteria": [
+        "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}.",
+        "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically.",
+        "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors.",
+        "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress.",
+        "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files.",
+        "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims.",
+        "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+      ],
+      "constraints": [
+        "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "id": "missing_error_contract",
+    "expected_status": "blocked",
+    "rationale": "Missing exit-2 JSON errors, ID range, invalid-operation no-write behavior and database isolation.",
+    "removed_criterion_index": 3,
+    "document": {
+      "objective": "Add only task renaming to the existing multi-file Taskboard project.",
+      "scope": [
+        "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+      ],
+      "acceptance_criteria": [
+        "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}.",
+        "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically.",
+        "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors.",
+        "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files.",
+        "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims.",
+        "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+      ],
+      "constraints": [
+        "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "id": "missing_state_preservation",
+    "expected_status": "blocked",
+    "rationale": "Missing preservation of ID/completion/other rows/sequence, old-database compatibility, persistence and idempotence.",
+    "removed_criterion_index": 1,
+    "document": {
+      "objective": "Add only task renaming to the existing multi-file Taskboard project.",
+      "scope": [
+        "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+      ],
+      "acceptance_criteria": [
+        "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}.",
+        "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors.",
+        "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress.",
+        "Retain the five baseline tests and add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior, at least eight tests total. Include CLI subprocess tests asserting success/output so removing rename causes assertions to fail. Tests use temporary databases and run independently of factory files.",
+        "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims.",
+        "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+      ],
+      "constraints": [
+        "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "id": "missing_regression_tests",
+    "expected_status": "blocked",
+    "rationale": "Missing the explicit five preserved plus three new meaningful tests and CLI assertions.",
+    "removed_criterion_index": 4,
+    "document": {
+      "objective": "Add only task renaming to the existing multi-file Taskboard project.",
+      "scope": [
+        "Extend the existing CLI, domain/validation and storage modules with actual imports connecting them; preserve add/list/complete, module layout, SQLite compatibility, metadata and source-bundle packaging."
+      ],
+      "acceptance_criteria": [
+        "Interface: python -m taskboard --database PATH rename ID TITLE. --database stays global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}.",
+        "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically.",
+        "Trim Python-recognized Unicode whitespace around TITLE. Preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors.",
+        "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation and behavior must not regress.",
+        "README explains rename syntax and behavior and documents the unittest command. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array contains four objects with args and stdout in order add, complete, rename, list, executed against one fresh database. Demonstrate that a renamed completed task stays completed. Do not invent deployment/provenance claims.",
+        "Begin implementation by inspecting source and calling check_current_candidate. The baseline passes existing checks but fails rename checks. Use write_source_file to implement the feature and resolve current verification/security findings. Complete code, tests and docs and call check_current_candidate before handoff. Passing baseline checks does not waive missing deliverables."
+      ],
+      "constraints": [
+        "No scaffold replacement, new dependencies, web UI, delete, search, users or other features. Standard library only. Allowed imports: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports. Do not edit independent factory adapters."
+      ],
+      "open_questions": []
+    }
+  }
+]
