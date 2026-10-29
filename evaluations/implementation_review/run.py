@@ -48,7 +48,7 @@ def main():
         # Copy only this project's explicit source/test/documentation roots.
         for name in ("taskboard", "tests"):
             shutil.copytree(source / name, workspace / name, ignore=shutil.ignore_patterns("__pycache__"))
-        for name in ("README.md", "pyproject.toml"):
+        for name in ("README.md", "pyproject.toml", ".gitignore"):
             shutil.copy2(source / name, workspace / name)
         if variant == "missing_whitespace_trim":
             path = workspace / "taskboard/domain.py"
