@@ -14,6 +14,8 @@ import sys
 import time
 import uuid
 
+from ai_pipeline.requirements_checklist import validate_checklist
+
 
 STAGES = (
     "requirements",
@@ -97,6 +99,14 @@ def load_config(path: Path):
     if set(stages) != set(STAGES):
         raise FactoryError("Configure every SDLC stage: " + ", ".join(STAGES))
     for name, stage in stages.items():
+        checklist = stage.get("crewai", {}).get("requirements_checklist")
+        if checklist is not None:
+            if name != "requirements" or stage.get("backend") != "crewai":
+                raise FactoryError("requirements_checklist is only supported by CrewAI requirements")
+            try:
+                validate_checklist(checklist)
+            except ValueError as exc:
+                raise FactoryError(str(exc)) from exc
         if (
             not isinstance(stage.get("timeout_seconds", 300), (int, float))
             or not 0 < stage.get("timeout_seconds", 300) <= 3600
@@ -170,6 +180,12 @@ class Factory:
         config = load_config(config_path.resolve())
         if not task.strip():
             raise FactoryError("A task is required")
+        checklist = config["stages"]["requirements"].get("crewai", {}).get("requirements_checklist")
+        if checklist is not None:
+            try:
+                validate_checklist(checklist, task)
+            except ValueError as exc:
+                raise FactoryError(str(exc)) from exc
         run_id = uuid.uuid4().hex[:12]
         directory = self.root / run_id
         workspace = directory / "workspace"

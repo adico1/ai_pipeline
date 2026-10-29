@@ -19,6 +19,15 @@ class RequirementsDocument(BaseModel):
     open_questions: list[str] = Field(default_factory=list)
 
 
+class ChecklistMapping(BaseModel):
+    id: str = Field(min_length=1)
+    acceptance_criterion_index: int = Field(ge=0, strict=True)
+
+
+class ChecklistRequirementsDocument(RequirementsDocument):
+    checklist: list[ChecklistMapping]
+
+
 class DesignDocument(BaseModel):
     approach: str = Field(min_length=1)
     interfaces: list[str] = Field(min_length=1)

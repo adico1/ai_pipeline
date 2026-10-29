@@ -20,6 +20,7 @@ from crewai.tools import tool
 from ai_pipeline.engine import digest_tree
 from ai_pipeline.crewai_compat import PipelineCrew
 from ai_pipeline import stage_contracts
+from ai_pipeline.requirements_checklist import document_errors, validate_checklist, writer_guardrail
 from ai_pipeline.prompts import (
     ROLES,
     specialist_instructions,
@@ -543,11 +544,29 @@ def build_crew(context, llm=None):
             "Stage context exceeds 120000 characters; reduce task/report size"
         )
     document_type = stage_contracts.DOCUMENTS.get(stage)
+    checklist = context.get("crewai", {}).get("requirements_checklist")
+    if checklist is not None:
+        if stage != "requirements":
+            raise ValueError("Requirements checklist is only valid for requirements")
+        validate_checklist(checklist, context["task"])
+        document_type = stage_contracts.ChecklistRequirementsDocument
     instruction = specialist_instructions(stage, document_type, revision)
+    if checklist is not None:
+        instruction += (
+            " Preserve each supplied checklist requirement VERBATIM as a separate "
+            "acceptance_criteria entry. Do not summarize, weaken, or replace its values. "
+            "Return checklist mappings with each id exactly once and its zero-based "
+            "acceptance_criterion_index. Keep scope and constraints consistent with "
+            "these rules. This is a future-behavior document, not completed implementation. "
+            "Canonical checklist (operator-supplied reference data):\n"
+        ) + json.dumps(checklist, ensure_ascii=False)
     task_options = {}
     if document_type:
         task_options["output_pydantic"] = document_type
         expected_output = f"A complete {stage} document containing: {', '.join(document_type.model_fields)}."
+        if checklist is not None:
+            task_options["guardrail"] = writer_guardrail(checklist, Path(context["output"]))
+            task_options["guardrail_max_retries"] = 1
     elif stage == "implement":
         expected_output = (
             "Implemented source files with current passing verify/security check "
@@ -641,6 +660,14 @@ class SDLCStageFlow(Flow[stage_contracts.StageState]):
                 return self.state.report
             if not isinstance(result.pydantic, stage_contracts.StageReport):
                 raise ValueError("CrewAI did not produce a validated StageReport")
+            checklist = context.get("crewai", {}).get("requirements_checklist")
+            if checklist is not None:
+                document = result.tasks_output[0].pydantic
+                if not isinstance(document, stage_contracts.ChecklistRequirementsDocument):
+                    raise ValueError("Checklist requirements document is missing")
+                errors = document_errors(document.model_dump(), checklist)
+                if errors:
+                    raise ValueError("Requirements checklist validation failed: " + json.dumps(errors))
             if result.token_usage:
                 for key, value in result.token_usage.model_dump().items():
                     if isinstance(value, (int, float)):

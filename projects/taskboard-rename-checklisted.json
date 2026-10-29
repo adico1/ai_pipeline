@@ -1,0 +1,382 @@
+{
+  "version": 1,
+  "name": "taskboard-rename-checklisted",
+  "max_repairs": 2,
+  "gates": [
+    "design"
+  ],
+  "stages": {
+    "requirements": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4o-mini",
+        "review_model": "openai/gpt-4.1",
+        "max_iter": 24,
+        "requirements_checklist": [
+          {
+            "id": "feature_scope",
+            "requirement": "Add only task renaming; do not add web UI, delete, search, users or other features.",
+            "task_quote": "Extend the existing generated multi-file Taskboard project with ONE feature: rename a task. Preserve the existing add/list/complete CLI, SQLite data, module layout, five baseline tests, source-bundle packaging and existing README examples. No scaffold replacement, new dependencies, web UI, delete, search, users or other features."
+          },
+          {
+            "id": "preserve_cli",
+            "requirement": "Preserve existing add, list and complete CLI behavior.",
+            "task_quote": "Extend the existing generated multi-file Taskboard project with ONE feature: rename a task. Preserve the existing add/list/complete CLI, SQLite data, module layout, five baseline tests, source-bundle packaging and existing README examples. No scaffold replacement, new dependencies, web UI, delete, search, users or other features."
+          },
+          {
+            "id": "preserve_layout",
+            "requirement": "Preserve the existing multi-file module layout; do not replace the scaffold.",
+            "task_quote": "Extend the existing generated multi-file Taskboard project with ONE feature: rename a task. Preserve the existing add/list/complete CLI, SQLite data, module layout, five baseline tests, source-bundle packaging and existing README examples. No scaffold replacement, new dependencies, web UI, delete, search, users or other features."
+          },
+          {
+            "id": "preserve_sqlite",
+            "requirement": "Preserve existing SQLite task data.",
+            "task_quote": "Extend the existing generated multi-file Taskboard project with ONE feature: rename a task. Preserve the existing add/list/complete CLI, SQLite data, module layout, five baseline tests, source-bundle packaging and existing README examples. No scaffold replacement, new dependencies, web UI, delete, search, users or other features."
+          },
+          {
+            "id": "packaging",
+            "requirement": "Preserve source-bundle packaging.",
+            "task_quote": "Extend the existing generated multi-file Taskboard project with ONE feature: rename a task. Preserve the existing add/list/complete CLI, SQLite data, module layout, five baseline tests, source-bundle packaging and existing README examples. No scaffold replacement, new dependencies, web UI, delete, search, users or other features."
+          },
+          {
+            "id": "dependencies",
+            "requirement": "Add no new dependencies.",
+            "task_quote": "Extend the existing generated multi-file Taskboard project with ONE feature: rename a task. Preserve the existing add/list/complete CLI, SQLite data, module layout, five baseline tests, source-bundle packaging and existing README examples. No scaffold replacement, new dependencies, web UI, delete, search, users or other features."
+          },
+          {
+            "id": "rename_command",
+            "requirement": "Provide python -m taskboard --database PATH rename ID TITLE.",
+            "task_quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database remains global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+          },
+          {
+            "id": "database_option",
+            "requirement": "Keep --database global, with default tasks.sqlite3.",
+            "task_quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database remains global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+          },
+          {
+            "id": "success_exit",
+            "requirement": "Successful rename exits with code 0.",
+            "task_quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database remains global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+          },
+          {
+            "id": "success_json",
+            "requirement": "Successful rename prints exactly one JSON object containing id as a positive integer, title as the trimmed title, and completed as a boolean.",
+            "task_quote": "Interface: python -m taskboard --database PATH rename ID TITLE. --database remains global and defaults to tasks.sqlite3. Success exits 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool}."
+          },
+          {
+            "id": "preserve_id",
+            "requirement": "Rename changes only the title and preserves the task ID.",
+            "task_quote": "Change only the title: preserve ID and completion state, other records, insertion sequence and ID ordering. Rename works on open and completed tasks, persists across processes and on databases created before this feature. Repeating the same title succeeds identically."
+          },
+          {
+            "id": "preserve_completed",
+            "requirement": "Rename preserves the completion state.",
+            "task_quote": "Change only the title: preserve ID and completion state, other records, insertion sequence and ID ordering. Rename works on open and completed tasks, persists across processes and on databases created before this feature. Repeating the same title succeeds identically."
+          },
+          {
+            "id": "preserve_other_records",
+            "requirement": "Rename preserves other records.",
+            "task_quote": "Change only the title: preserve ID and completion state, other records, insertion sequence and ID ordering. Rename works on open and completed tasks, persists across processes and on databases created before this feature. Repeating the same title succeeds identically."
+          },
+          {
+            "id": "preserve_sequence",
+            "requirement": "Rename preserves the insertion sequence.",
+            "task_quote": "Change only the title: preserve ID and completion state, other records, insertion sequence and ID ordering. Rename works on open and completed tasks, persists across processes and on databases created before this feature. Repeating the same title succeeds identically."
+          },
+          {
+            "id": "preserve_order",
+            "requirement": "Rename preserves ID ordering.",
+            "task_quote": "Change only the title: preserve ID and completion state, other records, insertion sequence and ID ordering. Rename works on open and completed tasks, persists across processes and on databases created before this feature. Repeating the same title succeeds identically."
+          },
+          {
+            "id": "open_and_completed",
+            "requirement": "Rename works on both open and completed tasks.",
+            "task_quote": "Change only the title: preserve ID and completion state, other records, insertion sequence and ID ordering. Rename works on open and completed tasks, persists across processes and on databases created before this feature. Repeating the same title succeeds identically."
+          },
+          {
+            "id": "persistence",
+            "requirement": "Rename persists across processes.",
+            "task_quote": "Change only the title: preserve ID and completion state, other records, insertion sequence and ID ordering. Rename works on open and completed tasks, persists across processes and on databases created before this feature. Repeating the same title succeeds identically."
+          },
+          {
+            "id": "old_databases",
+            "requirement": "Rename works on databases created before this feature.",
+            "task_quote": "Change only the title: preserve ID and completion state, other records, insertion sequence and ID ordering. Rename works on open and completed tasks, persists across processes and on databases created before this feature. Repeating the same title succeeds identically."
+          },
+          {
+            "id": "idempotence",
+            "requirement": "Repeating the same title succeeds identically.",
+            "task_quote": "Change only the title: preserve ID and completion state, other records, insertion sequence and ID ordering. Rename works on open and completed tasks, persists across processes and on databases created before this feature. Repeating the same title succeeds identically."
+          },
+          {
+            "id": "trim_whitespace",
+            "requirement": "Trim Python-recognized Unicode whitespace around the title.",
+            "task_quote": "Trim Python-recognized Unicode whitespace around the title; preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+          },
+          {
+            "id": "preserve_title_contents",
+            "requirement": "Preserve internal spacing, case, Unicode and SQL-like text literally.",
+            "task_quote": "Trim Python-recognized Unicode whitespace around the title; preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+          },
+          {
+            "id": "parameterized_sql",
+            "requirement": "Use parameterized SQL.",
+            "task_quote": "Trim Python-recognized Unicode whitespace around the title; preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+          },
+          {
+            "id": "close_success",
+            "requirement": "Close database connections on success.",
+            "task_quote": "Trim Python-recognized Unicode whitespace around the title; preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+          },
+          {
+            "id": "close_missing_id",
+            "requirement": "Close database connections on missing-ID errors.",
+            "task_quote": "Trim Python-recognized Unicode whitespace around the title; preserve internal spacing, case, Unicode and SQL-like text literally. Use parameterized SQL and close connections on success and missing-ID errors."
+          },
+          {
+            "id": "invalid_exit",
+            "requirement": "Blank/whitespace-only titles and nonexistent, malformed, zero, negative or out-of-range IDs exit with code 2.",
+            "task_quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation/behavior must not regress."
+          },
+          {
+            "id": "error_json",
+            "requirement": "For invalid titles and IDs, output a nonempty JSON error string in {\"error\":string} on stderr.",
+            "task_quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation/behavior must not regress."
+          },
+          {
+            "id": "id_range",
+            "requirement": "IDs must fit SQLite positive signed 64-bit range.",
+            "task_quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation/behavior must not regress."
+          },
+          {
+            "id": "no_write_on_error",
+            "requirement": "Invalid operations must not change task data.",
+            "task_quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation/behavior must not regress."
+          },
+          {
+            "id": "fresh_missing_id",
+            "requirement": "A missing task in a fresh database must not create a task.",
+            "task_quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation/behavior must not regress."
+          },
+          {
+            "id": "database_isolation",
+            "requirement": "Separate databases remain isolated.",
+            "task_quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation/behavior must not regress."
+          },
+          {
+            "id": "preserve_validation",
+            "requirement": "Existing validation and behavior must not regress.",
+            "task_quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr. IDs must fit SQLite positive signed 64-bit range. Invalid operations must not change task data. A missing task in a fresh database must not create a task. Separate databases remain isolated. Existing validation/behavior must not regress."
+          },
+          {
+            "id": "module_connections",
+            "requirement": "Implement through existing CLI, domain/validation and storage responsibilities with actual imports connecting the modules.",
+            "task_quote": "Implement through the existing CLI, domain/validation and storage responsibilities with actual imports connecting the modules. Preserve metadata and standard-library-only policy. Allowed imports remain argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports."
+          },
+          {
+            "id": "metadata",
+            "requirement": "Preserve project metadata.",
+            "task_quote": "Implement through the existing CLI, domain/validation and storage responsibilities with actual imports connecting the modules. Preserve metadata and standard-library-only policy. Allowed imports remain argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports."
+          },
+          {
+            "id": "stdlib",
+            "requirement": "Use only the standard library.",
+            "task_quote": "Implement through the existing CLI, domain/validation and storage responsibilities with actual imports connecting the modules. Preserve metadata and standard-library-only policy. Allowed imports remain argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports."
+          },
+          {
+            "id": "import_allowlist",
+            "requirement": "Allowed imports remain argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports.",
+            "task_quote": "Implement through the existing CLI, domain/validation and storage responsibilities with actual imports connecting the modules. Preserve metadata and standard-library-only policy. Allowed imports remain argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports."
+          },
+          {
+            "id": "baseline_tests",
+            "requirement": "Retain the five existing tests.",
+            "task_quote": "Add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior; retain the five existing tests (at least eight tests total). Include CLI subprocess tests that assert success/output so removing rename makes assertions fail. Tests must use temporary databases and run independently of factory files."
+          },
+          {
+            "id": "new_tests",
+            "requirement": "Add at least three meaningful unittest tests, for at least eight tests total.",
+            "task_quote": "Add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior; retain the five existing tests (at least eight tests total). Include CLI subprocess tests that assert success/output so removing rename makes assertions fail. Tests must use temporary databases and run independently of factory files."
+          },
+          {
+            "id": "test_success_persistence",
+            "requirement": "Add a meaningful rename-success test covering persistence.",
+            "task_quote": "Add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior; retain the five existing tests (at least eight tests total). Include CLI subprocess tests that assert success/output so removing rename makes assertions fail. Tests must use temporary databases and run independently of factory files."
+          },
+          {
+            "id": "test_completed",
+            "requirement": "Add a meaningful test that rename preserves completed state.",
+            "task_quote": "Add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior; retain the five existing tests (at least eight tests total). Include CLI subprocess tests that assert success/output so removing rename makes assertions fail. Tests must use temporary databases and run independently of factory files."
+          },
+          {
+            "id": "test_invalid_no_write",
+            "requirement": "Add a meaningful invalid-input/no-write test.",
+            "task_quote": "Add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior; retain the five existing tests (at least eight tests total). Include CLI subprocess tests that assert success/output so removing rename makes assertions fail. Tests must use temporary databases and run independently of factory files."
+          },
+          {
+            "id": "cli_test_assertions",
+            "requirement": "Include CLI subprocess tests asserting success/output so removing rename makes assertions fail.",
+            "task_quote": "Add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior; retain the five existing tests (at least eight tests total). Include CLI subprocess tests that assert success/output so removing rename makes assertions fail. Tests must use temporary databases and run independently of factory files."
+          },
+          {
+            "id": "temporary_databases",
+            "requirement": "Tests must use temporary databases.",
+            "task_quote": "Add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior; retain the five existing tests (at least eight tests total). Include CLI subprocess tests that assert success/output so removing rename makes assertions fail. Tests must use temporary databases and run independently of factory files."
+          },
+          {
+            "id": "standalone_tests",
+            "requirement": "Tests run independently of factory files.",
+            "task_quote": "Add at least three meaningful unittest tests for rename success with persistence, completed-state preservation and invalid-input/no-write behavior; retain the five existing tests (at least eight tests total). Include CLI subprocess tests that assert success/output so removing rename makes assertions fail. Tests must use temporary databases and run independently of factory files."
+          },
+          {
+            "id": "readme_syntax",
+            "requirement": "README explains rename syntax and behavior.",
+            "task_quote": "README must explain rename syntax and behavior. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array has four objects with args and stdout, in order add, complete, rename, list, executed against one fresh database. Show that a renamed completed task stays completed. Document the unittest command. Do not invent deployment/provenance claims."
+          },
+          {
+            "id": "preserve_examples",
+            "requirement": "Keep the existing json taskboard-examples block unchanged.",
+            "task_quote": "README must explain rename syntax and behavior. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array has four objects with args and stdout, in order add, complete, rename, list, executed against one fresh database. Show that a renamed completed task stays completed. Document the unittest command. Do not invent deployment/provenance claims."
+          },
+          {
+            "id": "new_example_fence",
+            "requirement": "Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```.",
+            "task_quote": "README must explain rename syntax and behavior. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array has four objects with args and stdout, in order add, complete, rename, list, executed against one fresh database. Show that a renamed completed task stays completed. Document the unittest command. Do not invent deployment/provenance claims."
+          },
+          {
+            "id": "example_sequence",
+            "requirement": "The new example JSON array has four objects with args and stdout, in order add, complete, rename, list, executed against one fresh database.",
+            "task_quote": "README must explain rename syntax and behavior. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array has four objects with args and stdout, in order add, complete, rename, list, executed against one fresh database. Show that a renamed completed task stays completed. Document the unittest command. Do not invent deployment/provenance claims."
+          },
+          {
+            "id": "example_completed",
+            "requirement": "The rename examples demonstrate that a renamed completed task stays completed.",
+            "task_quote": "README must explain rename syntax and behavior. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array has four objects with args and stdout, in order add, complete, rename, list, executed against one fresh database. Show that a renamed completed task stays completed. Document the unittest command. Do not invent deployment/provenance claims."
+          },
+          {
+            "id": "test_command",
+            "requirement": "Document the unittest command.",
+            "task_quote": "README must explain rename syntax and behavior. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array has four objects with args and stdout, in order add, complete, rename, list, executed against one fresh database. Show that a renamed completed task stays completed. Document the unittest command. Do not invent deployment/provenance claims."
+          },
+          {
+            "id": "no_invented_provenance",
+            "requirement": "Do not invent deployment or provenance claims.",
+            "task_quote": "README must explain rename syntax and behavior. Keep the existing json taskboard-examples block unchanged. Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```. Its JSON array has four objects with args and stdout, in order add, complete, rename, list, executed against one fresh database. Show that a renamed completed task stays completed. Document the unittest command. Do not invent deployment/provenance claims."
+          },
+          {
+            "id": "initial_check",
+            "requirement": "Begin by inspecting source and calling check_current_candidate.",
+            "task_quote": "Begin by inspecting source and calling check_current_candidate. The unchanged baseline passes its existing checks but fails rename checks; implement the new feature with write_source_file and resolve current verification/security findings. Passing baseline checks does not satisfy missing feature tests or documentation. Do not edit independent factory adapters. Complete the requested code, tests and docs, then call check_current_candidate before handoff."
+          },
+          {
+            "id": "write_feature",
+            "requirement": "The baseline passes existing checks but fails rename checks; implement the feature using write_source_file and resolve current verification/security findings.",
+            "task_quote": "Begin by inspecting source and calling check_current_candidate. The unchanged baseline passes its existing checks but fails rename checks; implement the new feature with write_source_file and resolve current verification/security findings. Passing baseline checks does not satisfy missing feature tests or documentation. Do not edit independent factory adapters. Complete the requested code, tests and docs, then call check_current_candidate before handoff."
+          },
+          {
+            "id": "deliverables",
+            "requirement": "Passing baseline checks does not satisfy missing feature tests or documentation; complete code, tests and documentation.",
+            "task_quote": "Begin by inspecting source and calling check_current_candidate. The unchanged baseline passes its existing checks but fails rename checks; implement the new feature with write_source_file and resolve current verification/security findings. Passing baseline checks does not satisfy missing feature tests or documentation. Do not edit independent factory adapters. Complete the requested code, tests and docs, then call check_current_candidate before handoff."
+          },
+          {
+            "id": "protect_adapters",
+            "requirement": "Do not edit independent factory adapters.",
+            "task_quote": "Begin by inspecting source and calling check_current_candidate. The unchanged baseline passes its existing checks but fails rename checks; implement the new feature with write_source_file and resolve current verification/security findings. Passing baseline checks does not satisfy missing feature tests or documentation. Do not edit independent factory adapters. Complete the requested code, tests and docs, then call check_current_candidate before handoff."
+          },
+          {
+            "id": "final_check",
+            "requirement": "Call check_current_candidate before handoff.",
+            "task_quote": "Begin by inspecting source and calling check_current_candidate. The unchanged baseline passes its existing checks but fails rename checks; implement the new feature with write_source_file and resolve current verification/security findings. Passing baseline checks does not satisfy missing feature tests or documentation. Do not edit independent factory adapters. Complete the requested code, tests and docs, then call check_current_candidate before handoff."
+          }
+        ]
+      },
+      "timeout_seconds": 600
+    },
+    "design": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4.1-2025-04-14",
+        "review_model": "openai/gpt-4.1-2025-04-14",
+        "max_iter": 24
+      },
+      "timeout_seconds": 600
+    },
+    "plan": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4.1-2025-04-14",
+        "review_model": "openai/gpt-4.1-2025-04-14",
+        "max_iter": 24
+      },
+      "timeout_seconds": 600
+    },
+    "implement": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4.1-2025-04-14",
+        "review_model": "openai/gpt-4o-mini",
+        "max_iter": 24
+      },
+      "timeout_seconds": 600
+    },
+    "verify": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/rename_adapter.py"
+      ],
+      "timeout_seconds": 120
+    },
+    "security": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/adapter.py"
+      ],
+      "timeout_seconds": 120
+    },
+    "review": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4.1-2025-04-14",
+        "review_model": "openai/gpt-4.1-2025-04-14",
+        "max_iter": 24
+      },
+      "timeout_seconds": 600
+    },
+    "release": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/adapter.py"
+      ],
+      "timeout_seconds": 120
+    },
+    "deploy": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/adapter.py"
+      ],
+      "timeout_seconds": 120
+    },
+    "observe": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/taskboard/rename_adapter.py"
+      ],
+      "timeout_seconds": 120
+    },
+    "retrospective": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4o-mini",
+        "review_model": "openai/gpt-4o-mini",
+        "max_iter": 24
+      },
+      "timeout_seconds": 600
+    }
+  },
+  "repository": "/Users/adicohen/work/ai_pipeline/.factory/taskboard-rename-baseline"
+}

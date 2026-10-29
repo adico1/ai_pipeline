@@ -134,3 +134,36 @@ requirements reviewer to GPT-4.1; its writer and downstream stages are unchanged
 The broad verdict alone is insufficient (as the prior negative controls showed).
 The full checklist review plus human approval is the intended safeguard. No
 existing configuration or historical run is rewritten.
+
+## Lossless requirements writer
+
+`projects/taskboard-rename-checklisted.json` embeds the 55 canonical rules in
+`stages.requirements.crewai.requirements_checklist`. Each item has `id`,
+`requirement` and an exact `task_quote` from the original task. Embedding the
+rules includes them in the run's existing configuration digest. Creating a run
+rejects source quotations absent from its task. This option is supported only
+for the CrewAI requirements stage.
+
+The writer must copy each canonical rule verbatim into a separate
+`acceptance_criteria` entry and return a `checklist` mapping of each ID to its
+zero-based `acceptance_criterion_index`. A deterministic guardrail rejects
+missing/duplicate/unknown IDs, wrong indices, shared indices and changed rule
+text before independent review. One writer correction is allowed; persistent
+failure stops the stage. A second validation checks the returned crew output
+before accepting the stage. The mappings remain in the saved document and
+upstream evidence passed to later stages.
+
+This guarantees preservation of the supplied contract, not its completeness,
+semantic correctness or eventual implementation. Human approval, review for
+contradictions elsewhere in the document, and independent application tests
+remain necessary. Existing configurations without a checklist are unchanged.
+
+```sh
+uv run ai-pipeline create --config projects/taskboard-rename-checklisted.json \
+  --task "$(cat projects/taskboard-rename-task.txt)"
+uv run ai-pipeline advance RUN_ID
+uv run ai-pipeline status RUN_ID
+```
+
+At the requirements gate inspect `requirements.json` and
+`requirements-checklist-validation.json` in the attempt's artifact directory.
