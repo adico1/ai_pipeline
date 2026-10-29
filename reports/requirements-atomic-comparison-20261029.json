@@ -1,0 +1,780 @@
+{
+  "factory_commit": "bc6fa821c1cd777fe202f99eb937bed752c3b841",
+  "input_hashes": {
+    "evaluations/requirements_review/cases.json": "c72a1352434d65353da114d36ce9af8e48bc84f982b034dbb6f614a2c0f8bc6e",
+    "projects/taskboard-rename-task.txt": "9a05335381b48db91477745d69e7ed3a02fdfcbaf84278c54fa9f0844f8ac944",
+    "evaluations/requirements_review/run.py": "0b47ebfe825bcdbb898190882316f912c5cb8f06d9a6ac1b6f94b1d930b31030",
+    "ai_pipeline/prompts.py": "7c779e4bb7e6a183d2a2d0a1fbff0cb8cf3744caf2d64806f6ead791d9b9180a",
+    "ai_pipeline/crewai_adapter.py": "3591e0651b3fcdd36cadf41d363657c461b62433c9a1b2d6fd35d8a48148d775",
+    "evaluations/requirements_review/atomic-checklist.json": "5d4dfbc64dd588925ab6e99cefdd9a89d8b24fa0e47d985a2372f86ebf39f984",
+    "evaluations/requirements_review/atomic.py": "2f26aee1e53cde8afe57ea1a1b1ec6ad792aeab99118857ecbe3e978b2700732",
+    "evaluations/requirements_review/coverage.py": "c04cbdc18e8170cb48683867d0f5b438042d4ec065b728e49537209d264a63f4"
+  },
+  "models": [
+    "openai/gpt-4o-mini",
+    "openai/gpt-4.1"
+  ],
+  "repetitions": 2,
+  "coverage_audit": false,
+  "atomic_audit": true,
+  "method": "Production CrewAI reviewer agent, temperature 0, saved draft as context; optional experimental coverage schema/instructions. No writer, revision loop, expected labels or mutation descriptions supplied to model.",
+  "limitations": [
+    "Small single-project sample; not a full lifecycle or broad reliability result.",
+    "Verdict agreement alone does not prove correct reasoning; inspect findings for the removed criterion.",
+    "Model/provider internal retries and structured-output conversion may occur; no evaluation-level retries.",
+    "Only three rules from one task were tested; the focused checklist is not the complete acceptance contract.",
+    "The full original draft remains in each call, but the reviewer is explicitly asked to assess only one rule.",
+    "Two repetitions are a small sample and cannot establish broad reliability.",
+    "The evaluator is experimental; full production requirements review still uses its existing configuration."
+  ],
+  "results": [
+    {
+      "case": "invalid_input_exit_code-present",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "invalid_input_exit_code",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr."
+                }
+              ],
+              "explanation": "The draft explicitly states that for blank/whitespace-only titles and various invalid IDs, the process must exit with code 2, fulfilling the requirement."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 3.72
+    },
+    {
+      "case": "invalid_input_exit_code-present",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "invalid_input_exit_code",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr."
+                }
+              ],
+              "explanation": "The draft explicitly states that blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs must exit with code 2, matching the requirement."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.34
+    },
+    {
+      "case": "invalid_input_exit_code-omitted",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "invalid_input_exit_code",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs return a nonempty JSON {\"error\":string} on stderr."
+                }
+              ],
+              "explanation": "The draft explicitly states that for blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs, the process must return a nonempty JSON error on stderr, which aligns with the requirement for the process to exit with code 2."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 2.333
+    },
+    {
+      "case": "invalid_input_exit_code-omitted",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "invalid_input_exit_code"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "invalid_input_exit_code",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft specifies that blank/whitespace-only titles and various invalid IDs must return a nonempty JSON error on stderr, but it does not state that the process must exit with code 2 for these cases. The required exit code is not mentioned anywhere in the draft."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.429
+    },
+    {
+      "case": "preserve_insertion_sequence-present",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_insertion_sequence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering."
+                }
+              ],
+              "explanation": "The draft explicitly states that renaming must preserve the insertion sequence as part of the acceptance criteria."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.806
+    },
+    {
+      "case": "preserve_insertion_sequence-present",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_insertion_sequence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The requirement to preserve the insertion sequence is explicitly stated in the acceptance criteria: 'Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering.' This directly covers the requirement."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.505
+    },
+    {
+      "case": "preserve_insertion_sequence-omitted",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_insertion_sequence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records and ID ordering."
+                }
+              ],
+              "explanation": "The draft explicitly states that renaming must preserve the task ID and ID ordering, which includes the preservation of the insertion sequence."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 2.155
+    },
+    {
+      "case": "preserve_insertion_sequence-omitted",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_insertion_sequence"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_insertion_sequence",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not explicitly state that renaming must preserve the insertion sequence. While acceptance_criteria[1] mentions preserving the task ID, completion state, other records, and ID ordering, it does not mention insertion sequence. There is no explicit statement or equivalent wording in any field of the draft that covers this requirement."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.6
+    },
+    {
+      "case": "temporary_test_databases-present",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "temporary_test_databases",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft explicitly states that tests must use temporary databases, fulfilling the requirement."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.818
+    },
+    {
+      "case": "temporary_test_databases-present",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "temporary_test_databases",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The requirement that tests must use temporary databases is explicitly stated in the acceptance criteria."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.252
+    },
+    {
+      "case": "temporary_test_databases-omitted",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "temporary_test_databases",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Tests run independently of factory files."
+                }
+              ],
+              "explanation": "The draft explicitly states that tests must run independently of factory files, which implies the use of temporary databases."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 2.252
+    },
+    {
+      "case": "temporary_test_databases-omitted",
+      "model": "openai/gpt-4.1",
+      "repetition": 1,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "temporary_test_databases"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "temporary_test_databases",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that tests must use temporary databases. There is no explicit statement or equivalent wording in any section (objective, scope, acceptance_criteria, constraints, open_questions) that covers this requirement."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 2.27
+    },
+    {
+      "case": "invalid_input_exit_code-present",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "invalid_input_exit_code",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr."
+                }
+              ],
+              "explanation": "The draft explicitly states that blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs must exit with code 2, matching the requirement."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.922
+    },
+    {
+      "case": "invalid_input_exit_code-present",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "invalid_input_exit_code",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit 2 with a nonempty JSON {\"error\":string} on stderr."
+                }
+              ],
+              "explanation": "The draft explicitly states that for blank/whitespace-only titles and various invalid IDs, the process must exit with code 2, fulfilling the requirement."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 2.003
+    },
+    {
+      "case": "invalid_input_exit_code-omitted",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "invalid_input_exit_code"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "invalid_input_exit_code",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft specifies that blank/whitespace-only titles and various invalid IDs must return a nonempty JSON error object on stderr, but it does not state that the process must exit with code 2 for these cases. The required exit code is not mentioned anywhere in the draft."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.481
+    },
+    {
+      "case": "invalid_input_exit_code-omitted",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "invalid_input_exit_code",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs return a nonempty JSON {\"error\":string} on stderr."
+                }
+              ],
+              "explanation": "The draft explicitly states that invalid inputs, including blank/whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs, will return a nonempty JSON error message on stderr, which aligns with the requirement for the process to exit with code 2."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 2.185
+    },
+    {
+      "case": "preserve_insertion_sequence-present",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_insertion_sequence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering. Renaming works for open and completed tasks, persists across processes and works on databases created before this feature. Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The requirement to preserve the insertion sequence is explicitly stated in the acceptance criteria: 'Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering.' This directly covers the requirement."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.577
+    },
+    {
+      "case": "preserve_insertion_sequence-present",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_insertion_sequence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records, insertion sequence and ID ordering."
+                }
+              ],
+              "explanation": "The draft explicitly states that renaming must preserve the insertion sequence as part of the acceptance criteria."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 2.37
+    },
+    {
+      "case": "preserve_insertion_sequence-omitted",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_insertion_sequence"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_insertion_sequence",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not explicitly mention that renaming must preserve the insertion sequence. While it states to 'preserve the task ID and completion state, other records and ID ordering,' it does not specifically address the preservation of insertion sequence. No field in the draft directly covers this requirement."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 2.467
+    },
+    {
+      "case": "preserve_insertion_sequence-omitted",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_insertion_sequence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "Change only the title: preserve the task ID and completion state, other records and ID ordering."
+                }
+              ],
+              "explanation": "The draft explicitly states that renaming must preserve the task ID and ID ordering, which includes preserving the insertion sequence."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 2.245
+    },
+    {
+      "case": "temporary_test_databases-present",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "temporary_test_databases",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft explicitly states that tests use temporary databases in the acceptance criteria."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.334
+    },
+    {
+      "case": "temporary_test_databases-present",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "temporary_test_databases",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Tests use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft explicitly states that tests must use temporary databases, fulfilling the requirement."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.843
+    },
+    {
+      "case": "temporary_test_databases-omitted",
+      "model": "openai/gpt-4.1",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "temporary_test_databases"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "temporary_test_databases",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that tests must use temporary databases. There is no explicit statement in any field (objective, scope, acceptance_criteria, constraints, open_questions) that test databases must be temporary or isolated. The requirement is therefore missing."
+            }
+          ]
+        }
+      },
+      "verdict_matches": true,
+      "duration_seconds": 1.667
+    },
+    {
+      "case": "temporary_test_databases-omitted",
+      "model": "openai/gpt-4o-mini",
+      "repetition": 2,
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "temporary_test_databases",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Tests run independently of factory files."
+                }
+              ],
+              "explanation": "The draft explicitly states that tests must run independently of factory files, which implies the use of temporary databases for testing."
+            }
+          ]
+        }
+      },
+      "verdict_matches": false,
+      "duration_seconds": 2.094
+    }
+  ],
+  "inputs_unchanged": true,
+  "summary": {
+    "openai/gpt-4o-mini": {
+      "correct_verdicts": 6,
+      "total": 12
+    },
+    "openai/gpt-4.1": {
+      "correct_verdicts": 12,
+      "total": 12
+    }
+  },
+  "date": "2026-10-29",
+  "factory_tests": {
+    "passed": 106,
+    "duration_seconds": 95.339,
+    "focused_tests_passed": 7
+  },
+  "checklist": "evaluations/requirements_review/atomic-checklist.json",
+  "manual_assessment": {
+    "openai/gpt-4.1": {
+      "present_accepted": 6,
+      "present_total": 6,
+      "omissions_correctly_identified": 6,
+      "omitted_total": 6,
+      "citation_errors": 0,
+      "notes": [
+        "Both exit-code omissions are identified specifically as lacking code 2, despite retaining JSON stderr behavior.",
+        "Both sequence omissions distinguish insertion sequence from preserved IDs and ordering.",
+        "Both temporary-database omissions identify absent test isolation requirements.",
+        "All six positive citations contain the selected rule in the specified draft field."
+      ]
+    },
+    "openai/gpt-4o-mini": {
+      "present_accepted": 6,
+      "present_total": 6,
+      "omissions_correctly_identified": 0,
+      "omitted_total": 6,
+      "citation_errors": 0,
+      "notes": [
+        "All omitted rules were marked covered despite their removal. Literal quotes remained valid; semantic coverage was incorrect."
+      ]
+    }
+  },
+  "decision": {
+    "qualified_for_next_experiment": "openai/gpt-4.1",
+    "production_models_changed": false,
+    "human_approval_retained": true,
+    "production_gate_enabled": false,
+    "full_trial_started": false,
+    "reason": "GPT-4.1 passes all predeclared positive/negative controls on these three atomic rules, including manual inspection of citations and explanations. This qualifies the approach for a broader supervised experiment, not automatic approval."
+  },
+  "next_recommendation": "Expand the checklist to all explicit requirements for this one task and use GPT-4.1 for one-item-at-a-time advisory coverage before the existing human approval gate. Validate new checklist controls before one fresh supervised trial. Preserve independent application acceptance checks and do not claim general autonomy."
+}
