@@ -1,0 +1,215 @@
+{
+  "date": "2026-10-29",
+  "run_id": "661421cdcbae",
+  "status": "failed",
+  "classification": "Requirements assembly succeeded; fresh supervised trial stopped at implementation review",
+  "factory_commit": "9b24178be5930727e9f625f7ebf66e7cd06f0a19",
+  "baseline_commit": "1f2097616fd20ae866d397ccf93015924f2dc9e1",
+  "config_digest": "2386bddf4e0ac84a5d8dbfd1ac2ae90ba9276bb7cb0ad7ec0752912a81d66528",
+  "task_digest": "9a05335381b48db91477745d69e7ed3a02fdfcbaf84278c54fa9f0844f8ac944",
+  "frozen_inputs_unchanged": true,
+  "factory_tests": {
+    "passed": 116,
+    "duration_seconds": 96.671,
+    "focused_tests_passed": 8
+  },
+  "requirements": {
+    "canonical_rules": 55,
+    "assembly_attempts": 1,
+    "review_revisions": 0,
+    "validation": {
+      "mode": "deterministic_assembly",
+      "attempts": [
+        {
+          "passed": true,
+          "errors": [],
+          "writer_analysis": {
+            "objective": "Extend the existing generated multi-file Taskboard project with ONE feature: rename a task.",
+            "scope": [
+              "Implement the rename feature through the existing CLI.",
+              "Preserve existing add/list/complete CLI behavior.",
+              "Preserve existing SQLite task data.",
+              "Preserve the existing multi-file module layout.",
+              "Preserve source-bundle packaging.",
+              "Add no new dependencies.",
+              "Provide the command interface: python -m taskboard --database PATH rename ID TITLE.",
+              "Ensure successful rename exits with code 0 and prints a specific JSON object.",
+              "Ensure that renaming only changes the title and preserves the task ID and completion state.",
+              "Ensure that the rename feature works on both open and completed tasks.",
+              "Ensure that the rename persists across processes and on databases created before this feature.",
+              "Ensure that repeating the same title succeeds identically.",
+              "Trim whitespace around the title and preserve internal spacing, case, Unicode, and SQL-like text literally.",
+              "Use parameterized SQL and close connections on success and missing-ID errors.",
+              "Ensure invalid operations do not change task data.",
+              "Ensure a missing task in a fresh database does not create a task.",
+              "Ensure separate databases remain isolated.",
+              "Ensure existing validation and behavior do not regress.",
+              "Implement through actual imports connecting the modules while preserving metadata and standard-library-only policy.",
+              "Add at least three meaningful unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior.",
+              "Retain the five existing tests, resulting in at least eight tests total.",
+              "Include CLI subprocess tests that assert success/output.",
+              "Ensure tests use temporary databases and run independently of factory files.",
+              "Update the README to explain rename syntax and behavior, including examples."
+            ],
+            "constraints": [
+              "Do not add web UI, delete, search, users, or other features.",
+              "Do not replace the scaffold.",
+              "Do not edit independent factory adapters.",
+              "Passing baseline checks does not satisfy missing feature tests or documentation.",
+              "Call check_current_candidate before handoff."
+            ],
+            "open_questions": []
+          },
+          "writer_raw": "{\n  \"objective\": \"Extend the existing generated multi-file Taskboard project with ONE feature: rename a task.\",\n  \"scope\": [\n    \"Implement the rename feature through the existing CLI.\",\n    \"Preserve existing add/list/complete CLI behavior.\",\n    \"Preserve existing SQLite task data.\",\n    \"Preserve the existing multi-file module layout.\",\n    \"Preserve source-bundle packaging.\",\n    \"Add no new dependencies.\",\n    \"Provide the command interface: python -m taskboard --database PATH rename ID TITLE.\",\n    \"Ensure successful rename exits with code 0 and prints a specific JSON object.\",\n    \"Ensure that renaming only changes the title and preserves the task ID and completion state.\",\n    \"Ensure that the rename feature works on both open and completed tasks.\",\n    \"Ensure that the rename persists across processes and on databases created before this feature.\",\n    \"Ensure that repeating the same title succeeds identically.\",\n    \"Trim whitespace around the title and preserve internal spacing, case, Unicode, and SQL-like text literally.\",\n    \"Use parameterized SQL and close connections on success and missing-ID errors.\",\n    \"Ensure invalid operations do not change task data.\",\n    \"Ensure a missing task in a fresh database does not create a task.\",\n    \"Ensure separate databases remain isolated.\",\n    \"Ensure existing validation and behavior do not regress.\",\n    \"Implement through actual imports connecting the modules while preserving metadata and standard-library-only policy.\",\n    \"Add at least three meaningful unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior.\",\n    \"Retain the five existing tests, resulting in at least eight tests total.\",\n    \"Include CLI subprocess tests that assert success/output.\",\n    \"Ensure tests use temporary databases and run independently of factory files.\",\n    \"Update the README to explain rename syntax and behavior, including examples.\"\n  ],\n  \"constraints\": [\n    \"Do not add web UI, delete, search, users, or other features.\",\n    \"Do not replace the scaffold.\",\n    \"Do not edit independent factory adapters.\",\n    \"Passing baseline checks does not satisfy missing feature tests or documentation.\",\n    \"Call check_current_candidate before handoff.\"\n  ],\n  \"open_questions\": []\n}"
+        }
+      ]
+    },
+    "operator_review": {
+      "canonical_rules_preserved": 55,
+      "assembly_attempts": 1,
+      "analysis_review": "Objective, scope and constraints preserve the bounded rename task. No contradictions, invented constraints, or blocking questions found. Canonical criteria specify the exact values omitted in earlier drafts.",
+      "approval": "design approved under prior user authorization"
+    }
+  },
+  "passed_stages": [
+    "requirements",
+    "design",
+    "plan"
+  ],
+  "failed_attempt": {
+    "stage": "implement",
+    "number": 4,
+    "at": "2026-10-29T11:08:28.953769+00:00",
+    "duration_seconds": 87.369,
+    "exit_code": 1,
+    "source_before": "cd5bae1a2638807d2be998d31fbc679c2f0216be3417d94fdf4368b96aa0c7bd",
+    "source_after": "130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a",
+    "status": "failed",
+    "error": "Adapter did not provide a passed result with a summary",
+    "result": {
+      "status": "failed",
+      "summary": "The implementation stage deliverable for the 'rename a task' feature in the Taskboard project is incomplete. The current source fails to meet the acceptance criteria for the new rename functionality, as indicated by the results of the check_current_candidate.",
+      "findings": [
+        "The current implementation does not pass the checks for the rename feature, indicating that the required functionality is not fully implemented or is incorrect.",
+        "The existing code for the rename feature does not handle all specified edge cases, such as validation for blank titles and invalid IDs, which are critical for the feature's correctness.",
+        "The implementation must ensure that the rename operation preserves the task's completion state and other attributes, which may not be fully validated in the current source.",
+        "The README documentation does not reflect the new rename functionality accurately, particularly in the examples and usage sections, which need to be updated to include the rename command."
+      ],
+      "next_actions": [
+        "Review and implement the rename functionality in the source code to ensure it meets all acceptance criteria, including proper validation and error handling.",
+        "Update the README documentation to accurately describe the rename command and provide examples that demonstrate its usage.",
+        "Run check_current_candidate again after making the necessary changes to verify that all requirements and security findings are resolved."
+      ],
+      "review_revisions": 0,
+      "framework": "crewai",
+      "report": "crew-report.md"
+    },
+    "artifact_directory": "/Users/adicohen/work/ai_pipeline/.factory/661421cdcbae/artifacts/004-implement-ad54b28e"
+  },
+  "candidate_checks": {
+    "scope": "CURRENT candidate; advisory checks, external gates still rerun",
+    "source_digest": "130b2132628cca409bf984c2473369524ebe3e4f8f2669df4796c0f400739d9a",
+    "checks": [
+      {
+        "stage": "verify",
+        "status": "passed",
+        "report": {
+          "status": "passed",
+          "baseline_tests_passed": true,
+          "summary": "49/49 project checks passed.",
+          "findings": []
+        },
+        "evidence_path": "/Users/adicohen/work/ai_pipeline/.factory/661421cdcbae/artifacts/004-implement-ad54b28e/candidate-checks/verify-7c8547ed/result.json"
+      },
+      {
+        "stage": "security",
+        "status": "passed",
+        "report": {
+          "status": "passed",
+          "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit.",
+          "findings": []
+        },
+        "evidence_path": "/Users/adicohen/work/ai_pipeline/.factory/661421cdcbae/artifacts/004-implement-ad54b28e/candidate-checks/security-fcfa627e/result.json"
+      }
+    ]
+  },
+  "generated_tests": {
+    "passed": 11,
+    "log": "test_persistence_across_runs (test_taskboard.TestPersistence.test_persistence_across_runs) ... ok\ntest_rename_invalid_inputs_and_no_write (test_taskboard.TestRenameFeature.test_rename_invalid_inputs_and_no_write) ... ok\ntest_rename_preserves_completed_state (test_taskboard.TestRenameFeature.test_rename_preserves_completed_state) ... ok\ntest_rename_preserves_internal_whitespace (test_taskboard.TestRenameFeature.test_rename_preserves_internal_whitespace) ... ok\ntest_rename_same_title (test_taskboard.TestRenameFeature.test_rename_same_title) ... ok\ntest_rename_success_and_persistence (test_taskboard.TestRenameFeature.test_rename_success_and_persistence) ... ok\ntest_rename_unicode_and_sql_like (test_taskboard.TestRenameFeature.test_rename_unicode_and_sql_like) ... ok\ntest_add_and_complete (test_taskboard.TestStateTransitions.test_add_and_complete) ... ok\ntest_invalid_id (test_taskboard.TestStateTransitions.test_invalid_id) ... ok\ntest_blank_title_rejected (test_taskboard.TestValidation.test_blank_title_rejected) ... ok\ntest_unicode_and_sql_like_title (test_taskboard.TestValidation.test_unicode_and_sql_like_title) ... ok\n\n----------------------------------------------------------------------\nRan 11 tests in 2.751s\n\nOK\n"
+  },
+  "cases": [
+    "multi-file-package",
+    "project-metadata",
+    "empty-list",
+    "add",
+    "unicode-and-sql-text",
+    "list-across-processes",
+    "complete",
+    "complete-idempotent",
+    "saved-state",
+    "blank-title",
+    "invalid-id-0",
+    "invalid-id--1",
+    "invalid-id-abc",
+    "invalid-id-999",
+    "invalid-id-99999999999999999999999999",
+    "invalid-input-no-write",
+    "database-isolation",
+    "sqlite-on-disk",
+    "documentation-0",
+    "documentation-1",
+    "documentation-2",
+    "documentation-how-to",
+    "sqlite-connection-lifecycle",
+    "generated-tests",
+    "rename-trim",
+    "rename-completed-stays-completed",
+    "rename-persisted-across-processes",
+    "rename-same-title",
+    "rename-unicode-sql-text",
+    "rename-preserve-internal-whitespace",
+    "rename-invalid-id-0",
+    "rename-invalid-id--1",
+    "rename-invalid-id-abc",
+    "rename-invalid-id-999",
+    "rename-invalid-id-9223372036854775808",
+    "rename-blank-0",
+    "rename-blank-1",
+    "rename-failed-operations-no-write",
+    "rename-does-not-allocate-id",
+    "rename-complete-after-rename",
+    "rename-missing-in-fresh-db",
+    "rename-fresh-remains-empty",
+    "rename-other-db-unchanged",
+    "rename-documentation-0",
+    "rename-documentation-1",
+    "rename-documentation-2",
+    "rename-documentation-3",
+    "rename-connection-lifecycle",
+    "rename-generated-test-count"
+  ],
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "supplemental_writer_calls": 0,
+  "engine_repairs": 0,
+  "approval_binding_refreshes": 1,
+  "approval_binding_note": "First approval was rejected after adding the operator review note changed evidence. The normal advance command refreshed the gate, then approval succeeded without replaying a stage or editing source.",
+  "approvals": [
+    {
+      "actor": "codex-user-authorized-taskboard-rename",
+      "note": "Reviewed assembled requirements and operator review note: all 55 frozen checklist rules and mappings preserved exactly on first attempt; analyst scope and constraints consistent, no unresolved questions. Approve design under original bounded task.",
+      "stage": "design",
+      "binding": "3131cd1145eface82669e3c93fb2703baeff407fbcfb5f41c8d2830790c3d4bd",
+      "at": "2026-10-29T11:06:05.260268+00:00"
+    }
+  ],
+  "assessment": "Deterministic assembly preserved all 55 canonical criteria on the first requirements attempt, with model-written analysis separately retained. Requirements, design and plan passed. CrewAI implemented the feature and the writer handoff passed current-digest candidate checks. The implementation reviewer then claimed checks failed and documentation/validation were missing; those reasons conflict with the current saved checks and inspected code/README. No unsupported automatic override was applied.",
+  "next_recommendation": "Require implementation reviews to cite current source locations or current-digest failed checks for each blocking finding, and validate that the reviewer actually obtains current check evidence. Test both correct implementations and deliberate defects before a new trial; do not equate passing checks with proof of correctness or automatically override blocked reviews.",
+  "limitations": [
+    "Candidate checks ran inside implementation. Formal verify/security/review/release/deploy/observe stages were not reached.",
+    "Generated tests were not mutation-tested in this failed trial and the candidate is not promoted.",
+    "The cause of the reviewer evidence mismatch is not established by these artifacts.",
+    "Exact preservation of operator-authored criteria does not establish their completeness or semantic correctness.",
+    "The original failure report was clarified: the previous guardrail first ran before CrewAI schema conversion, so its first missing-ID diagnostic did not prove raw draft omissions."
+  ]
+}
