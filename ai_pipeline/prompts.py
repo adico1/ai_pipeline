@@ -85,8 +85,11 @@ def specialist_instructions(stage, document_type, revision):
             "corrections. A prior design choice is not permission to violate project "
             "policy. After source edits, call check_current_candidate again and address "
             "remaining failures before finishing. Do not package or deploy. If the "
-            "current candidate already passes both checks, preserve it instead of "
-            "reimplementing the old design."
+            "current candidate already passes both checks, preserve its working behavior "
+            "instead of reimplementing the old design. Passing checks do not waive "
+            "explicit deliverables they do not measure, such as requested regression "
+            "tests. Inspect those deliverables and use write_source_file to complete "
+            "any that are still missing. Never claim a file changed without writing it."
         )
         instruction += (
             " Implement the general rule from the requirements, not a list of specific "
