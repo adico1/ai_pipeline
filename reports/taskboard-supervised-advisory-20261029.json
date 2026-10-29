@@ -1,0 +1,1799 @@
+{
+  "factory_commit": "bcafaf427537d60185502cbba9770b2fce51b895",
+  "model": "openai/gpt-4.1",
+  "mode": "advisory",
+  "input_hashes": {
+    "evaluations/requirements_review/full_check.py": "304426f7622a027efc369543322799ff448511fa8eef405492e0fcfeaa806261",
+    "evaluations/requirements_review/taskboard-full-checklist.json": "afc689c76ffc7ac8e624eaa216bee932901ec6f36dc6f4399502211c02196f26",
+    "evaluations/requirements_review/requirements.json": "c33e5aecb8fa311dd0a6da9cc0d85a4c7c02fcaa9dd048e4f228eca8f99c7fba",
+    "evaluations/requirements_review/run.py": "0b47ebfe825bcdbb898190882316f912c5cb8f06d9a6ac1b6f94b1d930b31030",
+    "evaluations/requirements_review/coverage.py": "c04cbdc18e8170cb48683867d0f5b438042d4ec065b728e49537209d264a63f4",
+    "ai_pipeline/prompts.py": "7c779e4bb7e6a183d2a2d0a1fbff0cb8cf3744caf2d64806f6ead791d9b9180a",
+    "ai_pipeline/crewai_adapter.py": "3591e0651b3fcdd36cadf41d363657c461b62433c9a1b2d6fd35d8a48148d775",
+    "projects/taskboard-rename-task.txt": "9a05335381b48db91477745d69e7ed3a02fdfcbaf84278c54fa9f0844f8ac944"
+  },
+  "item_count": 55,
+  "results": [
+    {
+      "requirement_id": "feature_scope",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "feature_scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Implement a rename feature for tasks in the Taskboard project."
+                },
+                {
+                  "field": "constraints",
+                  "index": 1,
+                  "quote": "No web UI, delete, search, users, or other features are to be introduced."
+                }
+              ],
+              "explanation": "The draft explicitly states that only the rename feature is to be implemented and that no web UI, delete, search, users, or other features are to be introduced. This matches the requirement to add only task renaming and not other features."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 2.392
+    },
+    {
+      "requirement_id": "preserve_cli",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_cli",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 1,
+                  "quote": "Preserve existing add/list/complete CLI functionalities."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 11,
+                  "quote": "Separate databases remain isolated and existing validation/behavior must not regress."
+                }
+              ],
+              "explanation": "The draft explicitly states in the scope that existing add/list/complete CLI functionalities must be preserved. Additionally, the acceptance criteria reinforce that existing validation and behavior must not regress, which includes the CLI commands. This directly covers the requirement to preserve existing add, list, and complete CLI behavior."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.761
+    },
+    {
+      "requirement_id": "preserve_layout",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_layout",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 2,
+                  "quote": "Maintain SQLite data integrity and module layout."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement or new dependencies are allowed."
+                }
+              ],
+              "explanation": "The draft explicitly states that the module layout must be maintained and that scaffold replacement is not allowed, directly covering the requirement to preserve the existing multi-file module layout and not replace the scaffold."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.779
+    },
+    {
+      "requirement_id": "preserve_sqlite",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_sqlite",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 2,
+                  "quote": "Maintain SQLite data integrity and module layout."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 9,
+                  "quote": "Invalid operations must not change any task data."
+                }
+              ],
+              "explanation": "The draft explicitly states that SQLite data integrity must be maintained and that invalid operations must not change any task data, directly covering the requirement to preserve existing SQLite task data."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.409
+    },
+    {
+      "requirement_id": "packaging",
+      "variant": "draft",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "packaging"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "packaging",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention source-bundle packaging or provide any statement about preserving it. There is no explicit or equivalent wording in any section (objective, scope, acceptance_criteria, constraints, open_questions) that addresses packaging."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.323
+    },
+    {
+      "requirement_id": "dependencies",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "dependencies",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "No scaffold replacement or new dependencies are allowed."
+                }
+              ],
+              "explanation": "The draft explicitly states in the constraints section that no new dependencies are allowed, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.303
+    },
+    {
+      "requirement_id": "rename_command",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "rename_command",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "The command 'python -m taskboard --database PATH rename ID TITLE' successfully renames a task identified by ID to the new TITLE."
+                }
+              ],
+              "explanation": "The draft explicitly states the required command syntax 'python -m taskboard --database PATH rename ID TITLE' in acceptance_criteria[0], directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.608
+    },
+    {
+      "requirement_id": "database_option",
+      "variant": "draft",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "database_option"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "database_option",
+              "coverage": "partial",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "The command 'python -m taskboard --database PATH rename ID TITLE' successfully renames a task identified by ID to the new TITLE."
+                }
+              ],
+              "explanation": "The draft acceptance criteria mention the command syntax 'python -m taskboard --database PATH rename ID TITLE', which implies the presence of a --database option. However, the draft does not explicitly state that --database remains a global option or that it defaults to tasks.sqlite3. The requirement for the default value and global scope is not directly covered."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.604
+    },
+    {
+      "requirement_id": "success_exit",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "success_exit",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "The command exits with status 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool} upon success."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that the command exits with status 0 upon successful rename, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.377
+    },
+    {
+      "requirement_id": "success_json",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "success_json",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 1,
+                  "quote": "The command exits with status 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool} upon success."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that upon successful rename, the command must exit with status 0 and print exactly one JSON object containing id as a positive integer, title as the trimmed title, and completed as a boolean. This matches the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.505
+    },
+    {
+      "requirement_id": "preserve_id",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_id",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Only the title of the task is changed; ID and completion state remain unchanged."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that only the title is changed and the ID (as well as completion state) remains unchanged, directly covering the requirement that rename changes only the title and preserves the task ID."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.438
+    },
+    {
+      "requirement_id": "preserve_completed",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_completed",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Only the title of the task is changed; ID and completion state remain unchanged."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Renaming works for both open and completed tasks and persists across processes and databases created before this feature."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 18,
+                  "quote": "The documentation must show that a renamed completed task remains completed."
+                }
+              ],
+              "explanation": "The draft explicitly states that only the title is changed and the completion state remains unchanged, that renaming works for completed tasks, and that documentation must show a renamed completed task remains completed. These statements directly cover the requirement that rename preserves the completion state."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.677
+    },
+    {
+      "requirement_id": "preserve_other_records",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_other_records",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 2,
+                  "quote": "Only the title of the task is changed; ID and completion state remain unchanged."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 9,
+                  "quote": "Invalid operations must not change any task data."
+                }
+              ],
+              "explanation": "The draft explicitly states that only the title is changed and that ID and completion state remain unchanged, which covers the requirement that other records are preserved. It also specifies that invalid operations must not change any task data, reinforcing the preservation of other records."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.474
+    },
+    {
+      "requirement_id": "preserve_sequence",
+      "variant": "draft",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_sequence"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_sequence",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not explicitly state that the rename feature must preserve the insertion sequence of tasks. While it mentions that only the title is changed and other properties remain unchanged, there is no direct statement or acceptance criterion ensuring that the insertion sequence is preserved after a rename operation."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.249
+    },
+    {
+      "requirement_id": "preserve_order",
+      "variant": "draft",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_order"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_order",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not explicitly state that renaming a task preserves ID ordering. While it mentions that only the title is changed and that ID and completion state remain unchanged, there is no explicit mention of preserving ID ordering as required by the task. No field in the draft directly addresses this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.635
+    },
+    {
+      "requirement_id": "open_and_completed",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "open_and_completed",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Renaming works for both open and completed tasks and persists across processes and databases created before this feature."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that renaming works for both open and completed tasks, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.173
+    },
+    {
+      "requirement_id": "persistence",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "persistence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Renaming works for both open and completed tasks and persists across processes and databases created before this feature."
+                }
+              ],
+              "explanation": "The requirement that renaming persists across processes is explicitly stated in acceptance_criteria[3]: 'Renaming works for both open and completed tasks and persists across processes and databases created before this feature.'"
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.503
+    },
+    {
+      "requirement_id": "old_databases",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "old_databases",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 3,
+                  "quote": "Renaming works for both open and completed tasks and persists across processes and databases created before this feature."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that renaming works for databases created before this feature, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.128
+    },
+    {
+      "requirement_id": "idempotence",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "idempotence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 4,
+                  "quote": "Repeating the same title for a task succeeds identically."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that repeating the same title for a task succeeds identically, directly covering the requirement for idempotence."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.569
+    },
+    {
+      "requirement_id": "trim_whitespace",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "trim_whitespace",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved literally."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that whitespace around the title is trimmed, which matches the requirement to trim Python-recognized Unicode whitespace around the title."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.644
+    },
+    {
+      "requirement_id": "preserve_title_contents",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_title_contents",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 5,
+                  "quote": "Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved literally."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that internal spacing, case, Unicode, and SQL-like text are preserved literally, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.577
+    },
+    {
+      "requirement_id": "parameterized_sql",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "parameterized_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 6,
+                  "quote": "The implementation uses parameterized SQL and closes connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that the implementation must use parameterized SQL, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.177
+    },
+    {
+      "requirement_id": "close_success",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "close_success",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 6,
+                  "quote": "The implementation uses parameterized SQL and closes connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The requirement to close database connections on success is explicitly stated in acceptance_criteria[6]: 'The implementation uses parameterized SQL and closes connections on success and missing-ID errors.'"
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.362
+    },
+    {
+      "requirement_id": "close_missing_id",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "close_missing_id",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 6,
+                  "quote": "The implementation uses parameterized SQL and closes connections on success and missing-ID errors."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that the implementation must close connections on both success and missing-ID errors, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.433
+    },
+    {
+      "requirement_id": "invalid_exit",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "invalid_exit",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 7,
+                  "quote": "Blank or whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit with status 2 and a nonempty JSON {\"error\":string} on stderr."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that blank or whitespace-only titles and nonexistent, malformed, zero, negative, or out-of-range IDs must exit with status 2 and a nonempty JSON error object on stderr, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.428
+    },
+    {
+      "requirement_id": "error_json",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "error_json",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 7,
+                  "quote": "Blank or whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit with status 2 and a nonempty JSON {\"error\":string} on stderr."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that for blank or whitespace-only titles and invalid IDs, the command must exit with status 2 and output a nonempty JSON error string in the specified format on stderr."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.555
+    },
+    {
+      "requirement_id": "id_range",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "id_range",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 8,
+                  "quote": "IDs must fit within the SQLite positive signed 64-bit range."
+                }
+              ],
+              "explanation": "The requirement that IDs must fit the SQLite positive signed 64-bit range is explicitly stated in acceptance_criteria[8]."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.538
+    },
+    {
+      "requirement_id": "no_write_on_error",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "no_write_on_error",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 9,
+                  "quote": "Invalid operations must not change any task data."
+                }
+              ],
+              "explanation": "The requirement that invalid operations must not change task data is explicitly stated in acceptance_criteria[9] as 'Invalid operations must not change any task data.'"
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.356
+    },
+    {
+      "requirement_id": "fresh_missing_id",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "fresh_missing_id",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 10,
+                  "quote": "A missing task in a fresh database must not create a task."
+                }
+              ],
+              "explanation": "The requirement is explicitly stated in the acceptance criteria, ensuring that attempting to rename a missing task in a fresh database does not result in the creation of a new task."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.266
+    },
+    {
+      "requirement_id": "database_isolation",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "database_isolation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 11,
+                  "quote": "Separate databases remain isolated and existing validation/behavior must not regress."
+                }
+              ],
+              "explanation": "The requirement that separate databases remain isolated is explicitly stated in the acceptance criteria, ensuring that this behavior is a measurable acceptance criterion for the rename feature."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.265
+    },
+    {
+      "requirement_id": "preserve_validation",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_validation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 7,
+                  "quote": "Blank or whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit with status 2 and a nonempty JSON {\"error\":string} on stderr."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 8,
+                  "quote": "IDs must fit within the SQLite positive signed 64-bit range."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 9,
+                  "quote": "Invalid operations must not change any task data."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 10,
+                  "quote": "A missing task in a fresh database must not create a task."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 11,
+                  "quote": "Separate databases remain isolated and existing validation/behavior must not regress."
+                }
+              ],
+              "explanation": "The draft explicitly states that blank/whitespace-only titles and invalid IDs must result in an error without modifying data, IDs must fit the SQLite range, invalid operations must not change data, missing tasks must not be created, separate databases remain isolated, and existing validation/behavior must not regress. These statements directly cover the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 2.219
+    },
+    {
+      "requirement_id": "module_connections",
+      "variant": "draft",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "module_connections"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "module_connections",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not explicitly state that the implementation must be done through the existing CLI, domain/validation, and storage responsibilities with actual imports connecting the modules. While the draft lists acceptance criteria and constraints about allowed imports and preserving module layout, it does not mention the architectural requirement to implement the feature through the existing module responsibilities or to use actual imports to connect them. There is no explicit statement or equivalent wording covering this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.402
+    },
+    {
+      "requirement_id": "metadata",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "metadata",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "constraints",
+                  "index": 2,
+                  "quote": "All imports must remain within the allowed list: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports."
+                },
+                {
+                  "field": "constraints",
+                  "index": 3,
+                  "quote": "Metadata and standard-library-only policy must be preserved."
+                }
+              ],
+              "explanation": "The draft explicitly states that metadata and the standard-library-only policy must be preserved, and it lists the allowed imports, thereby covering the requirement to preserve project metadata."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.556
+    },
+    {
+      "requirement_id": "stdlib",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "stdlib",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "constraints",
+                  "index": 2,
+                  "quote": "All imports must remain within the allowed list: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports."
+                },
+                {
+                  "field": "constraints",
+                  "index": 3,
+                  "quote": "Metadata and standard-library-only policy must be preserved."
+                }
+              ],
+              "explanation": "The draft explicitly states that only standard library imports are allowed and that the standard-library-only policy must be preserved."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.576
+    },
+    {
+      "requirement_id": "import_allowlist",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "import_allowlist",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "constraints",
+                  "index": 2,
+                  "quote": "All imports must remain within the allowed list: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports."
+                }
+              ],
+              "explanation": "The draft explicitly lists the allowed imports in the constraints section, matching the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.748
+    },
+    {
+      "requirement_id": "baseline_tests",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "baseline_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 3,
+                  "quote": "Ensure five baseline tests remain intact."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 12,
+                  "quote": "At least three meaningful unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior must be added, retaining a total of at least eight tests."
+                }
+              ],
+              "explanation": "The draft explicitly states that the five baseline tests must remain intact in the scope and further clarifies in the acceptance criteria that at least eight tests must be present, which includes retaining the five existing tests."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.828
+    },
+    {
+      "requirement_id": "new_tests",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "new_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 12,
+                  "quote": "At least three meaningful unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior must be added, retaining a total of at least eight tests."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 13,
+                  "quote": "CLI subprocess tests must assert success/output for the rename command, ensuring that removing the rename feature causes assertions to fail."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 14,
+                  "quote": "Tests must use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft explicitly requires at least three meaningful unittest tests for rename (covering persistence, completed-state preservation, and invalid-input/no-write behavior), a total of at least eight tests, CLI subprocess tests that assert success/output for rename, and that tests use temporary databases and run independently of factory files."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.884
+    },
+    {
+      "requirement_id": "test_success_persistence",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "test_success_persistence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 12,
+                  "quote": "At least three meaningful unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior must be added, retaining a total of at least eight tests."
+                }
+              ],
+              "explanation": "The draft explicitly states that at least three meaningful unittest tests must be added, including one for rename success with persistence. This directly covers the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.507
+    },
+    {
+      "requirement_id": "test_completed",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "test_completed",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 12,
+                  "quote": "At least three meaningful unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior must be added, retaining a total of at least eight tests."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly require a meaningful unittest test for rename that covers completed-state preservation, directly addressing the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.378
+    },
+    {
+      "requirement_id": "test_invalid_no_write",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "test_invalid_no_write",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 12,
+                  "quote": "At least three meaningful unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior must be added, retaining a total of at least eight tests."
+                }
+              ],
+              "explanation": "The draft explicitly states that at least three meaningful unittest tests must be added, including one for invalid-input/no-write behavior, thus covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.887
+    },
+    {
+      "requirement_id": "cli_test_assertions",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "cli_test_assertions",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 13,
+                  "quote": "CLI subprocess tests must assert success/output for the rename command, ensuring that removing the rename feature causes assertions to fail."
+                }
+              ],
+              "explanation": "The draft explicitly states that CLI subprocess tests must assert success/output for the rename command and that removing the rename feature should cause assertions to fail, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 2.111
+    },
+    {
+      "requirement_id": "temporary_databases",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "temporary_databases",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 14,
+                  "quote": "Tests must use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The draft explicitly states in the acceptance criteria that tests must use temporary databases and run independently of factory files, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.541
+    },
+    {
+      "requirement_id": "standalone_tests",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "standalone_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 14,
+                  "quote": "Tests must use temporary databases and run independently of factory files."
+                }
+              ],
+              "explanation": "The requirement that tests must run independently of factory files is explicitly stated in the acceptance criteria. The draft directly covers this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.219
+    },
+    {
+      "requirement_id": "readme_syntax",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "readme_syntax",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 4,
+                  "quote": "Update the README to include rename syntax and behavior."
+                },
+                {
+                  "field": "scope",
+                  "index": 5,
+                  "quote": "Add a separate fenced block for rename examples in the README."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 15,
+                  "quote": "The README must explain the rename syntax and behavior clearly."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 16,
+                  "quote": "The existing json taskboard-examples block must remain unchanged."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 17,
+                  "quote": "A new fenced block for rename examples must be added, containing four objects with args and stdout for add, complete, rename, and list commands executed against a fresh database."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 18,
+                  "quote": "The documentation must show that a renamed completed task remains completed."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 19,
+                  "quote": "The unittest command must be documented."
+                }
+              ],
+              "explanation": "The draft explicitly requires the README to explain the rename syntax and behavior, to add a separate fenced block for rename examples, to keep the existing examples unchanged, to show a renamed completed task remains completed, and to document the unittest command. All clauses of the requirement are present in the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 2.6
+    },
+    {
+      "requirement_id": "preserve_examples",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_examples",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 16,
+                  "quote": "The existing json taskboard-examples block must remain unchanged."
+                }
+              ],
+              "explanation": "The requirement to keep the existing json taskboard-examples block unchanged is explicitly stated in the acceptance criteria."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.325
+    },
+    {
+      "requirement_id": "new_example_fence",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "new_example_fence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "scope",
+                  "index": 5,
+                  "quote": "Add a separate fenced block for rename examples in the README."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 17,
+                  "quote": "A new fenced block for rename examples must be added, containing four objects with args and stdout for add, complete, rename, and list commands executed against a fresh database."
+                }
+              ],
+              "explanation": "The draft explicitly requires a new fenced block for rename examples in the README, matching the requirement for a block beginning with ```json taskboard-rename-examples and ending with ```."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.636
+    },
+    {
+      "requirement_id": "example_sequence",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "example_sequence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 17,
+                  "quote": "A new fenced block for rename examples must be added, containing four objects with args and stdout for add, complete, rename, and list commands executed against a fresh database."
+                }
+              ],
+              "explanation": "The draft explicitly requires a new fenced block for rename examples in the README, specifying that it must contain four objects with args and stdout for add, complete, rename, and list commands executed against a fresh database. This matches the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.612
+    },
+    {
+      "requirement_id": "example_completed",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "example_completed",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 18,
+                  "quote": "The documentation must show that a renamed completed task remains completed."
+                }
+              ],
+              "explanation": "The draft explicitly states as an acceptance criterion that the documentation must show that a renamed completed task remains completed, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.225
+    },
+    {
+      "requirement_id": "test_command",
+      "variant": "draft",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "test_command"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "test_command",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention or describe the unittest command anywhere in the objective, scope, acceptance_criteria, constraints, or open_questions fields. There is no explicit statement or example documenting how to run the unittests, which is required by the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.213
+    },
+    {
+      "requirement_id": "no_invented_provenance",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "no_invented_provenance",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "objective",
+                  "index": null,
+                  "quote": "Extend the existing generated multi-file Taskboard project with a feature to rename a task while preserving existing functionalities and behaviors."
+                },
+                {
+                  "field": "scope",
+                  "index": 4,
+                  "quote": "Update the README to include rename syntax and behavior."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 15,
+                  "quote": "The README must explain the rename syntax and behavior clearly."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 16,
+                  "quote": "The existing json taskboard-examples block must remain unchanged."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 17,
+                  "quote": "A new fenced block for rename examples must be added, containing four objects with args and stdout for add, complete, rename, and list commands executed against a fresh database."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 18,
+                  "quote": "The documentation must show that a renamed completed task remains completed."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 19,
+                  "quote": "The unittest command must be documented."
+                }
+              ],
+              "explanation": "The draft does not contain any invented deployment or provenance claims. It only specifies documentation requirements for the README and test coverage, without introducing any provenance or deployment statements."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 2.503
+    },
+    {
+      "requirement_id": "initial_check",
+      "variant": "draft",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "initial_check"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "initial_check",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention inspecting the source or calling check_current_candidate. There is no explicit statement or equivalent wording in any field (objective, scope, acceptance_criteria, constraints, open_questions) that covers this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 2.146
+    },
+    {
+      "requirement_id": "write_feature",
+      "variant": "draft",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "write_feature"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "write_feature",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft describes the objective, scope, acceptance criteria, constraints, and open questions for the rename feature, but it does not explicitly state that the feature must be implemented using write_source_file, nor does it mention resolving current verification/security findings as required by the explicit requirement. There is no citation in the draft that covers the implementation method or the process of resolving verification/security findings."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.431
+    },
+    {
+      "requirement_id": "deliverables",
+      "variant": "draft",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "deliverables",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "objective",
+                  "index": null,
+                  "quote": "Extend the existing generated multi-file Taskboard project with a feature to rename a task while preserving existing functionalities and behaviors."
+                },
+                {
+                  "field": "scope",
+                  "index": 0,
+                  "quote": "Implement a rename feature for tasks in the Taskboard project."
+                },
+                {
+                  "field": "scope",
+                  "index": 1,
+                  "quote": "Preserve existing add/list/complete CLI functionalities."
+                },
+                {
+                  "field": "scope",
+                  "index": 2,
+                  "quote": "Maintain SQLite data integrity and module layout."
+                },
+                {
+                  "field": "scope",
+                  "index": 3,
+                  "quote": "Ensure five baseline tests remain intact."
+                },
+                {
+                  "field": "scope",
+                  "index": 4,
+                  "quote": "Update the README to include rename syntax and behavior."
+                },
+                {
+                  "field": "scope",
+                  "index": 5,
+                  "quote": "Add a separate fenced block for rename examples in the README."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 12,
+                  "quote": "At least three meaningful unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior must be added, retaining a total of at least eight tests."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 13,
+                  "quote": "CLI subprocess tests must assert success/output for the rename command, ensuring that removing the rename feature causes assertions to fail."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 14,
+                  "quote": "Tests must use temporary databases and run independently of factory files."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 15,
+                  "quote": "The README must explain the rename syntax and behavior clearly."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 16,
+                  "quote": "The existing json taskboard-examples block must remain unchanged."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 17,
+                  "quote": "A new fenced block for rename examples must be added, containing four objects with args and stdout for add, complete, rename, and list commands executed against a fresh database."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 18,
+                  "quote": "The documentation must show that a renamed completed task remains completed."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 19,
+                  "quote": "The unittest command must be documented."
+                }
+              ],
+              "explanation": "The draft requirements document explicitly covers the need to complete code, tests, and documentation for the rename feature, as well as the preservation of baseline checks, the addition of new tests and documentation, and the prohibition of editing independent factory adapters. All deliverable aspects are addressed in the objective, scope, and acceptance criteria fields."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 4.159
+    },
+    {
+      "requirement_id": "protect_adapters",
+      "variant": "draft",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "protect_adapters"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "protect_adapters",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention or state that independent factory adapters must not be edited. There is no explicit statement or equivalent wording in any section (objective, scope, acceptance_criteria, constraints, open_questions) that covers this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.323
+    },
+    {
+      "requirement_id": "final_check",
+      "variant": "draft",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "final_check"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "final_check",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention calling check_current_candidate before handoff or any equivalent verification step. There is no explicit statement or evidence in any field that this action will be performed."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "duration_seconds": 1.412
+    }
+  ],
+  "limitations": [
+    "Checklist completeness was manually reviewed; matching source groups is not semantic proof.",
+    "Unit controls isolate each rule; they do not prove performance on complex drafts.",
+    "Advisory only: human approval and independent application checks remain required."
+  ],
+  "document": {
+    "objective": "Extend the existing generated multi-file Taskboard project with a feature to rename a task while preserving existing functionalities and behaviors.",
+    "scope": [
+      "Implement a rename feature for tasks in the Taskboard project.",
+      "Preserve existing add/list/complete CLI functionalities.",
+      "Maintain SQLite data integrity and module layout.",
+      "Ensure five baseline tests remain intact.",
+      "Update the README to include rename syntax and behavior.",
+      "Add a separate fenced block for rename examples in the README."
+    ],
+    "acceptance_criteria": [
+      "The command 'python -m taskboard --database PATH rename ID TITLE' successfully renames a task identified by ID to the new TITLE.",
+      "The command exits with status 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool} upon success.",
+      "Only the title of the task is changed; ID and completion state remain unchanged.",
+      "Renaming works for both open and completed tasks and persists across processes and databases created before this feature.",
+      "Repeating the same title for a task succeeds identically.",
+      "Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved literally.",
+      "The implementation uses parameterized SQL and closes connections on success and missing-ID errors.",
+      "Blank or whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit with status 2 and a nonempty JSON {\"error\":string} on stderr.",
+      "IDs must fit within the SQLite positive signed 64-bit range.",
+      "Invalid operations must not change any task data.",
+      "A missing task in a fresh database must not create a task.",
+      "Separate databases remain isolated and existing validation/behavior must not regress.",
+      "At least three meaningful unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior must be added, retaining a total of at least eight tests.",
+      "CLI subprocess tests must assert success/output for the rename command, ensuring that removing the rename feature causes assertions to fail.",
+      "Tests must use temporary databases and run independently of factory files.",
+      "The README must explain the rename syntax and behavior clearly.",
+      "The existing json taskboard-examples block must remain unchanged.",
+      "A new fenced block for rename examples must be added, containing four objects with args and stdout for add, complete, rename, and list commands executed against a fresh database.",
+      "The documentation must show that a renamed completed task remains completed.",
+      "The unittest command must be documented."
+    ],
+    "constraints": [
+      "No scaffold replacement or new dependencies are allowed.",
+      "No web UI, delete, search, users, or other features are to be introduced.",
+      "All imports must remain within the allowed list: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports.",
+      "Metadata and standard-library-only policy must be preserved."
+    ],
+    "open_questions": []
+  },
+  "document_sha256": "5602f9543c7303a7c804838896273f72eabb7701ebecb7abb914f6f93892f066",
+  "inputs_unchanged": true,
+  "all_controls_passed": null,
+  "review_needed": [
+    "packaging",
+    "database_option",
+    "preserve_sequence",
+    "preserve_order",
+    "module_connections",
+    "test_command",
+    "initial_check",
+    "write_feature",
+    "protect_adapters",
+    "final_check"
+  ]
+}

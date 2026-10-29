@@ -1,0 +1,145 @@
+{
+  "date": "2026-10-29",
+  "run_id": "1545cfb905c3",
+  "status": "awaiting_approval",
+  "classification": "Fresh supervised trial: approval withheld after requirements; not a completed delivery",
+  "factory_commit": "bcafaf427537d60185502cbba9770b2fce51b895",
+  "baseline_commit": "1f2097616fd20ae866d397ccf93015924f2dc9e1",
+  "config_digest": "8bd2645e2e577b94323bd5ee0480cd7934e3cce030e6740efa20475cabd779f8",
+  "task_digest": "9a05335381b48db91477745d69e7ed3a02fdfcbaf84278c54fa9f0844f8ac944",
+  "config_change": "Separate supervised config uses GPT-4.1 for broad requirements review; writer and downstream stages unchanged. Individual coverage is advisory, not an automatic approval gate.",
+  "factory_tests": {
+    "passed": 108,
+    "duration_seconds": 95.636
+  },
+  "controls": {
+    "correct": 107,
+    "total": 110,
+    "report": "reports/taskboard-full-checklist-controls-20261029.json"
+  },
+  "advisory": {
+    "items": 55,
+    "model_flagged": 10,
+    "report": "reports/taskboard-supervised-advisory-20261029.json"
+  },
+  "human_review": {
+    "approval": "withheld",
+    "reason": "Broad requirements review passed a draft that omits explicit task constraints. Human review of advisory evidence confirmed omissions and additional false-negative findings.",
+    "confirmed_advisory_omissions": [
+      "packaging",
+      "database_option",
+      "preserve_sequence",
+      "preserve_order",
+      "module_connections",
+      "initial_check",
+      "write_feature",
+      "protect_adapters",
+      "final_check"
+    ],
+    "rejected_advisory_findings": [
+      {
+        "id": "test_command",
+        "reason": "The draft explicitly says: The unittest command must be documented. Requirements need not contain completed README work."
+      }
+    ],
+    "additional_manual_gaps": [
+      {
+        "id": "trim_whitespace",
+        "reason": "Draft says whitespace but does not preserve the Python-recognized Unicode whitespace definition."
+      },
+      {
+        "id": "new_example_fence",
+        "reason": "Draft requests a new example block but omits the exact json taskboard-rename-examples marker and exactly-one restriction."
+      },
+      {
+        "id": "no_invented_provenance",
+        "reason": "Absence of invented claims in the draft does not record the required prohibition for later delivery documentation."
+      }
+    ],
+    "next_step": "Have the CrewAI requirements writer produce a checklist-indexed deliverable that preserves original values and constraints, validate completeness before the broad review, then test with the existing omissions. Do not approve or edit this frozen evidence run."
+  },
+  "frozen_inputs_unchanged": true,
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "supplemental_writer_calls": 0,
+  "engine_repairs": 0,
+  "approvals": [],
+  "stage_attempts": [
+    {
+      "stage": "requirements",
+      "number": 1,
+      "at": "2026-10-29T10:45:40.294796+00:00",
+      "duration_seconds": 19.639,
+      "exit_code": 0,
+      "source_before": "cd5bae1a2638807d2be998d31fbc679c2f0216be3417d94fdf4368b96aa0c7bd",
+      "source_after": "cd5bae1a2638807d2be998d31fbc679c2f0216be3417d94fdf4368b96aa0c7bd",
+      "status": "passed",
+      "error": null,
+      "result": {
+        "status": "passed",
+        "summary": "The requirements deliverable for the 'rename task' feature in the Taskboard project is complete, clear, and unambiguous. It defines the scope, measurable acceptance criteria, constraints, and confirms there are no unresolved questions. All necessary details for implementation and verification are present and traceable to the original task.",
+        "findings": [
+          "Scope is explicitly defined: add a rename feature to the existing Taskboard project, preserving all existing behaviors and interfaces.",
+          "Acceptance criteria are comprehensive and measurable, covering CLI syntax, output format, data integrity, error handling, persistence, test requirements, and documentation updates.",
+          "Constraints are clearly stated, including allowed imports, prohibition of new dependencies or unrelated features, and preservation of metadata and standard-library-only policy.",
+          "No open questions remain; the requirements document's open_questions list is empty.",
+          "All requirements are traceable to the original task and are sufficient for design and implementation without ambiguity or contradiction."
+        ],
+        "next_actions": [
+          "Proceed to the design stage, using these requirements as the basis for architectural and interface decisions."
+        ],
+        "review_revisions": 0,
+        "deliverable": {
+          "objective": "Extend the existing generated multi-file Taskboard project with a feature to rename a task while preserving existing functionalities and behaviors.",
+          "scope": [
+            "Implement a rename feature for tasks in the Taskboard project.",
+            "Preserve existing add/list/complete CLI functionalities.",
+            "Maintain SQLite data integrity and module layout.",
+            "Ensure five baseline tests remain intact.",
+            "Update the README to include rename syntax and behavior.",
+            "Add a separate fenced block for rename examples in the README."
+          ],
+          "acceptance_criteria": [
+            "The command 'python -m taskboard --database PATH rename ID TITLE' successfully renames a task identified by ID to the new TITLE.",
+            "The command exits with status 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool} upon success.",
+            "Only the title of the task is changed; ID and completion state remain unchanged.",
+            "Renaming works for both open and completed tasks and persists across processes and databases created before this feature.",
+            "Repeating the same title for a task succeeds identically.",
+            "Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved literally.",
+            "The implementation uses parameterized SQL and closes connections on success and missing-ID errors.",
+            "Blank or whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit with status 2 and a nonempty JSON {\"error\":string} on stderr.",
+            "IDs must fit within the SQLite positive signed 64-bit range.",
+            "Invalid operations must not change any task data.",
+            "A missing task in a fresh database must not create a task.",
+            "Separate databases remain isolated and existing validation/behavior must not regress.",
+            "At least three meaningful unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior must be added, retaining a total of at least eight tests.",
+            "CLI subprocess tests must assert success/output for the rename command, ensuring that removing the rename feature causes assertions to fail.",
+            "Tests must use temporary databases and run independently of factory files.",
+            "The README must explain the rename syntax and behavior clearly.",
+            "The existing json taskboard-examples block must remain unchanged.",
+            "A new fenced block for rename examples must be added, containing four objects with args and stdout for add, complete, rename, and list commands executed against a fresh database.",
+            "The documentation must show that a renamed completed task remains completed.",
+            "The unittest command must be documented."
+          ],
+          "constraints": [
+            "No scaffold replacement or new dependencies are allowed.",
+            "No web UI, delete, search, users, or other features are to be introduced.",
+            "All imports must remain within the allowed list: argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports.",
+            "Metadata and standard-library-only policy must be preserved."
+          ],
+          "open_questions": []
+        },
+        "framework": "crewai",
+        "report": "crew-report.md"
+      },
+      "artifact_directory": "/Users/adicohen/work/ai_pipeline/.factory/1545cfb905c3/artifacts/001-requirements-c22fae99"
+    }
+  ],
+  "source_unchanged": true,
+  "limitations": [
+    "Control accuracy is not production review accuracy. Three errors remain even on unit controls.",
+    "The checklist was manually decomposed; source references do not prove semantic completeness.",
+    "No design, implementation, verification, release or deployment occurred in this trial.",
+    "Original task remains unchanged and authoritative; omissions concern the generated document."
+  ]
+}

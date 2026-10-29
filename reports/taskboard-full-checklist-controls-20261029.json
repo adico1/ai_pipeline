@@ -1,0 +1,3181 @@
+{
+  "factory_commit": "bcafaf427537d60185502cbba9770b2fce51b895",
+  "model": "openai/gpt-4.1",
+  "mode": "controls",
+  "input_hashes": {
+    "evaluations/requirements_review/full_check.py": "304426f7622a027efc369543322799ff448511fa8eef405492e0fcfeaa806261",
+    "evaluations/requirements_review/taskboard-full-checklist.json": "afc689c76ffc7ac8e624eaa216bee932901ec6f36dc6f4399502211c02196f26",
+    "evaluations/requirements_review/requirements.json": "c33e5aecb8fa311dd0a6da9cc0d85a4c7c02fcaa9dd048e4f228eca8f99c7fba",
+    "evaluations/requirements_review/run.py": "0b47ebfe825bcdbb898190882316f912c5cb8f06d9a6ac1b6f94b1d930b31030",
+    "evaluations/requirements_review/coverage.py": "c04cbdc18e8170cb48683867d0f5b438042d4ec065b728e49537209d264a63f4",
+    "ai_pipeline/prompts.py": "7c779e4bb7e6a183d2a2d0a1fbff0cb8cf3744caf2d64806f6ead791d9b9180a",
+    "ai_pipeline/crewai_adapter.py": "3591e0651b3fcdd36cadf41d363657c461b62433c9a1b2d6fd35d8a48148d775",
+    "projects/taskboard-rename-task.txt": "9a05335381b48db91477745d69e7ed3a02fdfcbaf84278c54fa9f0844f8ac944"
+  },
+  "item_count": 55,
+  "results": [
+    {
+      "requirement_id": "feature_scope",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "feature_scope",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Add only task renaming; do not add web UI, delete, search, users or other features."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state to add only task renaming and to not add web UI, delete, search, users or other features, directly matching the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 3.106
+    },
+    {
+      "requirement_id": "feature_scope",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "feature_scope"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "feature_scope",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not explicitly state that only task renaming is to be added and that web UI, delete, search, users or other features are not to be added. There is no statement in the objective, scope, acceptance_criteria, constraints, or open_questions fields that covers this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.321
+    },
+    {
+      "requirement_id": "preserve_cli",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_cli",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Preserve existing add, list and complete CLI behavior."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that the existing add, list, and complete CLI behavior must be preserved, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.271
+    },
+    {
+      "requirement_id": "preserve_cli",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_cli"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_cli",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention preserving the existing add, list, and complete CLI behavior. There is no explicit statement or equivalent wording in any field that addresses this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.286
+    },
+    {
+      "requirement_id": "preserve_layout",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_layout",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Preserve the existing multi-file module layout; do not replace the scaffold."
+                }
+              ],
+              "explanation": "The requirement is explicitly stated in the acceptance criteria field, matching the required wording."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.311
+    },
+    {
+      "requirement_id": "preserve_layout",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_layout"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_layout",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention preserving the existing multi-file module layout or avoiding scaffold replacement. There is no explicit statement or equivalent wording covering this requirement in any field."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.311
+    },
+    {
+      "requirement_id": "preserve_sqlite",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_sqlite",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Preserve existing SQLite task data."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that existing SQLite task data must be preserved, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.677
+    },
+    {
+      "requirement_id": "preserve_sqlite",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_sqlite"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_sqlite",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention preserving existing SQLite task data. There is no explicit statement or equivalent wording in any field that addresses this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.264
+    },
+    {
+      "requirement_id": "packaging",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "packaging",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Preserve source-bundle packaging."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states 'Preserve source-bundle packaging.', directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.265
+    },
+    {
+      "requirement_id": "packaging",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "packaging"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "packaging",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention source-bundle packaging or any packaging-related requirements. There is no explicit statement or equivalent wording covering the preservation of source-bundle packaging."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.46
+    },
+    {
+      "requirement_id": "dependencies",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "dependencies",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Add no new dependencies."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that no new dependencies are to be added, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.23
+    },
+    {
+      "requirement_id": "dependencies",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "dependencies"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "dependencies",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention dependencies at all. There is no statement about not adding new dependencies or preserving the current dependency set."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.356
+    },
+    {
+      "requirement_id": "rename_command",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "rename_command",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Provide python -m taskboard --database PATH rename ID TITLE."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states the required command interface, matching the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.131
+    },
+    {
+      "requirement_id": "rename_command",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "rename_command"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "rename_command",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the command 'python -m taskboard --database PATH rename ID TITLE' or any details about the rename command interface. There is no explicit statement or equivalent wording describing this requirement in any section of the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.163
+    },
+    {
+      "requirement_id": "database_option",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "database_option",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Keep --database global, with default tasks.sqlite3."
+                }
+              ],
+              "explanation": "The draft explicitly states to keep --database global, with default tasks.sqlite3, matching the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.626
+    },
+    {
+      "requirement_id": "database_option",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "database_option"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "database_option",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the --database option, its global status, or the default value of tasks.sqlite3. There is no explicit statement or equivalent wording covering this requirement in any field."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.278
+    },
+    {
+      "requirement_id": "success_exit",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "success_exit",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Successful rename exits with code 0."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that a successful rename exits with code 0, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.24
+    },
+    {
+      "requirement_id": "success_exit",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "success_exit"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "success_exit",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that a successful rename must exit with code 0. There is no explicit statement or equivalent wording in any field describing this required behavior."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.116
+    },
+    {
+      "requirement_id": "success_json",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "success_json",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Successful rename prints exactly one JSON object containing id as a positive integer, title as the trimmed title, and completed as a boolean."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states the required output for a successful rename, matching the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.468
+    },
+    {
+      "requirement_id": "success_json",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "success_json"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "success_json",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that a successful rename prints exactly one JSON object containing id as a positive integer, title as the trimmed title, and completed as a boolean. There is no explicit or equivalent statement in any field."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 2.206
+    },
+    {
+      "requirement_id": "preserve_id",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_id",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Rename changes only the title and preserves the task ID."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that rename changes only the title and preserves the task ID, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.174
+    },
+    {
+      "requirement_id": "preserve_id",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_id"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_id",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that renaming changes only the title and preserves the task ID. There is no explicit statement or equivalent wording covering this requirement in any section of the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.132
+    },
+    {
+      "requirement_id": "preserve_completed",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_completed",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Rename preserves the completion state."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that rename preserves the completion state, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.093
+    },
+    {
+      "requirement_id": "preserve_completed",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_completed"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_completed",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that renaming a task must preserve the completion state. There is no statement in the objective, scope, acceptance_criteria, or constraints fields that addresses this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.267
+    },
+    {
+      "requirement_id": "preserve_other_records",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_other_records",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Rename preserves other records."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that rename preserves other records, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.269
+    },
+    {
+      "requirement_id": "preserve_other_records",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_other_records"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_other_records",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that renaming a task must preserve other records. There is no explicit statement or equivalent wording in any section (objective, scope, acceptance_criteria, constraints, open_questions) that covers this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.251
+    },
+    {
+      "requirement_id": "preserve_sequence",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_sequence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Rename preserves the insertion sequence."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that rename preserves the insertion sequence, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.511
+    },
+    {
+      "requirement_id": "preserve_sequence",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_sequence"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_sequence",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that renaming a task must preserve the insertion sequence. There is no explicit statement or equivalent wording in any section of the draft addressing this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.649
+    },
+    {
+      "requirement_id": "preserve_order",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_order",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Rename preserves ID ordering."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that rename preserves ID ordering, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.13
+    },
+    {
+      "requirement_id": "preserve_order",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_order"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_order",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that renaming a task must preserve ID ordering. There is no statement in the objective, scope, acceptance criteria, constraints, or open questions that addresses this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.106
+    },
+    {
+      "requirement_id": "open_and_completed",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "open_and_completed",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Rename works on both open and completed tasks."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that rename works on both open and completed tasks, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.333
+    },
+    {
+      "requirement_id": "open_and_completed",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "open_and_completed"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "open_and_completed",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that rename works on both open and completed tasks. There is no explicit statement or equivalent wording covering this requirement in any of the draft fields."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.331
+    },
+    {
+      "requirement_id": "persistence",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "persistence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Rename persists across processes."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that rename persists across processes, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.141
+    },
+    {
+      "requirement_id": "persistence",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "persistence"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "persistence",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that renaming a task must persist across processes. There is no statement in the objective, scope, acceptance_criteria, constraints, or open_questions fields that covers persistence of the rename operation."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.519
+    },
+    {
+      "requirement_id": "old_databases",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "old_databases",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Rename works on databases created before this feature."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that rename works on databases created before this feature, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.126
+    },
+    {
+      "requirement_id": "old_databases",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "old_databases"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "old_databases",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that rename works on databases created before this feature. There is no statement in the objective, scope, acceptance criteria, constraints, or open questions fields that addresses this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.123
+    },
+    {
+      "requirement_id": "idempotence",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "idempotence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Repeating the same title succeeds identically."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that repeating the same title succeeds identically, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.162
+    },
+    {
+      "requirement_id": "idempotence",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "idempotence"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "idempotence",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention or specify that repeating the same title in a rename operation must succeed identically. There is no statement in any field about idempotence or the behavior when renaming to the same title."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.876
+    },
+    {
+      "requirement_id": "trim_whitespace",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "trim_whitespace",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Trim Python-recognized Unicode whitespace around the title."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that Python-recognized Unicode whitespace must be trimmed around the title, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.389
+    },
+    {
+      "requirement_id": "trim_whitespace",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "trim_whitespace"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "trim_whitespace",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention trimming Python-recognized Unicode whitespace around the title. There is no explicit statement or equivalent wording in any section of the draft that covers this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.247
+    },
+    {
+      "requirement_id": "preserve_title_contents",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_title_contents",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Preserve internal spacing, case, Unicode and SQL-like text literally."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state to preserve internal spacing, case, Unicode, and SQL-like text literally, directly matching the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.174
+    },
+    {
+      "requirement_id": "preserve_title_contents",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_title_contents"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_title_contents",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention preserving internal spacing, case, Unicode, or SQL-like text literally. There is no explicit statement or equivalent wording covering this requirement in any section of the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.259
+    },
+    {
+      "requirement_id": "parameterized_sql",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "parameterized_sql",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Use parameterized SQL."
+                }
+              ],
+              "explanation": "The requirement to use parameterized SQL is explicitly stated as an acceptance criterion in the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.198
+    },
+    {
+      "requirement_id": "parameterized_sql",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "parameterized_sql"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "parameterized_sql",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the use of parameterized SQL. There is no statement in any section (objective, scope, acceptance_criteria, constraints, open_questions) that addresses or requires parameterized SQL."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.22
+    },
+    {
+      "requirement_id": "close_success",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "close_success",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Close database connections on success."
+                }
+              ],
+              "explanation": "The requirement to close database connections on success is explicitly stated in the acceptance criteria."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.102
+    },
+    {
+      "requirement_id": "close_success",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "close_success"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "close_success",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention closing database connections on success. There is no explicit statement or equivalent wording in any section of the draft that addresses this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.11
+    },
+    {
+      "requirement_id": "close_missing_id",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "close_missing_id",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Close database connections on missing-ID errors."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that database connections must be closed on missing-ID errors, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.46
+    },
+    {
+      "requirement_id": "close_missing_id",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "close_missing_id"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "close_missing_id",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention closing database connections on missing-ID errors. There is no explicit statement or equivalent wording in any section of the draft that addresses this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.33
+    },
+    {
+      "requirement_id": "invalid_exit",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "invalid_exit",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Blank/whitespace-only titles and nonexistent, malformed, zero, negative or out-of-range IDs exit with code 2."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that blank/whitespace-only titles and nonexistent, malformed, zero, negative or out-of-range IDs must exit with code 2, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.334
+    },
+    {
+      "requirement_id": "invalid_exit",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "invalid_exit"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "invalid_exit",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the required behavior for blank/whitespace-only titles or invalid IDs, nor does it specify exit code 2 or error JSON output for these cases. There is no explicit statement covering this requirement in any field."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.979
+    },
+    {
+      "requirement_id": "error_json",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "error_json",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "For invalid titles and IDs, output a nonempty JSON error string in {\"error\":string} on stderr."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states the required behavior for invalid titles and IDs, matching the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.457
+    },
+    {
+      "requirement_id": "error_json",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "error_json"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "error_json",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the requirement that for invalid titles and IDs, the system must output a nonempty JSON error string in {\"error\":string} on stderr. There is no explicit statement or equivalent wording covering this behavior in any section of the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.205
+    },
+    {
+      "requirement_id": "id_range",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "id_range",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "IDs must fit SQLite positive signed 64-bit range."
+                }
+              ],
+              "explanation": "The requirement that IDs must fit the SQLite positive signed 64-bit range is explicitly stated in the acceptance criteria."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.226
+    },
+    {
+      "requirement_id": "id_range",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "id_range"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "id_range",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that IDs must fit the SQLite positive signed 64-bit range. There is no explicit statement or equivalent wording in any section of the draft regarding the required ID range."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.199
+    },
+    {
+      "requirement_id": "no_write_on_error",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "no_write_on_error",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Invalid operations must not change task data."
+                }
+              ],
+              "explanation": "The draft explicitly lists 'Invalid operations must not change task data.' as an acceptance criterion, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.104
+    },
+    {
+      "requirement_id": "no_write_on_error",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "no_write_on_error"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "no_write_on_error",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that invalid operations must not change task data. There is no explicit statement or equivalent wording covering this requirement in any section of the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.039
+    },
+    {
+      "requirement_id": "fresh_missing_id",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "fresh_missing_id",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "A missing task in a fresh database must not create a task."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that a missing task in a fresh database must not create a task, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.204
+    },
+    {
+      "requirement_id": "fresh_missing_id",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "fresh_missing_id"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "fresh_missing_id",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the behavior for renaming a missing task in a fresh database or specify that such an operation must not create a task. There is no explicit statement or acceptance criterion covering this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.243
+    },
+    {
+      "requirement_id": "database_isolation",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "database_isolation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Separate databases remain isolated."
+                }
+              ],
+              "explanation": "The draft explicitly lists 'Separate databases remain isolated.' as an acceptance criterion, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.432
+    },
+    {
+      "requirement_id": "database_isolation",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "database_isolation"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "database_isolation",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that separate databases remain isolated. There is no explicit statement or equivalent wording in any field that covers this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.092
+    },
+    {
+      "requirement_id": "preserve_validation",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_validation",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Existing validation and behavior must not regress."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that existing validation and behavior must not regress, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.165
+    },
+    {
+      "requirement_id": "preserve_validation",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_validation"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_validation",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the requirement that existing validation and behavior must not regress. There is no explicit statement or equivalent wording in any section of the draft that addresses the preservation of existing validation or behavior."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.451
+    },
+    {
+      "requirement_id": "module_connections",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "module_connections",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Implement through existing CLI, domain/validation and storage responsibilities with actual imports connecting the modules."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that the implementation must use the existing CLI, domain/validation, and storage responsibilities with actual imports connecting the modules, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.146
+    },
+    {
+      "requirement_id": "module_connections",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "module_connections"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "module_connections",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention implementation through the existing CLI, domain/validation, and storage responsibilities, nor does it specify actual imports connecting the modules. There is no explicit statement or equivalent wording covering this requirement in any field of the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.178
+    },
+    {
+      "requirement_id": "metadata",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "metadata",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Preserve project metadata."
+                }
+              ],
+              "explanation": "The requirement to preserve project metadata is explicitly stated in the acceptance criteria."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.288
+    },
+    {
+      "requirement_id": "metadata",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "metadata"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "metadata",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention project metadata or its preservation. There is no explicit statement or equivalent wording in any section (objective, scope, acceptance_criteria, constraints, open_questions) that addresses the requirement to preserve project metadata."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.115
+    },
+    {
+      "requirement_id": "stdlib",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "stdlib",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Use only the standard library."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states 'Use only the standard library.', directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.586
+    },
+    {
+      "requirement_id": "stdlib",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "stdlib"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "stdlib",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the use of the standard library or restrict allowed imports. There is no explicit statement about standard-library-only policy or allowed imports in any section of the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.043
+    },
+    {
+      "requirement_id": "import_allowlist",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "import_allowlist",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Allowed imports remain argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard and relative imports."
+                }
+              ],
+              "explanation": "The draft explicitly lists the allowed imports in the acceptance criteria, matching the requirement exactly."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.646
+    },
+    {
+      "requirement_id": "import_allowlist",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "import_allowlist"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "import_allowlist",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the allowed imports or any import policy. There is no explicit statement or equivalent wording specifying which imports are permitted for the implementation."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.296
+    },
+    {
+      "requirement_id": "baseline_tests",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "baseline_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Retain the five existing tests."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that the five existing tests must be retained, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.496
+    },
+    {
+      "requirement_id": "baseline_tests",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "baseline_tests"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "baseline_tests",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention retaining the five existing tests. There is no explicit statement or equivalent wording in any section of the draft that addresses this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.278
+    },
+    {
+      "requirement_id": "new_tests",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "new_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Add at least three meaningful unittest tests, for at least eight tests total."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly require at least three meaningful unittest tests, for at least eight tests total, directly matching the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.219
+    },
+    {
+      "requirement_id": "new_tests",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "new_tests"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "new_tests",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention adding at least three meaningful unittest tests, nor does it specify a total of at least eight tests, CLI subprocess tests, or requirements for temporary databases and test independence. There is no explicit or equivalent statement covering this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.246
+    },
+    {
+      "requirement_id": "test_success_persistence",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "test_success_persistence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Add a meaningful rename-success test covering persistence."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly require a meaningful rename-success test covering persistence, directly matching the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.23
+    },
+    {
+      "requirement_id": "test_success_persistence",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "test_success_persistence"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "test_success_persistence",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention any test for rename-success covering persistence. There is no explicit statement or acceptance criterion describing the need for a test that verifies rename persistence, nor any reference to tests or persistence behavior."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.205
+    },
+    {
+      "requirement_id": "test_completed",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "test_completed",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Add a meaningful test that rename preserves completed state."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly require a test that verifies rename preserves completed state."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.432
+    },
+    {
+      "requirement_id": "test_completed",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "test_completed"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "test_completed",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention any requirement or plan to add a test that verifies rename preserves completed state. There is no reference to tests, completed state, or rename behavior in the acceptance criteria, constraints, or any other section."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.391
+    },
+    {
+      "requirement_id": "test_invalid_no_write",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "test_invalid_no_write",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Add a meaningful invalid-input/no-write test."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly require a meaningful invalid-input/no-write test, which is directly stated in the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.213
+    },
+    {
+      "requirement_id": "test_invalid_no_write",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "test_invalid_no_write"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "test_invalid_no_write",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the addition of a meaningful invalid-input/no-write test. There is no reference to tests, test cases, or specific behaviors related to invalid input or ensuring no write occurs on invalid input."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.299
+    },
+    {
+      "requirement_id": "cli_test_assertions",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "cli_test_assertions",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Include CLI subprocess tests asserting success/output so removing rename makes assertions fail."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly require CLI subprocess tests that assert success/output and ensure that removing the rename feature would cause assertions to fail, directly matching the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.694
+    },
+    {
+      "requirement_id": "cli_test_assertions",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "cli_test_assertions"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "cli_test_assertions",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention CLI subprocess tests, assertions of success/output, or any details about test requirements. There is no explicit or equivalent statement covering the need for CLI subprocess tests that assert success/output so that removing rename makes assertions fail."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.255
+    },
+    {
+      "requirement_id": "temporary_databases",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "temporary_databases",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Tests must use temporary databases."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that tests must use temporary databases, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.227
+    },
+    {
+      "requirement_id": "temporary_databases",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "temporary_databases"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "temporary_databases",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention that tests must use temporary databases. There is no explicit statement or equivalent wording in any section of the draft that covers this requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.487
+    },
+    {
+      "requirement_id": "standalone_tests",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "standalone_tests",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Tests run independently of factory files."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states that tests must run independently of factory files, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.245
+    },
+    {
+      "requirement_id": "standalone_tests",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "standalone_tests"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "standalone_tests",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention tests, their independence, or use of factory files. There is no explicit statement or equivalent wording covering the requirement that tests must run independently of factory files."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.028
+    },
+    {
+      "requirement_id": "readme_syntax",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "readme_syntax"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "readme_syntax",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft only lists 'README explains rename syntax and behavior.' as an acceptance criterion but does not provide any actual explanation, syntax, or behavioral description for the rename feature. There is no content from the README or any example block included in the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": false,
+      "duration_seconds": 1.25
+    },
+    {
+      "requirement_id": "readme_syntax",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "readme_syntax"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "readme_syntax",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the README, rename syntax, rename behavior, or any documentation requirements. There is no reference to the README, example blocks, or the unittest command. No relevant content is present in any field."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.176
+    },
+    {
+      "requirement_id": "preserve_examples",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_examples",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Keep the existing json taskboard-examples block unchanged."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that the existing json taskboard-examples block must remain unchanged, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.364
+    },
+    {
+      "requirement_id": "preserve_examples",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "preserve_examples"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "preserve_examples",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the 'json taskboard-examples' block or its preservation. There is no evidence in any field that the requirement to keep the existing json taskboard-examples block unchanged is addressed."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.242
+    },
+    {
+      "requirement_id": "new_example_fence",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "new_example_fence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Add exactly one separate fenced block beginning ```json taskboard-rename-examples and ending ```."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly require the addition of exactly one separate fenced block beginning with ```json taskboard-rename-examples and ending with ```. This matches the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.913
+    },
+    {
+      "requirement_id": "new_example_fence",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "new_example_fence"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "new_example_fence",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention or describe the addition of a fenced block beginning with ```json taskboard-rename-examples and ending with ```. There is no reference to README content, example blocks, or any related documentation requirement in any field of the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.303
+    },
+    {
+      "requirement_id": "example_sequence",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "example_sequence",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "The new example JSON array has four objects with args and stdout, in order add, complete, rename, list, executed against one fresh database."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that the new example JSON array must have four objects with args and stdout, in order add, complete, rename, list, executed against one fresh database. This matches the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.581
+    },
+    {
+      "requirement_id": "example_sequence",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "example_sequence"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "example_sequence",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention or describe the required new example JSON array with four objects (add, complete, rename, list) in order, nor does it reference the README or any example content. There is no evidence in any field that this requirement is addressed."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.34
+    },
+    {
+      "requirement_id": "example_completed",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "example_completed",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "The rename examples demonstrate that a renamed completed task stays completed."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly state that the rename examples must demonstrate that a renamed completed task stays completed, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.152
+    },
+    {
+      "requirement_id": "example_completed",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "example_completed"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "example_completed",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention any examples, let alone examples that demonstrate that a renamed completed task stays completed. There is no reference to README examples, rename behavior, or completed task state in the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.256
+    },
+    {
+      "requirement_id": "test_command",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "test_command"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "test_command",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft only lists 'Document the unittest command.' as an acceptance criterion but does not provide any actual documentation or description of the unittest command. There is no evidence in any field that the unittest command is documented."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": false,
+      "duration_seconds": 1.272
+    },
+    {
+      "requirement_id": "test_command",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "test_command"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "test_command",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention or document the unittest command. There is no reference to test execution, test commands, or related documentation in any field."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.128
+    },
+    {
+      "requirement_id": "no_invented_provenance",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "no_invented_provenance",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Do not invent deployment or provenance claims."
+                }
+              ],
+              "explanation": "The requirement is explicitly stated as an acceptance criterion in the draft, directly matching the requirement to not invent deployment or provenance claims."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.293
+    },
+    {
+      "requirement_id": "no_invented_provenance",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "no_invented_provenance",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "objective",
+                  "index": null,
+                  "quote": "Specify the requested Taskboard change."
+                },
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "No implementation has been performed yet."
+                },
+                {
+                  "field": "constraints",
+                  "index": 0,
+                  "quote": "This document describes intended future behavior."
+                }
+              ],
+              "explanation": "The draft does not contain any invented deployment or provenance claims. It only specifies the intent to describe a future change, with no statements about deployment or provenance."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": false,
+      "duration_seconds": 1.773
+    },
+    {
+      "requirement_id": "initial_check",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "initial_check",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Begin by inspecting source and calling check_current_candidate."
+                }
+              ],
+              "explanation": "The acceptance criteria field explicitly states the requirement to begin by inspecting source and calling check_current_candidate."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.61
+    },
+    {
+      "requirement_id": "initial_check",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "initial_check"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "initial_check",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention inspecting the source or calling check_current_candidate. There is no statement or evidence in any field that this step has been or will be performed."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.151
+    },
+    {
+      "requirement_id": "write_feature",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "write_feature",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "The baseline passes existing checks but fails rename checks; implement the feature using write_source_file and resolve current verification/security findings."
+                }
+              ],
+              "explanation": "The acceptance criteria field explicitly states the requirement to implement the feature using write_source_file and resolve current verification/security findings, matching the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.224
+    },
+    {
+      "requirement_id": "write_feature",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "write_feature"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "write_feature",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention implementing the feature, using write_source_file, or resolving verification/security findings. It only states that no implementation has been performed yet and describes intended future behavior. There is no explicit statement or plan covering the required implementation actions."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.365
+    },
+    {
+      "requirement_id": "deliverables",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "deliverables",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Passing baseline checks does not satisfy missing feature tests or documentation; complete code, tests and documentation."
+                }
+              ],
+              "explanation": "The acceptance criteria field explicitly states that passing baseline checks does not satisfy missing feature tests or documentation and that code, tests, and documentation must be completed, directly covering the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.213
+    },
+    {
+      "requirement_id": "deliverables",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "deliverables"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "deliverables",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention the need to complete code, tests, or documentation, nor does it reference the requirement that passing baseline checks does not satisfy missing feature tests or documentation. There is no explicit statement about completing the requested deliverables or the process for handoff. The draft only describes the scope as 'Taskboard project' and states that 'No implementation has been performed yet.'"
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.523
+    },
+    {
+      "requirement_id": "protect_adapters",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "protect_adapters",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Do not edit independent factory adapters."
+                }
+              ],
+              "explanation": "The requirement is explicitly stated in the acceptance criteria field of the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.671
+    },
+    {
+      "requirement_id": "protect_adapters",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "protect_adapters"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "protect_adapters",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention independent factory adapters or state that they must not be edited. There is no explicit statement or equivalent wording covering this requirement in any section of the draft."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.411
+    },
+    {
+      "requirement_id": "final_check",
+      "variant": "present",
+      "expected_status": "passed",
+      "review": {
+        "status": "passed",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "final_check",
+              "coverage": "covered",
+              "citations": [
+                {
+                  "field": "acceptance_criteria",
+                  "index": 0,
+                  "quote": "Call check_current_candidate before handoff."
+                }
+              ],
+              "explanation": "The acceptance criteria explicitly states the requirement to call check_current_candidate before handoff, matching the requirement."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 1.209
+    },
+    {
+      "requirement_id": "final_check",
+      "variant": "omitted",
+      "expected_status": "blocked",
+      "review": {
+        "status": "blocked",
+        "evidence_valid": true,
+        "validation_errors": [],
+        "uncovered_requirements": [
+          "final_check"
+        ],
+        "coverage": {
+          "items": [
+            {
+              "requirement_id": "final_check",
+              "coverage": "missing",
+              "citations": [],
+              "explanation": "The draft does not mention calling check_current_candidate before handoff or any equivalent statement. There is no evidence in any field that this requirement is addressed."
+            }
+          ]
+        }
+      },
+      "valid_evidence": true,
+      "correct": true,
+      "duration_seconds": 0.995
+    }
+  ],
+  "limitations": [
+    "Checklist completeness was manually reviewed; matching source groups is not semantic proof.",
+    "Unit controls isolate each rule; they do not prove performance on complex drafts.",
+    "Advisory only: human approval and independent application checks remain required."
+  ],
+  "inputs_unchanged": true,
+  "all_controls_passed": false,
+  "review_needed": [
+    "feature_scope",
+    "preserve_cli",
+    "preserve_layout",
+    "preserve_sqlite",
+    "packaging",
+    "dependencies",
+    "rename_command",
+    "database_option",
+    "success_exit",
+    "success_json",
+    "preserve_id",
+    "preserve_completed",
+    "preserve_other_records",
+    "preserve_sequence",
+    "preserve_order",
+    "open_and_completed",
+    "persistence",
+    "old_databases",
+    "idempotence",
+    "trim_whitespace",
+    "preserve_title_contents",
+    "parameterized_sql",
+    "close_success",
+    "close_missing_id",
+    "invalid_exit",
+    "error_json",
+    "id_range",
+    "no_write_on_error",
+    "fresh_missing_id",
+    "database_isolation",
+    "preserve_validation",
+    "module_connections",
+    "metadata",
+    "stdlib",
+    "import_allowlist",
+    "baseline_tests",
+    "new_tests",
+    "test_success_persistence",
+    "test_completed",
+    "test_invalid_no_write",
+    "cli_test_assertions",
+    "temporary_databases",
+    "standalone_tests",
+    "readme_syntax",
+    "readme_syntax",
+    "preserve_examples",
+    "new_example_fence",
+    "example_sequence",
+    "example_completed",
+    "test_command",
+    "test_command",
+    "initial_check",
+    "write_feature",
+    "deliverables",
+    "protect_adapters",
+    "final_check"
+  ],
+  "manual_assessment": {
+    "correct": 107,
+    "total": 110,
+    "false_rejections": [
+      "readme_syntax",
+      "test_command"
+    ],
+    "false_acceptances": [
+      "no_invented_provenance"
+    ],
+    "decision": "Not suitable for automatic acceptance; proceed only with advisory use and manual inspection, including known control failures."
+  }
+}
