@@ -43,19 +43,58 @@ def document_errors(document, checklist):
     return errors
 
 
-def writer_guardrail(checklist, output_directory):
-    """Reject lossy drafts before the independent reviewer sees them."""
+def assemble_requirements(analysis, checklist):
+    """Combine strict writer-owned fields with the unchanged operator contract."""
+    from ai_pipeline.stage_contracts import ChecklistRequirementsDocument, RequirementsAnalysis
+
+    validate_checklist(checklist)
+    validated = RequirementsAnalysis.model_validate(analysis)
+    document = ChecklistRequirementsDocument(
+        **validated.model_dump(),
+        acceptance_criteria=[item["requirement"] for item in checklist],
+        checklist=[{"id": item["id"], "acceptance_criterion_index": index}
+                   for index, item in enumerate(checklist)],
+    )
+    errors = document_errors(document.model_dump(), checklist)
+    if errors:
+        raise ValueError("Assembled requirements failed validation: " + json.dumps(errors))
+    return document
+
+
+def assembly_guardrail(checklist, output_directory):
+    """Give the reviewer the assembled document, retaining the writer's output."""
+    from pydantic import ValidationError
+    from ai_pipeline.stage_contracts import RequirementsAnalysis
+
     attempts = []
 
     def validate(output):
-        document = output.pydantic.model_dump() if output.pydantic is not None else {}
-        errors = document_errors(document, checklist)
-        attempts.append({"passed": not errors, "errors": errors})
+        authored = output.pydantic.model_dump() if output.pydantic is not None else None
+        errors = []
+        try:
+            # CrewAI 1.9.3 invokes the first guardrail before schema conversion.
+            if output.pydantic is None:
+                analysis = RequirementsAnalysis.model_validate_json(output.raw)
+            elif isinstance(output.pydantic, RequirementsAnalysis):
+                analysis = output.pydantic
+            else:
+                raise ValueError("Writer must return a validated RequirementsAnalysis")
+            authored = analysis.model_dump()
+            document = assemble_requirements(authored, checklist)
+        except (ValidationError, ValueError) as exc:
+            errors = [str(exc)]
+        attempts.append({"passed": not errors, "errors": errors,
+                         "writer_analysis": authored, "writer_raw": output.raw})
         (output_directory / "requirements-checklist-validation.json").write_text(
-            json.dumps({"attempts": attempts}, indent=2) + "\n"
+            json.dumps({"mode": "deterministic_assembly", "attempts": attempts}, indent=2) + "\n"
         )
         if errors:
-            return False, "REQUIREMENTS CHECKLIST INCOMPLETE: " + json.dumps(errors)
+            return False, "REQUIREMENTS ANALYSIS INVALID: " + json.dumps(errors)
+        (output_directory / "requirements-analysis.json").write_text(json.dumps(authored, indent=2) + "\n")
+        # CrewAI passes TaskOutput.raw to the next task, so update both views.
+        output.pydantic = document
+        output.raw = document.model_dump_json(indent=2)
+        output.json_dict = None
         return True, output
 
     return validate

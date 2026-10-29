@@ -1,7 +1,7 @@
 """Validated stage deliverables shared by CrewAI tasks and their reviewers."""
 
 from typing import Literal
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class StageReport(BaseModel):
@@ -26,6 +26,15 @@ class ChecklistMapping(BaseModel):
 
 class ChecklistRequirementsDocument(RequirementsDocument):
     checklist: list[ChecklistMapping]
+
+
+class RequirementsAnalysis(BaseModel):
+    """Writer-owned fields; canonical criteria are assembled separately."""
+    model_config = ConfigDict(extra="forbid")
+    objective: str = Field(min_length=1)
+    scope: list[str] = Field(min_length=1)
+    constraints: list[str] = Field(min_length=1)
+    open_questions: list[str] = Field(default_factory=list)
 
 
 class DesignDocument(BaseModel):

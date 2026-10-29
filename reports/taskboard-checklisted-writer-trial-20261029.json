@@ -69,5 +69,6 @@
     "Full invalid writer documents were not separately retained by this guardrail; recorded diagnostics identify missing IDs or canonical text mismatches.",
     "No design, implementation, application verification, release or deployment occurred."
   ],
-  "next_recommendation": "Assemble canonical acceptance criteria and their ID mappings deterministically from the frozen checklist. Let CrewAI add scope, rationale and questions without rewriting those criteria, and retain validation plus independent review for contradictions. Validate assembly and malformed writer outputs before a new trial; preserve this failed run unchanged."
+  "next_recommendation": "Assemble canonical acceptance criteria and their ID mappings deterministically from the frozen checklist. Let CrewAI add scope, rationale and questions without rewriting those criteria, and retain validation plus independent review for contradictions. Validate assembly and malformed writer outputs before a new trial; preserve this failed run unchanged.",
+  "later_diagnostic_clarification": "During the deterministic-assembly integration test, CrewAI 1.9.3 was found to invoke the first guardrail before schema conversion. The old guardrail treated an absent parsed object as an empty document. Its first missing-ID diagnostic therefore does not prove the raw first writer draft omitted IDs. The subsequent parsed correction did differ from six canonical strings; the original run and recorded errors remain unchanged."
 }

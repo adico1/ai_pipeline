@@ -144,14 +144,18 @@ rules includes them in the run's existing configuration digest. Creating a run
 rejects source quotations absent from its task. This option is supported only
 for the CrewAI requirements stage.
 
-The writer must copy each canonical rule verbatim into a separate
-`acceptance_criteria` entry and return a `checklist` mapping of each ID to its
-zero-based `acceptance_criterion_index`. A deterministic guardrail rejects
-missing/duplicate/unknown IDs, wrong indices, shared indices and changed rule
-text before independent review. One writer correction is allowed; persistent
-failure stops the stage. A second validation checks the returned crew output
-before accepting the stage. The mappings remain in the saved document and
-upstream evidence passed to later stages.
+The writer returns only `objective`, `scope`, `constraints` and `open_questions`.
+Its strict analysis schema rejects attempts to supply acceptance criteria or
+checklist mappings. The factory assembles those fields deterministically from
+its frozen configuration, then validates every rule and mapping. The independent
+reviewer receives the complete assembled document, not just the analysis.
+
+`requirements-analysis.json` preserves the model-authored fields;
+`requirements-checklist-validation.json` retains raw writer output and validation
+results. `requirements.json` contains the assembled document. CrewAI may correct
+one malformed analysis response; persistent failures stop the stage. Independent
+review may still block contradictory or incomplete analysis. All canonical
+criteria and mappings are retained in downstream evidence.
 
 This guarantees preservation of the supplied contract, not its completeness,
 semantic correctness or eventual implementation. Human approval, review for
