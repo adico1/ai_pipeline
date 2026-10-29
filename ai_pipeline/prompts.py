@@ -139,6 +139,18 @@ def reviewer_description(stage, goal, reviewer_evidence):
         "Passing examples do not prove a general rule. Inspect input validation for hard-coded test values and reject implementations that leave other members of a disallowed category accepted. Do not claim future delivery stages have executed without completed-stage evidence. "
         + (
             (
+                "For retrospective, completeness means accurately recording observed outcomes, "
+                "unresolved risks and proposed follow-up work. It does not mean resolving every "
+                "risk or executing those follow-ups. Do not block a complete retrospective "
+                "because it records optional concurrency testing, logging, monitoring or other "
+                "work outside the original task. Judge the accuracy and completeness of the "
+                "record against completed-stage evidence; do not reopen delivered scope. "
+            )
+            if stage == "retrospective"
+            else ""
+        )
+        + (
+            (
                 "For this implementation review, call check_current_candidate yourself. Base "
                 "your verdict on its CURRENT results rather than copied findings from "
                 "previous attempts. "
