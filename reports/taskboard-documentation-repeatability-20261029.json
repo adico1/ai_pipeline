@@ -1,0 +1,176 @@
+{
+  "completed_runs": 2,
+  "total_runs": 2,
+  "runs": [
+    {
+      "id": "f19fd540157e",
+      "status": "completed",
+      "base_commit": "1f2097616fd20ae866d397ccf93015924f2dc9e1",
+      "config_digest": "2386bddf4e0ac84a5d8dbfd1ac2ae90ba9276bb7cb0ad7ec0752912a81d66528",
+      "task_digest": "9a05335381b48db91477745d69e7ed3a02fdfcbaf84278c54fa9f0844f8ac944",
+      "verified_digest": "21b14ac6e7c0a0dc5ad829c3ba134a9abd382a6a74e07cd4e72d6c4d57643c34",
+      "repairs": 0,
+      "factory_commit": "a93754075354e6ac3b8d22b9792e338130d10fa5",
+      "manual_candidate_edits": 0,
+      "operator_retries": 0,
+      "human_gate_approvals": 3,
+      "stages": [
+        {
+          "stage": "requirements",
+          "status": "passed",
+          "duration_seconds": 20.603
+        },
+        {
+          "stage": "design",
+          "status": "passed",
+          "duration_seconds": 24.91
+        },
+        {
+          "stage": "plan",
+          "status": "passed",
+          "duration_seconds": 29.547
+        },
+        {
+          "stage": "implement",
+          "status": "passed",
+          "duration_seconds": 82.685
+        },
+        {
+          "stage": "verify",
+          "status": "passed",
+          "duration_seconds": 5.73
+        },
+        {
+          "stage": "security",
+          "status": "passed",
+          "duration_seconds": 0.194
+        },
+        {
+          "stage": "review",
+          "status": "passed",
+          "duration_seconds": 39.843
+        },
+        {
+          "stage": "release",
+          "status": "passed",
+          "duration_seconds": 0.185
+        },
+        {
+          "stage": "deploy",
+          "status": "passed",
+          "duration_seconds": 0.176
+        },
+        {
+          "stage": "observe",
+          "status": "passed",
+          "duration_seconds": 5.818
+        },
+        {
+          "stage": "retrospective",
+          "status": "passed",
+          "duration_seconds": 21.823
+        }
+      ],
+      "verify": {
+        "summary": "49/49 project checks passed.",
+        "generated_tests_passed": 10
+      },
+      "observe": {
+        "summary": "49/49 project checks passed.",
+        "generated_tests_passed": 10
+      }
+    },
+    {
+      "id": "7009427b20df",
+      "status": "completed",
+      "base_commit": "1f2097616fd20ae866d397ccf93015924f2dc9e1",
+      "config_digest": "2386bddf4e0ac84a5d8dbfd1ac2ae90ba9276bb7cb0ad7ec0752912a81d66528",
+      "task_digest": "9a05335381b48db91477745d69e7ed3a02fdfcbaf84278c54fa9f0844f8ac944",
+      "verified_digest": "60dc9787b8803e8f472546df1c73dbd99c2b48b9fb39959b7a45afd0da1cb96f",
+      "repairs": 0,
+      "factory_commit": "6bb8b5e1498e2a2eb038bc9565a9b762baeaf714",
+      "manual_candidate_edits": 0,
+      "operator_retries": 0,
+      "human_gate_approvals": 3,
+      "stages": [
+        {
+          "stage": "requirements",
+          "status": "passed",
+          "duration_seconds": 15.918
+        },
+        {
+          "stage": "design",
+          "status": "passed",
+          "duration_seconds": 25.943
+        },
+        {
+          "stage": "plan",
+          "status": "passed",
+          "duration_seconds": 26.275
+        },
+        {
+          "stage": "implement",
+          "status": "passed",
+          "duration_seconds": 89.642
+        },
+        {
+          "stage": "verify",
+          "status": "passed",
+          "duration_seconds": 7.228
+        },
+        {
+          "stage": "security",
+          "status": "passed",
+          "duration_seconds": 0.185
+        },
+        {
+          "stage": "review",
+          "status": "passed",
+          "duration_seconds": 35.749
+        },
+        {
+          "stage": "release",
+          "status": "passed",
+          "duration_seconds": 0.175
+        },
+        {
+          "stage": "deploy",
+          "status": "passed",
+          "duration_seconds": 0.183
+        },
+        {
+          "stage": "observe",
+          "status": "passed",
+          "duration_seconds": 7.197
+        },
+        {
+          "stage": "retrospective",
+          "status": "passed",
+          "duration_seconds": 17.52
+        }
+      ],
+      "verify": {
+        "summary": "49/49 project checks passed.",
+        "generated_tests_passed": 8
+      },
+      "observe": {
+        "summary": "49/49 project checks passed.",
+        "generated_tests_passed": 8
+      }
+    }
+  ],
+  "comparison": "All tracked inputs from the first run retain identical hashes. Subsequent additions were result reports and the separate guided-repair evaluator; production factory code, adapters, requirements, models and baseline are unchanged.",
+  "inputs_frozen_during_repeat": true,
+  "earlier_failed_runs_preserved": [
+    "40bc26ebeb3a",
+    "661421cdcbae"
+  ],
+  "delivery": "Local nine-file source bundles with verified installation; no cloud deployment or target repository promotion in this comparison.",
+  "limitations": [
+    "Two successful runs are bounded evidence, not a guarantee for arbitrary projects.",
+    "Earlier failures are not erased or counted as successes.",
+    "Generated test counts differ (10 and 8); both meet the minimum and pass independently.",
+    "Security checks cover packaging and import policy only."
+  ],
+  "recommendation": "Stop changing the factory for this milestone. Compare a verified source bundle with the public Taskboard evolution repository, then promote it with provenance and validation evidence, preserving unrelated repository changes."
+}
