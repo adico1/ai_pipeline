@@ -6,9 +6,9 @@ review must name the current source digest. Passing requires both checks to pass
 and no blocking findings; it does not bypass later verification or approvals.
 
 Each blocked finding must cite either a current failed/unavailable check and an
-exact evidence quote, or an allowed source file and a unique exact passage.
+stable evidence ID, or an allowed source file and a unique exact passage.
 Source line locations are resolved by code. Stale evidence, uncited blockers,
-claims that a passing check failed, invalid paths and invented quotations are
+claims that a passing check failed, invalid paths and invented source quotations are
 rejected. The reviewer gets one correction attempt; persistent invalid reports
 stop the stage. A valid source defect may block even with passing checks.
 
@@ -31,3 +31,10 @@ independent check result. It then runs only the reviewer, withholding expected
 labels. The original run is checked for changes. A failed evaluation-level call
 is not retried; CrewAI may use the one report-correction attempt. Inspect the
 findings as well as verdicts before considering a new trial.
+
+Check evidence IDs are derived from the stage, status and structured failure
+content, excluding output paths. The reviewer selects an ID; the factory attaches
+the original evidence to `resolved_check_evidence`, replacing any model-supplied
+contents. IDs are resolved only against this reviewer’s latest receipt. Findings
+must describe observed mismatches. Optional `inferred_cause` requires a current
+source citation. These rules cannot establish semantic correctness by themselves.

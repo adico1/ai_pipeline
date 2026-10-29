@@ -62,9 +62,35 @@ class ImplementationEvidenceTests(unittest.TestCase):
     def test_current_failed_check_is_valid_and_cannot_be_passed(self):
         self.source.write_text('value = "broken"\n')
         self.evidence.check()
-        report = self.blocked({'kind': 'check', 'check_stage': 'verify', 'quote': 'correct value required'})
+        evidence_id = next(key for key in self.evidence.latest['check_evidence'] if key.startswith('verify:'))
+        report = self.blocked({'kind': 'check', 'check_stage': 'verify', 'evidence_id': evidence_id})
         self.assertEqual(self.evidence.validate(report)[0], [])
         self.assertTrue(self.evidence.validate(self.report())[0])
+
+    def test_ids_are_stable_and_evidence_is_attached_without_model_quotes(self):
+        self.source.write_text('value = "broken"\n')
+        first = json.loads(self.evidence.check())['check_evidence']
+        second = json.loads(self.evidence.check())['check_evidence']
+        self.assertEqual(first, second)
+        key = next(key for key in first if key.startswith('verify:'))
+        report = self.blocked({'kind': 'check', 'check_stage': 'verify', 'evidence_id': key})
+        report.resolved_check_evidence = {'fabricated': {'detail': 'fake'}}
+        self.assertEqual(self.evidence.validate(report)[0], [])
+        self.assertEqual(report.resolved_check_evidence, {key: first[key]})
+        report.blocking_findings[0].inferred_cause = 'Unsafe SQL'
+        self.assertTrue(self.evidence.validate(report)[0])
+        report.blocking_findings[0].inferred_cause = None
+        citation = report.blocking_findings[0].citations[0]
+        citation.check_stage = 'security'
+        self.assertTrue(self.evidence.validate(report)[0])
+        citation.check_stage = 'verify'
+        citation.evidence_id = 'invented'
+        self.assertTrue(self.evidence.validate(report)[0])
+        citation.evidence_id = key
+        self.source.write_text('value = "correct"\n')
+        self.evidence.check()
+        report.source_digest = digest_tree(self.workspace)
+        self.assertTrue(self.evidence.validate(report)[0])
 
     def test_source_defect_can_block_even_when_checks_pass(self):
         self.source.write_text('value = "correct"\nunsafe = True\n')
@@ -108,7 +134,10 @@ class ImplementationEvidenceTests(unittest.TestCase):
                 self.calls += 1
                 if self.calls == 1:
                     return 'Thought: Check current source.\nAction: check_current_candidate\nAction Input: {}'
-                finding = {'finding': 'Value is broken', 'citations': [{'kind': 'check', 'check_stage': 'verify', 'quote': 'correct value required'}]}
+                receipts = (Path(context['output']) / 'reviewer-checks.jsonl').read_text().splitlines()
+                entries = json.loads(receipts[-1])['check_evidence']
+                evidence_id = next((key for key in entries if key.startswith('verify:')), None)
+                finding = {'finding': 'Value is broken', 'citations': [{'kind': 'check', 'check_stage': 'verify', 'evidence_id': evidence_id}]}
                 return 'Final Answer: ' + json.dumps({'status': 'blocked' if self.broken else 'passed',
                     'summary': 'Current evidence inspected', 'findings': ['Value is broken'] if self.broken else [],
                     'next_actions': [], 'source_digest': digest_tree(workspace),
