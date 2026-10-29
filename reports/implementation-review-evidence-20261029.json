@@ -1,0 +1,26 @@
+{
+  "implementation_commit": "8bfe499",
+  "status": "local_validation_passed_live_controls_not_run",
+  "changes": [
+    "Require the implementation reviewer to obtain its own current verify and security evidence.",
+    "Bind the verdict to the current source digest.",
+    "Require blocking findings to cite exact current source passages or current unsuccessful checks.",
+    "Retain invalid reports and allow one bounded report correction."
+  ],
+  "validation": {
+    "command": ".venv/bin/python -m unittest discover -s tests",
+    "tests_passed": 124,
+    "duration_seconds": 105.468,
+    "diff_check": "passed"
+  },
+  "live_controls": {
+    "source_run": "661421cdcbae",
+    "planned_variants": ["passing", "missing_whitespace_trim"],
+    "executed": false,
+    "reason": "Automatic approval review rejected sending unpublished candidate source and project context to the configured external model API without explicit authorization for that transfer."
+  },
+  "limitations": [
+    "Citation validity does not prove that the cited evidence supports the reviewer's interpretation.",
+    "No new full lifecycle trial was started."
+  ]
+}
