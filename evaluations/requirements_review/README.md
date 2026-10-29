@@ -87,3 +87,50 @@ uv run python evaluations/requirements_review/run.py --atomic \
 Human requirements approval and independent application checks remain necessary.
 Neither this evaluator nor its results automatically approve a factory run,
 change model settings, or enable a new production gate.
+
+## Full Taskboard checklist and supervised trial
+
+`taskboard-full-checklist.json` expands the entire original task into 55 review
+items tied to its nine source groups. Each item is reviewed individually by
+GPT-4.1. Some cohesive interface rules retain multiple related details; the
+reviewer must cover the complete selected rule. The inventory was manually
+checked against the task; source-group validation alone cannot prove completeness.
+
+First run positive/negative unit controls for every item (110 reviews). Each
+positive document contains only that selected rule; the negative replaces it
+with a neutral statement. These simple controls validate rule recognition and
+citation handling; the earlier six paired full-document drafts provide additional
+evidence for three rules. Neither proves reliability on every real draft.
+
+```sh
+uv run python evaluations/requirements_review/full_check.py --controls \
+  --output .factory/taskboard-full-controls
+```
+
+After inspecting the controls, create a fresh supervised run:
+
+```sh
+uv run ai-pipeline create --config projects/taskboard-rename-supervised.json \
+  --task "$(cat projects/taskboard-rename-task.txt)"
+uv run ai-pipeline advance RUN_ID
+```
+
+At the design approval gate, audit the saved requirements document:
+
+```sh
+uv run python evaluations/requirements_review/full_check.py \
+  --document /absolute/path/to/requirements.json \
+  --output .factory/taskboard-requirements-advisory
+```
+
+Inspect every coverage result alongside the task and draft. An advisory never
+approves a run. Resolve or withhold approval for real omissions; record evidence
+for any false-positive finding in the human approval note. Preserve the original
+task as the acceptance contract. Release/deploy still require source review,
+independent application checks and normal approvals.
+
+The separate supervised configuration changes only the project name and broad
+requirements reviewer to GPT-4.1; its writer and downstream stages are unchanged.
+The broad verdict alone is insufficient (as the prior negative controls showed).
+The full checklist review plus human approval is the intended safeguard. No
+existing configuration or historical run is rewritten.
