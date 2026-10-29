@@ -1,0 +1,215 @@
+{
+  "date": "2026-10-29",
+  "run_id": "0c5d859dce04",
+  "status": "completed",
+  "classification": "Assisted repair; not an unchanged repeatability success",
+  "original_blocked_run": "3e86e95923b7",
+  "earlier_failed_design_run": "fb4bc24a6090",
+  "baseline_commit": "f09cc84c715085e72b234da09f72d9ccbf58442e",
+  "factory_commit_at_start": "34cb330974f60cff030da4fae5fb7fe16c670412",
+  "input_amendments": [
+    {
+      "reason": "Resolve instruction conflict that preserved a passing candidate despite missing requested tests",
+      "file": "ai_pipeline/prompts.py",
+      "before": "162197e525abb6b0e1ebeb208b72fc473b804f8bc346c0588a61f48b71f2d627",
+      "after": "05c6fe4467455c9e0514d2ba72893500dde1fe7eeb5ed7618c100a17d42de1b3",
+      "factory_commit": "5ea1fa9f20bb5874ac296d576375e57115a6d7b1"
+    }
+  ],
+  "inputs_verified": true,
+  "config": "projects/taskboard-connection-repair.json",
+  "task": "projects/taskboard-connection-repair-task.txt",
+  "factory_tests_passed": 92,
+  "manual_candidate_edits": 0,
+  "operator_retry_calls": 0,
+  "operator_requested_crewai_corrections": 3,
+  "interventions": [
+    {
+      "type": "operator-requested CrewAI regression tests",
+      "exit_code": 0,
+      "error": null,
+      "duration_seconds": 26.928,
+      "source_before": "7daca8a75534066b41c6c62977f22635ce86d4de40e64ac019458967ec8f33a2",
+      "source_after": "7daca8a75534066b41c6c62977f22635ce86d4de40e64ac019458967ec8f33a2",
+      "manual_candidate_edits": 0,
+      "reason": "Release review found requested generated lifecycle tests missing."
+    },
+    {
+      "type": "operator-requested CrewAI regression tests",
+      "exit_code": 0,
+      "error": null,
+      "duration_seconds": 21.946,
+      "source_before": "7daca8a75534066b41c6c62977f22635ce86d4de40e64ac019458967ec8f33a2",
+      "source_after": "7daca8a75534066b41c6c62977f22635ce86d4de40e64ac019458967ec8f33a2",
+      "manual_candidate_edits": 0,
+      "reason": "Release review found requested generated lifecycle tests missing."
+    },
+    {
+      "type": "operator-requested CrewAI regression tests",
+      "exit_code": 0,
+      "error": null,
+      "duration_seconds": 27.566,
+      "source_before": "7daca8a75534066b41c6c62977f22635ce86d4de40e64ac019458967ec8f33a2",
+      "source_after": "bd96a71c3c8f4eb86ee97a72d6b1e484ff684b1ec6d7a0c5cfde5bd0fc90684d",
+      "manual_candidate_edits": 0,
+      "reason": "Release review found requested generated lifecycle tests missing."
+    }
+  ],
+  "engine_repairs": 0,
+  "distinct_stages_passed": 11,
+  "stage_attempts": 14,
+  "active_stage_seconds": 180.571,
+  "elapsed_seconds": 3993.658,
+  "results": {
+    "verify": {
+      "checks_passed": 24,
+      "generated_tests_passed": 5,
+      "connection_lifecycle": {
+        "case": "sqlite-connection-lifecycle",
+        "baseline": false,
+        "passed": true,
+        "expected": "SQLite connections closed after add, list, complete and missing-ID errors",
+        "actual": {
+          "passed": true,
+          "commands": [
+            {
+              "command": [
+                "add",
+                "probe"
+              ],
+              "exit_code": 0,
+              "opened": 1,
+              "still_open": 0,
+              "passed": true
+            },
+            {
+              "command": [
+                "list"
+              ],
+              "exit_code": 0,
+              "opened": 1,
+              "still_open": 0,
+              "passed": true
+            },
+            {
+              "command": [
+                "complete",
+                "1"
+              ],
+              "exit_code": 0,
+              "opened": 1,
+              "still_open": 0,
+              "passed": true
+            },
+            {
+              "command": [
+                "complete",
+                "999"
+              ],
+              "exit_code": 2,
+              "opened": 1,
+              "still_open": 0,
+              "passed": true
+            }
+          ]
+        }
+      }
+    },
+    "observe": {
+      "checks_passed": 24,
+      "generated_tests_passed": 5,
+      "connection_lifecycle": {
+        "case": "sqlite-connection-lifecycle",
+        "baseline": false,
+        "passed": true,
+        "expected": "SQLite connections closed after add, list, complete and missing-ID errors",
+        "actual": {
+          "passed": true,
+          "commands": [
+            {
+              "command": [
+                "add",
+                "probe"
+              ],
+              "exit_code": 0,
+              "opened": 1,
+              "still_open": 0,
+              "passed": true
+            },
+            {
+              "command": [
+                "list"
+              ],
+              "exit_code": 0,
+              "opened": 1,
+              "still_open": 0,
+              "passed": true
+            },
+            {
+              "command": [
+                "complete",
+                "1"
+              ],
+              "exit_code": 0,
+              "opened": 1,
+              "still_open": 0,
+              "passed": true
+            },
+            {
+              "command": [
+                "complete",
+                "999"
+              ],
+              "exit_code": 2,
+              "opened": 1,
+              "still_open": 0,
+              "passed": true
+            }
+          ]
+        }
+      }
+    }
+  },
+  "reported_usage": {
+    "total_tokens": 230627,
+    "prompt_tokens": 212623,
+    "cached_prompt_tokens": 0,
+    "completion_tokens": 18004,
+    "successful_requests": 42
+  },
+  "regression_mutation": [
+    {
+      "version": "repaired",
+      "exit_code": 0,
+      "log": "test_connection_closed_on_exception (test_taskboard.TestConnectionLifecycle.test_connection_closed_on_exception) ... ok\ntest_connection_closed_on_success (test_taskboard.TestConnectionLifecycle.test_connection_closed_on_success) ... ok\ntest_persistence_across_runs (test_taskboard.TestPersistence.test_persistence_across_runs) ... ok\ntest_complete_idempotent (test_taskboard.TestStateTransitions.test_complete_idempotent) ... ok\ntest_blank_title_rejected (test_taskboard.TestValidation.test_blank_title_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.026s\n\nOK\n"
+    },
+    {
+      "version": "original_storage",
+      "exit_code": 1,
+      "log": "test_connection_closed_on_exception (test_taskboard.TestConnectionLifecycle.test_connection_closed_on_exception) ... FAIL\ntest_connection_closed_on_success (test_taskboard.TestConnectionLifecycle.test_connection_closed_on_success) ... FAIL\ntest_persistence_across_runs (test_taskboard.TestPersistence.test_persistence_across_runs) ... ok\ntest_complete_idempotent (test_taskboard.TestStateTransitions.test_complete_idempotent) ... ok\ntest_blank_title_rejected (test_taskboard.TestValidation.test_blank_title_rejected) ... ok\n\n======================================================================\nFAIL: test_connection_closed_on_exception (test_taskboard.TestConnectionLifecycle.test_connection_closed_on_exception)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/private/var/folders/w_/46kg436n2g127pk1f7ljctjh0000gn/T/tmpz93e17lr/project/tests/test_taskboard.py\", line 66, in test_connection_closed_on_exception\n    with self.assertRaises(sqlite3.ProgrammingError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProgrammingError not raised\n\n======================================================================\nFAIL: test_connection_closed_on_success (test_taskboard.TestConnectionLifecycle.test_connection_closed_on_success)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/private/var/folders/w_/46kg436n2g127pk1f7ljctjh0000gn/T/tmpz93e17lr/project/tests/test_taskboard.py\", line 51, in test_connection_closed_on_success\n    with self.assertRaises(sqlite3.ProgrammingError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProgrammingError not raised\n\n----------------------------------------------------------------------\nRan 5 tests in 0.027s\n\nFAILED (failures=2)\n"
+    }
+  ],
+  "candidate_diff": "diff --git a/taskboard/storage.py b/taskboard/storage.py\nindex efefe83..b19a31d 100644\n--- a/taskboard/storage.py\n+++ b/taskboard/storage.py\n@@ -1,11 +1,15 @@\n import sqlite3\n-from contextlib import contextmanager\n+from contextlib import contextmanager, closing\n from pathlib import Path\n \n+@contextmanager\n def get_connection(db_path: Path):\n     conn = sqlite3.connect(str(db_path))\n     conn.row_factory = sqlite3.Row\n-    return conn\n+    try:\n+        yield conn\n+    finally:\n+        conn.close()\n \n def init_schema(conn):\n     conn.execute(\ndiff --git a/tests/test_taskboard.py b/tests/test_taskboard.py\nindex 54e13a1..f0148b5 100644\n--- a/tests/test_taskboard.py\n+++ b/tests/test_taskboard.py\n@@ -4,6 +4,7 @@ import os\n import json\n from pathlib import Path\n from taskboard import domain, storage\n+import sqlite3\n \n class TestValidation(unittest.TestCase):\n     def test_blank_title_rejected(self):\n@@ -38,5 +39,32 @@ class TestPersistence(unittest.TestCase):\n         finally:\n             os.remove(db_path)\n \n+class TestConnectionLifecycle(unittest.TestCase):\n+    def test_connection_closed_on_success(self):\n+        with tempfile.NamedTemporaryFile(suffix='.sqlite3') as tf:\n+            db_path = Path(tf.name)\n+            with storage.get_connection(db_path) as conn:\n+                storage.init_schema(conn)\n+                storage.add_task(conn, 'foo')\n+                # conn is open here\n+            # After context, conn should be closed\n+            with self.assertRaises(sqlite3.ProgrammingError):\n+                conn.execute(\"SELECT 1\")\n+\n+    def test_connection_closed_on_exception(self):\n+        with tempfile.NamedTemporaryFile(suffix='.sqlite3') as tf:\n+            db_path = Path(tf.name)\n+            class CustomError(Exception):\n+                pass\n+            try:\n+                with storage.get_connection(db_path) as conn:\n+                    storage.init_schema(conn)\n+                    raise CustomError()\n+            except CustomError:\n+                pass\n+            # After context, conn should be closed\n+            with self.assertRaises(sqlite3.ProgrammingError):\n+                conn.execute(\"SELECT 1\")\n+\n if __name__ == '__main__':\n     unittest.main()\n",
+  "limitations": [
+    "Earlier repeatability remains 1/2; this repair does not change that outcome.",
+    "First repair run failed at design. The next run used a stronger design model.",
+    "Two correction calls claimed added tests without changing files; release was withheld. After a documented prompt correction, the third call wrote the required tests.",
+    "Static security checks are limited; this is a local source-bundle delivery, not a hosted deployment.",
+    "Token counts are framework-reported, not billed cost."
+  ],
+  "release_manifest": {
+    "files": {
+      ".gitignore": "7376acd737921fa0716657f9899f48f563ee0d41565f1151bb30d1a7445ae432",
+      "README.md": "2f20b79b07eaba0a4c5922a9e462b744ff038542c6c49f73a7d4f0895e28ac77",
+      "pyproject.toml": "b6a41eb9a25b084b0ce79d4d035931a002852e11df42abee9e7d70581f926cad",
+      "taskboard/__init__.py": "d9b209b9fb16fafb15e31e758110873452aa50c39311f12147b05d40501c6ff4",
+      "taskboard/__main__.py": "3129adff95e0f38b87ab34cddfc27082c7892bcaec267ff5d40f160fdf55b44a",
+      "taskboard/cli.py": "79ffe67de034e03cd75b23fa1ead2ae313a20db0f0c1ea7904678188fa1e1155",
+      "taskboard/domain.py": "d63ea94d27e1229be0b8a3a4c0dfe5a1887528b21b0449b50d9287805aa47557",
+      "taskboard/storage.py": "c83d2f8a78f203697d6e1211ebb13f8e365ada8ad05057aef396ea627c03f453",
+      "tests/test_taskboard.py": "0f65d487d623ea059dc4702b6769b60fae2e447a73ef4f8a02ce6ab31d0c3a8e"
+    },
+    "archive_sha256": "4fb5082f75da4f4aae0805cc2ed367c0adb9bdf9078c3c0c458f0791f1a00f1a"
+  },
+  "installed_directory": "/Users/adicohen/work/ai_pipeline/.factory/0c5d859dce04/artifacts/012-deploy-f490e29f/installed"
+}
