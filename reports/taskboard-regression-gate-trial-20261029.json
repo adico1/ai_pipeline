@@ -1,0 +1,164 @@
+{
+  "date": "2026-10-29",
+  "run_id": "0eea3f6499b0",
+  "status": "completed",
+  "classification": "Fresh repair from defective baseline; normal approval gates only",
+  "factory_commit": "71c2c53c9ebee33be3bea59b640de4d67c46cd62",
+  "baseline_commit": "f09cc84c715085e72b234da09f72d9ccbf58442e",
+  "frozen_inputs_verified": true,
+  "factory_tests_passed": 96,
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "supplemental_crewai_calls": 0,
+  "engine_repairs": 0,
+  "stages_completed": 11,
+  "stage_attempts": 11,
+  "approval_gates_reviewed": 3,
+  "active_seconds": 170.622,
+  "elapsed_seconds": 226.364,
+  "results": {
+    "verify": {
+      "checks_passed": 25,
+      "generated_tests_passed": 5,
+      "mutation_evidence": {
+        "case": "generated-lifecycle-regressions",
+        "baseline": false,
+        "passed": true,
+        "expected": "Generated tests pass repaired source; at least two closed-handle assertions (success and exception paths) fail with ProgrammingError not raised against original leaking storage. Import errors do not count.",
+        "actual": {
+          "original_storage_sha256": "766b75d11c66eb443c8d1442b22421c10402d69027a9407d5595c88f0090cec7",
+          "repaired": {
+            "tests_run": 5,
+            "passed_ids": [
+              "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_exception",
+              "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_success",
+              "test_taskboard.TestPersistence.test_persistence_across_runs",
+              "test_taskboard.TestStateTransitions.test_complete_idempotent",
+              "test_taskboard.TestValidation.test_blank_title_rejected"
+            ],
+            "failures": [],
+            "errors": [],
+            "skipped": [],
+            "expected_failures": [],
+            "unexpected_successes": [],
+            "output": ""
+          },
+          "original_defect": {
+            "tests_run": 5,
+            "passed_ids": [
+              "test_taskboard.TestPersistence.test_persistence_across_runs",
+              "test_taskboard.TestStateTransitions.test_complete_idempotent",
+              "test_taskboard.TestValidation.test_blank_title_rejected"
+            ],
+            "failures": [
+              {
+                "id": "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_exception",
+                "traceback": "Traceback (most recent call last):\n  File \"/private/var/folders/w_/46kg436n2g127pk1f7ljctjh0000gn/T/tmpku6xtga_/original_defect/tests/test_taskboard.py\", line 64, in test_connection_closed_on_exception\n    with self.assertRaises(sqlite3.ProgrammingError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProgrammingError not raised\n"
+              },
+              {
+                "id": "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_success",
+                "traceback": "Traceback (most recent call last):\n  File \"/private/var/folders/w_/46kg436n2g127pk1f7ljctjh0000gn/T/tmpku6xtga_/original_defect/tests/test_taskboard.py\", line 51, in test_connection_closed_on_success\n    with self.assertRaises(sqlite3.ProgrammingError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProgrammingError not raised\n"
+              }
+            ],
+            "errors": [],
+            "skipped": [],
+            "expected_failures": [],
+            "unexpected_successes": [],
+            "output": ""
+          },
+          "detecting_test_ids": [
+            "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_exception",
+            "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_success"
+          ]
+        }
+      }
+    },
+    "observe": {
+      "checks_passed": 25,
+      "generated_tests_passed": 5,
+      "mutation_evidence": {
+        "case": "generated-lifecycle-regressions",
+        "baseline": false,
+        "passed": true,
+        "expected": "Generated tests pass repaired source; at least two closed-handle assertions (success and exception paths) fail with ProgrammingError not raised against original leaking storage. Import errors do not count.",
+        "actual": {
+          "original_storage_sha256": "766b75d11c66eb443c8d1442b22421c10402d69027a9407d5595c88f0090cec7",
+          "repaired": {
+            "tests_run": 5,
+            "passed_ids": [
+              "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_exception",
+              "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_success",
+              "test_taskboard.TestPersistence.test_persistence_across_runs",
+              "test_taskboard.TestStateTransitions.test_complete_idempotent",
+              "test_taskboard.TestValidation.test_blank_title_rejected"
+            ],
+            "failures": [],
+            "errors": [],
+            "skipped": [],
+            "expected_failures": [],
+            "unexpected_successes": [],
+            "output": ""
+          },
+          "original_defect": {
+            "tests_run": 5,
+            "passed_ids": [
+              "test_taskboard.TestPersistence.test_persistence_across_runs",
+              "test_taskboard.TestStateTransitions.test_complete_idempotent",
+              "test_taskboard.TestValidation.test_blank_title_rejected"
+            ],
+            "failures": [
+              {
+                "id": "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_exception",
+                "traceback": "Traceback (most recent call last):\n  File \"/private/var/folders/w_/46kg436n2g127pk1f7ljctjh0000gn/T/tmp7mmj__uj/original_defect/tests/test_taskboard.py\", line 64, in test_connection_closed_on_exception\n    with self.assertRaises(sqlite3.ProgrammingError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProgrammingError not raised\n"
+              },
+              {
+                "id": "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_success",
+                "traceback": "Traceback (most recent call last):\n  File \"/private/var/folders/w_/46kg436n2g127pk1f7ljctjh0000gn/T/tmp7mmj__uj/original_defect/tests/test_taskboard.py\", line 51, in test_connection_closed_on_success\n    with self.assertRaises(sqlite3.ProgrammingError):\n         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ProgrammingError not raised\n"
+              }
+            ],
+            "errors": [],
+            "skipped": [],
+            "expected_failures": [],
+            "unexpected_successes": [],
+            "output": ""
+          },
+          "detecting_test_ids": [
+            "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_exception",
+            "test_taskboard.TestConnectionLifecycle.test_connection_closed_on_success"
+          ]
+        }
+      }
+    }
+  },
+  "reported_usage": {
+    "total_tokens": 225892,
+    "prompt_tokens": 214827,
+    "cached_prompt_tokens": 0,
+    "completion_tokens": 11065,
+    "successful_requests": 29
+  },
+  "candidate_diff": "diff --git a/taskboard/storage.py b/taskboard/storage.py\nindex efefe83..25806bb 100644\n--- a/taskboard/storage.py\n+++ b/taskboard/storage.py\n@@ -2,10 +2,14 @@ import sqlite3\n from contextlib import contextmanager\n from pathlib import Path\n \n+@contextmanager\n def get_connection(db_path: Path):\n     conn = sqlite3.connect(str(db_path))\n     conn.row_factory = sqlite3.Row\n-    return conn\n+    try:\n+        yield conn\n+    finally:\n+        conn.close()\n \n def init_schema(conn):\n     conn.execute(\ndiff --git a/tests/test_taskboard.py b/tests/test_taskboard.py\nindex 54e13a1..8a614f1 100644\n--- a/tests/test_taskboard.py\n+++ b/tests/test_taskboard.py\n@@ -2,6 +2,7 @@ import unittest\n import tempfile\n import os\n import json\n+import sqlite3\n from pathlib import Path\n from taskboard import domain, storage\n \n@@ -38,5 +39,30 @@ class TestPersistence(unittest.TestCase):\n         finally:\n             os.remove(db_path)\n \n+class TestConnectionLifecycle(unittest.TestCase):\n+    def test_connection_closed_on_success(self):\n+        with tempfile.NamedTemporaryFile(suffix='.sqlite3') as tf:\n+            db_path = Path(tf.name)\n+            # get_connection is a context manager\n+            with storage.get_connection(db_path) as conn:\n+                storage.init_schema(conn)\n+                storage.add_task(conn, 'foo')\n+            # After context exit, using conn should raise ProgrammingError\n+            with self.assertRaises(sqlite3.ProgrammingError):\n+                conn.execute(\"SELECT 1\")\n+\n+    def test_connection_closed_on_exception(self):\n+        with tempfile.NamedTemporaryFile(suffix='.sqlite3') as tf:\n+            db_path = Path(tf.name)\n+            try:\n+                with storage.get_connection(db_path) as conn:\n+                    storage.init_schema(conn)\n+                    raise RuntimeError(\"fail inside context\")\n+            except RuntimeError:\n+                pass\n+            # After context exit, using conn should raise ProgrammingError\n+            with self.assertRaises(sqlite3.ProgrammingError):\n+                conn.execute(\"SELECT 1\")\n+\n if __name__ == '__main__':\n     unittest.main()\n",
+  "previous_blocked_replay": "46768d299e83",
+  "limitations": [
+    "One successful repair trial with stronger executable acceptance; earlier blocked trials remain unchanged.",
+    "Operator reviewed normal design/release/deploy gates.",
+    "Mutation gate targets this recorded storage defect and specified unittest closure assertions; it is not a universal regression-test quality checker.",
+    "Local source-bundle installation, not cloud hosting.",
+    "Framework-reported token counts are not billed cost."
+  ],
+  "release_manifest": {
+    "files": {
+      ".gitignore": "7376acd737921fa0716657f9899f48f563ee0d41565f1151bb30d1a7445ae432",
+      "README.md": "2f20b79b07eaba0a4c5922a9e462b744ff038542c6c49f73a7d4f0895e28ac77",
+      "pyproject.toml": "b6a41eb9a25b084b0ce79d4d035931a002852e11df42abee9e7d70581f926cad",
+      "taskboard/__init__.py": "d9b209b9fb16fafb15e31e758110873452aa50c39311f12147b05d40501c6ff4",
+      "taskboard/__main__.py": "3129adff95e0f38b87ab34cddfc27082c7892bcaec267ff5d40f160fdf55b44a",
+      "taskboard/cli.py": "79ffe67de034e03cd75b23fa1ead2ae313a20db0f0c1ea7904678188fa1e1155",
+      "taskboard/domain.py": "d63ea94d27e1229be0b8a3a4c0dfe5a1887528b21b0449b50d9287805aa47557",
+      "taskboard/storage.py": "5a7658c4ae0076978e640305542bc4ec930aa0a712d2ee92cc5ffc91bd152ea4",
+      "tests/test_taskboard.py": "d8433b6f696be66b3da875b9257e30e66ab65b5025f7023f86560bc582c76941"
+    },
+    "archive_sha256": "74fa8e421a4d9f767b8127410bec0ad0eb3ce2adb82e5153b7e7dc29c09583b4"
+  },
+  "installed_directory": "/Users/adicohen/work/ai_pipeline/.factory/0eea3f6499b0/artifacts/009-deploy-f0f46389/installed"
+}
