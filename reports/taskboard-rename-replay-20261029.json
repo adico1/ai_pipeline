@@ -1,0 +1,158 @@
+{
+  "date": "2026-10-29",
+  "run_id": "1ee547e74591",
+  "status": "failed",
+  "classification": "Clean replay failed at requirements; stopped at first failed stage",
+  "factory_commit": "8226c55afd6bd32de0278e950c8a5abd03d58605",
+  "baseline_commit": "1f2097616fd20ae866d397ccf93015924f2dc9e1",
+  "config_digest": "f0b3007bdd8e53c71a9393e4dbb7e2be58bb342f9bdf519c500d520f4364a32d",
+  "task_digest": "9a05335381b48db91477745d69e7ed3a02fdfcbaf84278c54fa9f0844f8ac944",
+  "frozen_inputs_unchanged": true,
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "supplemental_crewai_calls": 0,
+  "engine_repairs": 0,
+  "approvals": [],
+  "application_source_unchanged": true,
+  "stage_attempts": 1,
+  "completed_stages": 0,
+  "failed_attempt": {
+    "stage": "requirements",
+    "number": 1,
+    "at": "2026-10-29T10:10:31.306731+00:00",
+    "duration_seconds": 44.409,
+    "exit_code": 1,
+    "source_before": "cd5bae1a2638807d2be998d31fbc679c2f0216be3417d94fdf4368b96aa0c7bd",
+    "source_after": "cd5bae1a2638807d2be998d31fbc679c2f0216be3417d94fdf4368b96aa0c7bd",
+    "status": "failed",
+    "error": "Adapter did not provide a passed result with a summary",
+    "result": {
+      "status": "failed",
+      "summary": "The requirements deliverable is incomplete as it lacks clarity on specific error messages for invalid inputs and does not address how to handle concurrent rename requests.",
+      "findings": [
+        "The acceptance criteria mention invalid inputs but do not specify the exact error messages to be returned for different cases.",
+        "There is no guidance on how the system should handle concurrent rename requests for the same task, which could lead to data integrity issues.",
+        "The open questions section raises valid concerns that need to be resolved before the requirements can be considered complete."
+      ],
+      "next_actions": [
+        "Clarify the specific error messages that should be returned for different invalid inputs.",
+        "Define how the system will handle concurrent rename requests for the same task.",
+        "Address any other unresolved questions to ensure completeness of the requirements."
+      ],
+      "review_revisions": 2,
+      "deliverable": {
+        "objective": "Extend the existing generated multi-file Taskboard project with a feature to rename a task while preserving existing functionalities and data integrity.",
+        "scope": [
+          "Implement a rename feature in the CLI for tasks.",
+          "Preserve existing functionalities: add, list, complete CLI commands.",
+          "Maintain SQLite data integrity and module layout.",
+          "Ensure the feature works with existing databases and task states.",
+          "Update README to include rename syntax and examples."
+        ],
+        "acceptance_criteria": [
+          "The command 'python -m taskboard --database PATH rename ID TITLE' successfully renames a task identified by ID to the new TITLE.",
+          "The command exits with status 0 and prints a JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool} upon success.",
+          "The ID and completion state of the task remain unchanged after renaming.",
+          "Renaming works for both open and completed tasks and persists across processes.",
+          "Repeating the same title for a task succeeds without errors.",
+          "Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved.",
+          "Invalid inputs (blank/whitespace-only titles, nonexistent/malformed/zero/negative/out-of-range IDs) exit with status 2 and return a nonempty JSON {\"error\":string} on stderr.",
+          "IDs must fit within the SQLite positive signed 64-bit range.",
+          "Invalid operations do not alter task data.",
+          "A missing task in a fresh database does not create a new task.",
+          "Separate databases remain isolated and unaffected by each other.",
+          "Existing validation and behavior must not regress.",
+          "At least three new unit tests for rename success, completed-state preservation, and invalid-input/no-write behavior are added, retaining a total of at least eight tests.",
+          "CLI subprocess tests assert success and output, ensuring that removing the rename feature causes assertions to fail.",
+          "Tests utilize temporary databases and run independently of factory files.",
+          "The README is updated to explain the rename syntax and behavior, including a new fenced block for rename examples."
+        ],
+        "constraints": [
+          "No changes to existing add/list/complete CLI functionalities.",
+          "No introduction of new dependencies or web UI.",
+          "No deletion, search, user management, or other features beyond renaming.",
+          "Preserve metadata and adhere to a standard-library-only policy.",
+          "Allowed imports are limited to argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports."
+        ],
+        "open_questions": [
+          "What specific error messages should be returned for different invalid inputs?",
+          "How should the system handle concurrent rename requests for the same task?",
+          "Is there a need for logging or tracking changes made by the rename operation?"
+        ]
+      },
+      "framework": "crewai",
+      "report": "crew-report.md"
+    },
+    "artifact_directory": "/Users/adicohen/work/ai_pipeline/.factory/1ee547e74591/artifacts/001-requirements-6d8a47a0"
+  },
+  "review_rounds": [
+    {
+      "revision": 0,
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete as it lacks clarity in certain areas and does not fully address all necessary aspects of the rename feature.",
+        "findings": [
+          "The acceptance criteria do not specify the exact error messages for different invalid inputs, which is crucial for user feedback.",
+          "There is no clear guidance on how to handle concurrent rename requests for the same task, which could lead to data integrity issues.",
+          "The requirement for logging or tracking changes made by the rename operation is left open, which may be important for auditing purposes."
+        ],
+        "next_actions": [
+          "Clarify the specific error messages that should be returned for various invalid inputs.",
+          "Define how the system should handle concurrent rename requests for the same task.",
+          "Decide whether logging or tracking changes made by the rename operation is necessary and document this requirement."
+        ]
+      },
+      "deliverable": "{\n  \"objective\": \"Extend the existing generated multi-file Taskboard project with a feature to rename a task while preserving existing functionalities and data integrity.\",\n  \"scope\": [\n    \"Implement a rename feature in the CLI for tasks.\",\n    \"Preserve existing functionalities: add, list, complete CLI commands.\",\n    \"Maintain SQLite data integrity and module layout.\",\n    \"Ensure the feature works with existing databases and task states.\",\n    \"Update README to include rename syntax and examples.\"\n  ],\n  \"acceptance_criteria\": [\n    \"The command 'python -m taskboard --database PATH rename ID TITLE' successfully renames a task identified by ID to the new TITLE.\",\n    \"The command exits with status 0 and prints a JSON object {\\\"id\\\":positive_int,\\\"title\\\":trimmed_title,\\\"completed\\\":bool} upon success.\",\n    \"The ID and completion state of the task remain unchanged after renaming.\",\n    \"Renaming works for both open and completed tasks and persists across processes.\",\n    \"Repeating the same title for a task succeeds without errors.\",\n    \"Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved.\",\n    \"Invalid inputs (blank/whitespace-only titles, nonexistent/malformed/zero/negative/out-of-range IDs) exit with status 2 and return a nonempty JSON {\\\"error\\\":string} on stderr.\",\n    \"IDs must fit within the SQLite positive signed 64-bit range.\",\n    \"Invalid operations do not alter task data.\",\n    \"A missing task in a fresh database does not create a new task.\",\n    \"Separate databases remain isolated and unaffected by each other.\",\n    \"Existing validation and behavior must not regress.\",\n    \"At least three new unit tests for rename success, completed-state preservation, and invalid-input/no-write behavior are added, retaining a total of at least eight tests.\",\n    \"CLI subprocess tests assert success and output, ensuring that removing the rename feature causes assertions to fail.\",\n    \"Tests utilize temporary databases and run independently of factory files.\",\n    \"The README is updated to explain the rename syntax and behavior, including a new fenced block for rename examples.\"\n  ],\n  \"constraints\": [\n    \"No changes to existing add/list/complete CLI functionalities.\",\n    \"No introduction of new dependencies or web UI.\",\n    \"No deletion, search, user management, or other features beyond renaming.\",\n    \"Preserve metadata and adhere to a standard-library-only policy.\",\n    \"Allowed imports are limited to argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports.\"\n  ],\n  \"open_questions\": [\n    \"What specific error messages should be returned for different invalid inputs?\",\n    \"How should the system handle concurrent rename requests for the same task?\",\n    \"Is there a need for logging or tracking changes made by the rename operation?\"\n  ]\n}"
+    },
+    {
+      "revision": 1,
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete as it lacks clarity on specific error messages for invalid inputs and does not address how to handle concurrent rename requests.",
+        "findings": [
+          "The acceptance criteria mention invalid inputs but do not specify the exact error messages to be returned for different cases.",
+          "There is no guidance on how the system should handle concurrent rename requests for the same task, which could lead to data integrity issues.",
+          "The open questions section raises valid concerns that need to be resolved before the requirements can be considered complete."
+        ],
+        "next_actions": [
+          "Clarify the specific error messages that should be returned for different invalid inputs.",
+          "Define how the system will handle concurrent rename requests for the same task.",
+          "Address any other open questions to ensure all aspects of the requirements are covered."
+        ]
+      },
+      "deliverable": "{\n  \"objective\": \"Extend the existing generated multi-file Taskboard project with a feature to rename a task while preserving existing functionalities and data integrity.\",\n  \"scope\": [\n    \"Implement a rename feature in the CLI for tasks.\",\n    \"Preserve existing functionalities: add, list, complete CLI commands.\",\n    \"Maintain SQLite data integrity and module layout.\",\n    \"Ensure the feature works with existing databases and task states.\",\n    \"Update README to include rename syntax and examples.\"\n  ],\n  \"acceptance_criteria\": [\n    \"The command 'python -m taskboard --database PATH rename ID TITLE' successfully renames a task identified by ID to the new TITLE.\",\n    \"The command exits with status 0 and prints a JSON object {\\\"id\\\":positive_int,\\\"title\\\":trimmed_title,\\\"completed\\\":bool} upon success.\",\n    \"The ID and completion state of the task remain unchanged after renaming.\",\n    \"Renaming works for both open and completed tasks and persists across processes.\",\n    \"Repeating the same title for a task succeeds without errors.\",\n    \"Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved.\",\n    \"Invalid inputs (blank/whitespace-only titles, nonexistent/malformed/zero/negative/out-of-range IDs) exit with status 2 and return a nonempty JSON {\\\"error\\\":string} on stderr.\",\n    \"IDs must fit within the SQLite positive signed 64-bit range.\",\n    \"Invalid operations do not alter task data.\",\n    \"A missing task in a fresh database does not create a new task.\",\n    \"Separate databases remain isolated and unaffected by each other.\",\n    \"Existing validation and behavior must not regress.\",\n    \"At least three new unit tests for rename success, completed-state preservation, and invalid-input/no-write behavior are added, retaining a total of at least eight tests.\",\n    \"CLI subprocess tests assert success and output, ensuring that removing the rename feature causes assertions to fail.\",\n    \"Tests utilize temporary databases and run independently of factory files.\",\n    \"The README is updated to explain the rename syntax and behavior, including a new fenced block for rename examples.\"\n  ],\n  \"constraints\": [\n    \"No changes to existing add/list/complete CLI functionalities.\",\n    \"No introduction of new dependencies or web UI.\",\n    \"No deletion, search, user management, or other features beyond renaming.\",\n    \"Preserve metadata and adhere to a standard-library-only policy.\",\n    \"Allowed imports are limited to argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports.\"\n  ],\n  \"open_questions\": [\n    \"What specific error messages should be returned for different invalid inputs?\",\n    \"How should the system handle concurrent rename requests for the same task?\",\n    \"Is there a need for logging or tracking changes made by the rename operation?\"\n  ]\n}"
+    },
+    {
+      "revision": 2,
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete as it lacks clarity on specific error messages for invalid inputs and does not address how to handle concurrent rename requests.",
+        "findings": [
+          "The acceptance criteria mention invalid inputs but do not specify the exact error messages to be returned for different cases.",
+          "There is no guidance on how the system should handle concurrent rename requests for the same task, which could lead to data integrity issues.",
+          "The open questions section raises valid concerns that need to be resolved before the requirements can be considered complete."
+        ],
+        "next_actions": [
+          "Clarify the specific error messages that should be returned for different invalid inputs.",
+          "Define how the system will handle concurrent rename requests for the same task.",
+          "Address any other unresolved questions to ensure completeness of the requirements."
+        ]
+      },
+      "deliverable": "{\n  \"objective\": \"Extend the existing generated multi-file Taskboard project with a feature to rename a task while preserving existing functionalities and data integrity.\",\n  \"scope\": [\n    \"Implement a rename feature in the CLI for tasks.\",\n    \"Preserve existing functionalities: add, list, complete CLI commands.\",\n    \"Maintain SQLite data integrity and module layout.\",\n    \"Ensure the feature works with existing databases and task states.\",\n    \"Update README to include rename syntax and examples.\"\n  ],\n  \"acceptance_criteria\": [\n    \"The command 'python -m taskboard --database PATH rename ID TITLE' successfully renames a task identified by ID to the new TITLE.\",\n    \"The command exits with status 0 and prints a JSON object {\\\"id\\\":positive_int,\\\"title\\\":trimmed_title,\\\"completed\\\":bool} upon success.\",\n    \"The ID and completion state of the task remain unchanged after renaming.\",\n    \"Renaming works for both open and completed tasks and persists across processes.\",\n    \"Repeating the same title for a task succeeds without errors.\",\n    \"Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved.\",\n    \"Invalid inputs (blank/whitespace-only titles, nonexistent/malformed/zero/negative/out-of-range IDs) exit with status 2 and return a nonempty JSON {\\\"error\\\":string} on stderr.\",\n    \"IDs must fit within the SQLite positive signed 64-bit range.\",\n    \"Invalid operations do not alter task data.\",\n    \"A missing task in a fresh database does not create a new task.\",\n    \"Separate databases remain isolated and unaffected by each other.\",\n    \"Existing validation and behavior must not regress.\",\n    \"At least three new unit tests for rename success, completed-state preservation, and invalid-input/no-write behavior are added, retaining a total of at least eight tests.\",\n    \"CLI subprocess tests assert success and output, ensuring that removing the rename feature causes assertions to fail.\",\n    \"Tests utilize temporary databases and run independently of factory files.\",\n    \"The README is updated to explain the rename syntax and behavior, including a new fenced block for rename examples.\"\n  ],\n  \"constraints\": [\n    \"No changes to existing add/list/complete CLI functionalities.\",\n    \"No introduction of new dependencies or web UI.\",\n    \"No deletion, search, user management, or other features beyond renaming.\",\n    \"Preserve metadata and adhere to a standard-library-only policy.\",\n    \"Allowed imports are limited to argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports.\"\n  ],\n  \"open_questions\": [\n    \"What specific error messages should be returned for different invalid inputs?\",\n    \"How should the system handle concurrent rename requests for the same task?\",\n    \"Is there a need for logging or tracking changes made by the rename operation?\"\n  ]\n}"
+    }
+  ],
+  "reported_usage": {
+    "total_tokens": 13885,
+    "prompt_tokens": 11551,
+    "cached_prompt_tokens": 0,
+    "completion_tokens": 2334,
+    "successful_requests": 6
+  },
+  "assessment": "Requirements reviewer treated unspecified exact error wording and out-of-scope concurrency behavior as blockers. The user task already requires nonempty JSON errors with exit 2 and explicitly excludes additional features. Earlier review also requested audit logging. The retrospective-specific correction does not prevent requirements-stage scope drift.",
+  "next_recommendation": "Constrain requirements author and reviewer to the explicit task; distinguish blocking ambiguities from optional follow-ups. Preserve real completeness checks, validate the correction, then create a new frozen trial rather than retrying this evidence run.",
+  "limitations": [
+    "No implementation, verification, release or deployment occurred in this replay.",
+    "Existing successful delivery remains unchanged; this trial does not establish intervention-free feature repeatability.",
+    "Factory tests were not rerun: this trial changes only an evidence report."
+  ]
+}
