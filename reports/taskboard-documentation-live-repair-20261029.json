@@ -1,0 +1,311 @@
+{
+  "factory_commit": "b8404ad07eef1148473683ce15b24f60c5a14596",
+  "source_run": "40bc26ebeb3a",
+  "original_digest": "f19665ea8176b6a51322961b2afb1dc4ed592f06d2fd7c506de594c449ca3555",
+  "model_config": {
+    "model": "openai/gpt-4.1-2025-04-14",
+    "review_model": "openai/gpt-4o-mini",
+    "max_iter": 24
+  },
+  "live_writer_executed": true,
+  "operator_retries": 0,
+  "manual_candidate_edits": 0,
+  "preflight": {
+    "scope": "CURRENT candidate; advisory checks, external gates still rerun",
+    "source_digest": "f19665ea8176b6a51322961b2afb1dc4ed592f06d2fd7c506de594c449ca3555",
+    "checks": [
+      {
+        "stage": "verify",
+        "status": "failed",
+        "report": {
+          "status": "failed",
+          "baseline_tests_passed": true,
+          "summary": "45/46 project checks passed.",
+          "findings": [],
+          "failed_case_count": 1,
+          "failure_group_count": 1,
+          "failure_groups": [
+            {
+              "example": {
+                "case": "rename-documentation",
+                "baseline": false,
+                "expected": {
+                  "path": "README.md",
+                  "block": "json taskboard-rename-examples",
+                  "block_count": 1,
+                  "example_count": 4,
+                  "commands": [
+                    "add",
+                    "complete",
+                    "rename",
+                    "list"
+                  ]
+                },
+                "actual": {
+                  "path": "README.md",
+                  "block": "json taskboard-rename-examples",
+                  "block_count": 1,
+                  "example_count": 6,
+                  "commands": [
+                    "add",
+                    "add",
+                    "complete",
+                    "rename",
+                    "rename",
+                    "list"
+                  ],
+                  "error": "Example count or command order differs",
+                  "required_action": "Edit only the json taskboard-rename-examples block in README.md to contain four examples in order add, complete, rename, list on one fresh database. Use the same task ID and preserve completed=true after rename. Keep the original taskboard-examples block unchanged. Write the correction with write_source_file before calling check_current_candidate again."
+                }
+              },
+              "occurrences": 1,
+              "modes": []
+            }
+          ],
+          "omitted_groups": 0
+        },
+        "evidence_path": "/Users/adicohen/work/ai_pipeline/.factory/documentation-repair-live-20261029/candidate-checks/verify-51f849b1/result.json"
+      },
+      {
+        "stage": "security",
+        "status": "passed",
+        "report": {
+          "status": "passed",
+          "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit.",
+          "findings": []
+        },
+        "evidence_path": "/Users/adicohen/work/ai_pipeline/.factory/documentation-repair-live-20261029/candidate-checks/security-45465a54/result.json"
+      }
+    ]
+  },
+  "writer_result": "Writer returned the corrected README; full output retained in local results.json.",
+  "postflight": {
+    "scope": "CURRENT candidate; advisory checks, external gates still rerun",
+    "source_digest": "99e642c8ccfdcdea70256dc99fd87960a1edff939a59cc757c8707d53877be1a",
+    "checks": [
+      {
+        "stage": "verify",
+        "status": "passed",
+        "report": {
+          "status": "passed",
+          "baseline_tests_passed": true,
+          "summary": "49/49 project checks passed.",
+          "findings": []
+        },
+        "evidence_path": "/Users/adicohen/work/ai_pipeline/.factory/documentation-repair-live-20261029/candidate-checks/verify-d42715b6/result.json"
+      },
+      {
+        "stage": "security",
+        "status": "passed",
+        "report": {
+          "status": "passed",
+          "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit.",
+          "findings": []
+        },
+        "evidence_path": "/Users/adicohen/work/ai_pipeline/.factory/documentation-repair-live-20261029/candidate-checks/security-4f847062/result.json"
+      }
+    ]
+  },
+  "changed_files": [
+    "README.md"
+  ],
+  "outside_block_unchanged": true,
+  "original_unchanged": true,
+  "frozen_inputs_unchanged": true,
+  "passed": true,
+  "limitations": [
+    "One guided writer-only repair fixture, not a full lifecycle or repeatability trial.",
+    "The narrow repair task explicitly restricts edits to the README block."
+  ],
+  "check_history": [
+    {
+      "summary": "45/46 project checks passed.",
+      "failed_cases": [
+        {
+          "case": "rename-documentation",
+          "baseline": false,
+          "passed": false,
+          "expected": {
+            "path": "README.md",
+            "block": "json taskboard-rename-examples",
+            "block_count": 1,
+            "example_count": 4,
+            "commands": [
+              "add",
+              "complete",
+              "rename",
+              "list"
+            ]
+          },
+          "actual": {
+            "path": "README.md",
+            "block": "json taskboard-rename-examples",
+            "block_count": 1,
+            "example_count": 6,
+            "commands": [
+              "add",
+              "add",
+              "complete",
+              "rename",
+              "rename",
+              "list"
+            ],
+            "error": "Example count or command order differs",
+            "required_action": "Edit only the json taskboard-rename-examples block in README.md to contain four examples in order add, complete, rename, list on one fresh database. Use the same task ID and preserve completed=true after rename. Keep the original taskboard-examples block unchanged. Write the correction with write_source_file before calling check_current_candidate again."
+          }
+        }
+      ]
+    },
+    {
+      "summary": "45/46 project checks passed.",
+      "failed_cases": [
+        {
+          "case": "rename-documentation",
+          "baseline": false,
+          "passed": false,
+          "expected": {
+            "path": "README.md",
+            "block": "json taskboard-rename-examples",
+            "block_count": 1,
+            "example_count": 4,
+            "commands": [
+              "add",
+              "complete",
+              "rename",
+              "list"
+            ]
+          },
+          "actual": {
+            "path": "README.md",
+            "block": "json taskboard-rename-examples",
+            "block_count": 1,
+            "example_count": 6,
+            "commands": [
+              "add",
+              "add",
+              "complete",
+              "rename",
+              "rename",
+              "list"
+            ],
+            "error": "Example count or command order differs",
+            "required_action": "Edit only the json taskboard-rename-examples block in README.md to contain four examples in order add, complete, rename, list on one fresh database. Use the same task ID and preserve completed=true after rename. Keep the original taskboard-examples block unchanged. Write the correction with write_source_file before calling check_current_candidate again."
+          }
+        }
+      ]
+    },
+    {
+      "summary": "46/49 project checks passed.",
+      "failed_cases": [
+        {
+          "case": "rename-documentation-1",
+          "baseline": false,
+          "passed": false,
+          "expected": {
+            "id": 1,
+            "title": "first",
+            "completed": false
+          },
+          "actual": {
+            "exit_code": 0,
+            "body": {
+              "id": 1,
+              "title": "first",
+              "completed": true
+            }
+          }
+        },
+        {
+          "case": "rename-documentation-2",
+          "baseline": false,
+          "passed": false,
+          "expected": {
+            "id": 1,
+            "title": "updated title",
+            "completed": false
+          },
+          "actual": {
+            "exit_code": 0,
+            "body": {
+              "id": 1,
+              "title": "updated title",
+              "completed": true
+            }
+          }
+        },
+        {
+          "case": "rename-documentation-3",
+          "baseline": false,
+          "passed": false,
+          "expected": [
+            {
+              "id": 1,
+              "title": "updated title",
+              "completed": false
+            }
+          ],
+          "actual": {
+            "exit_code": 0,
+            "body": [
+              {
+                "id": 1,
+                "title": "updated title",
+                "completed": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "summary": "49/49 project checks passed.",
+      "failed_cases": []
+    },
+    {
+      "summary": "49/49 project checks passed.",
+      "failed_cases": []
+    }
+  ],
+  "handoff_attempts": [
+    {
+      "passed": true,
+      "rejections_before": 0,
+      "evidence": {
+        "scope": "CURRENT candidate; advisory checks, external gates still rerun",
+        "source_digest": "99e642c8ccfdcdea70256dc99fd87960a1edff939a59cc757c8707d53877be1a",
+        "checks": [
+          {
+            "stage": "verify",
+            "status": "passed",
+            "report": {
+              "status": "passed",
+              "baseline_tests_passed": true,
+              "summary": "49/49 project checks passed.",
+              "findings": []
+            },
+            "evidence_path": "/Users/adicohen/work/ai_pipeline/.factory/documentation-repair-live-20261029/candidate-checks/verify-115683f9/result.json"
+          },
+          {
+            "stage": "security",
+            "status": "passed",
+            "report": {
+              "status": "passed",
+              "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit.",
+              "findings": []
+            },
+            "evidence_path": "/Users/adicohen/work/ai_pipeline/.factory/documentation-repair-live-20261029/candidate-checks/security-ef324f09/result.json"
+          }
+        ]
+      }
+    }
+  ],
+  "assessment": "The live writer corrected the six-command block to four commands, then corrected intermediate executable-example failures before passing. Only the requested block changed. No operator retry, manual candidate edit or handoff correction was used.",
+  "recommendation": "Keep factory code frozen and run one repeat of the successful full lifecycle trial f19fd540157e. This guided repair control does not replace an end-to-end repeatability result.",
+  "validation": {
+    "factory_tests_previously_passed": 133,
+    "factory_test_evidence": "reports/taskboard-documentation-feedback-20261029.json",
+    "evaluator_preflight": "passed without contacting model",
+    "postflight_project_checks_passed": 49,
+    "scope_comparison": "Only README.md changed; all text outside the example block matches exactly."
+  }
+}
