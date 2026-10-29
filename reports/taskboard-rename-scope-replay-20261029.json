@@ -1,0 +1,172 @@
+{
+  "date": "2026-10-29",
+  "run_id": "ecd4402a72d8",
+  "status": "failed",
+  "classification": "Fresh frozen replay failed at requirements; stopped at first failed stage",
+  "factory_commit": "a211d5255edf52e9027ba14c0bf69d63a3226ce5",
+  "change": "Requirements author and reviewer instructions now preserve explicit scope, distinguish blocking ambiguities from optional follow-ups, and allow an empty open_questions list. Blocking contradictions and missing explicit criteria remains required.",
+  "factory_tests": {
+    "passed": 99,
+    "duration_seconds": 95.145,
+    "command": "python -m unittest discover -s tests"
+  },
+  "baseline_commit": "1f2097616fd20ae866d397ccf93015924f2dc9e1",
+  "config_digest": "f0b3007bdd8e53c71a9393e4dbb7e2be58bb342f9bdf519c500d520f4364a32d",
+  "task_digest": "9a05335381b48db91477745d69e7ed3a02fdfcbaf84278c54fa9f0844f8ac944",
+  "frozen_inputs_unchanged": true,
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "supplemental_crewai_calls": 0,
+  "engine_repairs": 0,
+  "approvals": [],
+  "application_source_unchanged": true,
+  "stage_attempts": 1,
+  "completed_stages": 0,
+  "failed_attempt": {
+    "stage": "requirements",
+    "number": 1,
+    "at": "2026-10-29T10:15:47.290821+00:00",
+    "duration_seconds": 44.016,
+    "exit_code": 1,
+    "source_before": "cd5bae1a2638807d2be998d31fbc679c2f0216be3417d94fdf4368b96aa0c7bd",
+    "source_after": "cd5bae1a2638807d2be998d31fbc679c2f0216be3417d94fdf4368b96aa0c7bd",
+    "status": "failed",
+    "error": "Adapter did not provide a passed result with a summary",
+    "result": {
+      "status": "failed",
+      "summary": "The requirements deliverable is incomplete due to missing explicit requirements and unresolved questions that prevent fulfilling the task.",
+      "findings": [
+        "The acceptance criteria do not explicitly state how to handle cases where the task ID does not exist in the database, which is critical for ensuring that invalid operations do not change task data.",
+        "There is ambiguity regarding the behavior of the system when a blank or whitespace-only title is provided; while it states that it should exit with status 2, it does not clarify if this applies to all cases of invalid titles.",
+        "The constraints do not explicitly mention any limitations on the format of the TITLE parameter, which could lead to ambiguity in implementation.",
+        "The open questions list is empty, but there are implicit questions regarding the handling of edge cases that need to be addressed."
+      ],
+      "next_actions": [
+        "Clarify the handling of non-existent task IDs and ensure that the acceptance criteria explicitly state that invalid operations must not change task data.",
+        "Define the expected behavior for blank or whitespace-only titles more clearly in the acceptance criteria.",
+        "Add explicit constraints regarding the format of the TITLE parameter to avoid ambiguity.",
+        "Address the implicit questions regarding edge cases in the requirements document."
+      ],
+      "review_revisions": 2,
+      "deliverable": {
+        "objective": "Extend the existing generated multi-file Taskboard project with a feature to rename a task while preserving existing functionalities and behaviors.",
+        "scope": [
+          "Implement a rename feature for tasks in the Taskboard project.",
+          "Preserve existing add/list/complete CLI functionalities.",
+          "Maintain SQLite data integrity and module layout.",
+          "Retain five baseline tests and add at least three new meaningful unittest tests for the rename feature.",
+          "Ensure the README is updated to explain the rename syntax and behavior."
+        ],
+        "acceptance_criteria": [
+          "The command 'python -m taskboard --database PATH rename ID TITLE' successfully renames a task identified by ID to the new TITLE.",
+          "The command exits with status 0 and prints exactly one JSON object {\"id\":positive_int,\"title\":trimmed_title,\"completed\":bool} upon success.",
+          "The ID and completion state of the task remain unchanged after renaming.",
+          "Renaming works on both open and completed tasks and persists across processes and databases created before this feature.",
+          "Repeating the same title for a task succeeds identically.",
+          "Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved literally.",
+          "The implementation uses parameterized SQL and closes connections on success and missing-ID errors.",
+          "Blank or whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit with status 2 and a nonempty JSON {\"error\":string} on stderr.",
+          "IDs must fit within the SQLite positive signed 64-bit range.",
+          "Invalid operations must not change any task data.",
+          "A missing task in a fresh database must not create a task.",
+          "Separate databases remain isolated and existing validation/behavior must not regress.",
+          "At least three new unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior are added, retaining a total of at least eight tests.",
+          "CLI subprocess tests assert success/output for the rename command, ensuring that removing the rename feature causes assertions to fail.",
+          "Tests must use temporary databases and run independently of factory files.",
+          "The README must explain the rename syntax and behavior, including a separate fenced block for rename examples.",
+          "The JSON array in the rename examples block must contain four objects with args and stdout, demonstrating the rename functionality."
+        ],
+        "constraints": [
+          "No scaffold replacement or new dependencies are allowed.",
+          "No web UI, delete, search, users, or other features are to be introduced.",
+          "The implementation must adhere to the existing metadata and standard-library-only policy.",
+          "Allowed imports are limited to argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports."
+        ],
+        "open_questions": []
+      },
+      "framework": "crewai",
+      "report": "crew-report.md"
+    },
+    "artifact_directory": "/Users/adicohen/work/ai_pipeline/.factory/ecd4402a72d8/artifacts/001-requirements-6b877890"
+  },
+  "review_rounds": [
+    {
+      "revision": 0,
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete due to missing explicit requirements and unresolved questions that prevent fulfilling the task.",
+        "findings": [
+          "The acceptance criteria do not explicitly state how to handle cases where the task ID does not exist in the database, which is critical for ensuring that invalid operations do not change task data.",
+          "There is ambiguity regarding the behavior of the system when a blank or whitespace-only title is provided; while it states that it should exit with status 2, it does not clarify if this applies to all cases of invalid titles.",
+          "The constraints do not explicitly mention any limitations on the format or content of the TITLE parameter, which could lead to ambiguity in implementation."
+        ],
+        "next_actions": [
+          "Clarify the handling of nonexistent task IDs in the acceptance criteria.",
+          "Specify the expected behavior for blank or whitespace-only titles in the acceptance criteria.",
+          "Define any constraints on the TITLE parameter to avoid ambiguity in implementation."
+        ]
+      },
+      "deliverable": "{\n  \"objective\": \"Extend the existing generated multi-file Taskboard project with a feature to rename a task while preserving existing functionalities and behaviors.\",\n  \"scope\": [\n    \"Implement a rename feature for tasks in the Taskboard project.\",\n    \"Preserve existing add/list/complete CLI functionalities.\",\n    \"Maintain SQLite data integrity and module layout.\",\n    \"Retain five baseline tests and add at least three new meaningful unittest tests for the rename feature.\",\n    \"Ensure the README is updated to explain the rename syntax and behavior.\"\n  ],\n  \"acceptance_criteria\": [\n    \"The command 'python -m taskboard --database PATH rename ID TITLE' successfully renames a task identified by ID to the new TITLE.\",\n    \"The command exits with status 0 and prints exactly one JSON object {\\\"id\\\":positive_int,\\\"title\\\":trimmed_title,\\\"completed\\\":bool} upon success.\",\n    \"The ID and completion state of the task remain unchanged after renaming.\",\n    \"Renaming works on both open and completed tasks and persists across processes and databases created before this feature.\",\n    \"Repeating the same title for a task succeeds identically.\",\n    \"Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved literally.\",\n    \"The implementation uses parameterized SQL and closes connections on success and missing-ID errors.\",\n    \"Blank or whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit with status 2 and a nonempty JSON {\\\"error\\\":string} on stderr.\",\n    \"IDs must fit within the SQLite positive signed 64-bit range.\",\n    \"Invalid operations must not change any task data.\",\n    \"A missing task in a fresh database must not create a task.\",\n    \"Separate databases remain isolated and existing validation/behavior must not regress.\",\n    \"At least three new unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior are added, retaining a total of at least eight tests.\",\n    \"CLI subprocess tests assert success/output for the rename command, ensuring that removing the rename feature causes assertions to fail.\",\n    \"Tests must use temporary databases and run independently of factory files.\",\n    \"The README must explain the rename syntax and behavior, including a separate fenced block for rename examples.\",\n    \"The JSON array in the rename examples block must contain four objects with args and stdout, demonstrating the rename functionality.\"\n  ],\n  \"constraints\": [\n    \"No scaffold replacement or new dependencies are allowed.\",\n    \"No web UI, delete, search, users, or other features are to be introduced.\",\n    \"The implementation must adhere to the existing metadata and standard-library-only policy.\",\n    \"Allowed imports are limited to argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports.\"\n  ],\n  \"open_questions\": []\n}"
+    },
+    {
+      "revision": 1,
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete due to missing explicit requirements and unresolved questions that prevent fulfilling the task.",
+        "findings": [
+          "The acceptance criteria do not explicitly mention the need for the rename command to handle cases where the task ID does not exist in the database, which is critical for ensuring that invalid operations do not change task data.",
+          "There is ambiguity regarding the handling of malformed IDs; the acceptance criteria should specify how to handle such cases explicitly.",
+          "The constraints do not address the need for the implementation to ensure that existing validation and behavior do not regress, which is a critical requirement.",
+          "The open questions list is empty, but there are unresolved questions regarding the handling of edge cases that need to be clarified."
+        ],
+        "next_actions": [
+          "Revise the acceptance criteria to include explicit handling of nonexistent and malformed IDs.",
+          "Clarify the constraints to ensure that existing validation and behavior are preserved.",
+          "Address the ambiguity in the acceptance criteria regarding invalid operations and their effects on task data.",
+          "Consider adding open questions to capture any uncertainties that may arise during implementation."
+        ]
+      },
+      "deliverable": "{\n  \"objective\": \"Extend the existing generated multi-file Taskboard project with a feature to rename a task while preserving existing functionalities and behaviors.\",\n  \"scope\": [\n    \"Implement a rename feature for tasks in the Taskboard project.\",\n    \"Preserve existing add/list/complete CLI functionalities.\",\n    \"Maintain SQLite data integrity and module layout.\",\n    \"Retain five baseline tests and add at least three new meaningful unittest tests for the rename feature.\",\n    \"Ensure the README is updated to explain the rename syntax and behavior.\"\n  ],\n  \"acceptance_criteria\": [\n    \"The command 'python -m taskboard --database PATH rename ID TITLE' successfully renames a task identified by ID to the new TITLE.\",\n    \"The command exits with status 0 and prints exactly one JSON object {\\\"id\\\":positive_int,\\\"title\\\":trimmed_title,\\\"completed\\\":bool} upon success.\",\n    \"The ID and completion state of the task remain unchanged after renaming.\",\n    \"Renaming works on both open and completed tasks and persists across processes and databases created before this feature.\",\n    \"Repeating the same title for a task succeeds identically.\",\n    \"Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved literally.\",\n    \"The implementation uses parameterized SQL and closes connections on success and missing-ID errors.\",\n    \"Blank or whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit with status 2 and a nonempty JSON {\\\"error\\\":string} on stderr.\",\n    \"IDs must fit within the SQLite positive signed 64-bit range.\",\n    \"Invalid operations must not change any task data.\",\n    \"A missing task in a fresh database must not create a task.\",\n    \"Separate databases remain isolated and existing validation/behavior must not regress.\",\n    \"At least three new unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior are added, retaining a total of at least eight tests.\",\n    \"CLI subprocess tests assert success/output for the rename command, ensuring that removing the rename feature causes assertions to fail.\",\n    \"Tests must use temporary databases and run independently of factory files.\",\n    \"The README must explain the rename syntax and behavior, including a separate fenced block for rename examples.\",\n    \"The JSON array in the rename examples block must contain four objects with args and stdout, demonstrating the rename functionality.\"\n  ],\n  \"constraints\": [\n    \"No scaffold replacement or new dependencies are allowed.\",\n    \"No web UI, delete, search, users, or other features are to be introduced.\",\n    \"The implementation must adhere to the existing metadata and standard-library-only policy.\",\n    \"Allowed imports are limited to argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports.\"\n  ],\n  \"open_questions\": []\n}"
+    },
+    {
+      "revision": 2,
+      "review": {
+        "status": "blocked",
+        "summary": "The requirements deliverable is incomplete due to missing explicit requirements and unresolved questions that prevent fulfilling the task.",
+        "findings": [
+          "The acceptance criteria do not explicitly state how to handle cases where the task ID does not exist in the database, which is critical for ensuring that invalid operations do not change task data.",
+          "There is ambiguity regarding the behavior of the system when a blank or whitespace-only title is provided; while it states that it should exit with status 2, it does not clarify if this applies to all cases of invalid titles.",
+          "The constraints do not explicitly mention any limitations on the format of the TITLE parameter, which could lead to ambiguity in implementation.",
+          "The open questions list is empty, but there are implicit questions regarding the handling of edge cases that need to be addressed."
+        ],
+        "next_actions": [
+          "Clarify the handling of non-existent task IDs and ensure that the acceptance criteria explicitly state that invalid operations must not change task data.",
+          "Define the expected behavior for blank or whitespace-only titles more clearly in the acceptance criteria.",
+          "Add explicit constraints regarding the format of the TITLE parameter to avoid ambiguity.",
+          "Address the implicit questions regarding edge cases in the requirements document."
+        ]
+      },
+      "deliverable": "{\n  \"objective\": \"Extend the existing generated multi-file Taskboard project with a feature to rename a task while preserving existing functionalities and behaviors.\",\n  \"scope\": [\n    \"Implement a rename feature for tasks in the Taskboard project.\",\n    \"Preserve existing add/list/complete CLI functionalities.\",\n    \"Maintain SQLite data integrity and module layout.\",\n    \"Retain five baseline tests and add at least three new meaningful unittest tests for the rename feature.\",\n    \"Ensure the README is updated to explain the rename syntax and behavior.\"\n  ],\n  \"acceptance_criteria\": [\n    \"The command 'python -m taskboard --database PATH rename ID TITLE' successfully renames a task identified by ID to the new TITLE.\",\n    \"The command exits with status 0 and prints exactly one JSON object {\\\"id\\\":positive_int,\\\"title\\\":trimmed_title,\\\"completed\\\":bool} upon success.\",\n    \"The ID and completion state of the task remain unchanged after renaming.\",\n    \"Renaming works on both open and completed tasks and persists across processes and databases created before this feature.\",\n    \"Repeating the same title for a task succeeds identically.\",\n    \"Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved literally.\",\n    \"The implementation uses parameterized SQL and closes connections on success and missing-ID errors.\",\n    \"Blank or whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit with status 2 and a nonempty JSON {\\\"error\\\":string} on stderr.\",\n    \"IDs must fit within the SQLite positive signed 64-bit range.\",\n    \"Invalid operations must not change any task data.\",\n    \"A missing task in a fresh database must not create a task.\",\n    \"Separate databases remain isolated and existing validation/behavior must not regress.\",\n    \"At least three new unittest tests for rename success with persistence, completed-state preservation, and invalid-input/no-write behavior are added, retaining a total of at least eight tests.\",\n    \"CLI subprocess tests assert success/output for the rename command, ensuring that removing the rename feature causes assertions to fail.\",\n    \"Tests must use temporary databases and run independently of factory files.\",\n    \"The README must explain the rename syntax and behavior, including a separate fenced block for rename examples.\",\n    \"The JSON array in the rename examples block must contain four objects with args and stdout, demonstrating the rename functionality.\"\n  ],\n  \"constraints\": [\n    \"No scaffold replacement or new dependencies are allowed.\",\n    \"No web UI, delete, search, users, or other features are to be introduced.\",\n    \"The implementation must adhere to the existing metadata and standard-library-only policy.\",\n    \"Allowed imports are limited to argparse, json, sqlite3, sys, pathlib, contextlib, re, unittest, tempfile, subprocess, os, taskboard, and relative imports.\"\n  ],\n  \"open_questions\": []\n}"
+    }
+  ],
+  "reported_usage": {
+    "total_tokens": 14893,
+    "prompt_tokens": 12406,
+    "cached_prompt_tokens": 0,
+    "completion_tokens": 2487,
+    "successful_requests": 6
+  },
+  "assessment": "The reviewer stopped requesting concurrency and audit logging, but repeatedly claimed that nonexistent IDs, blank titles and no-write behavior were unspecified despite explicit acceptance criteria covering them. It also treated an empty open_questions list as incomplete. This trial does not establish reliable requirements review or clean feature delivery.",
+  "contradicting_document_evidence": [
+    "Whitespace around the title is trimmed, while internal spacing, case, Unicode, and SQL-like text are preserved literally.",
+    "Blank or whitespace-only titles and nonexistent/malformed/zero/negative/out-of-range IDs exit with status 2 and a nonempty JSON {\"error\":string} on stderr.",
+    "Invalid operations must not change any task data.",
+    "Separate databases remain isolated and existing validation/behavior must not regress."
+  ],
+  "next_recommendation": "Before another full lifecycle run, evaluate requirements review on saved valid and deliberately incomplete documents. Compare the current reviewer with the already-used stronger model, requiring valid drafts to pass and genuine omissions to block. Freeze any selected configuration in a new trial; do not retry this failed evidence run.",
+  "limitations": [
+    "Factory tests exercise orchestration and existing safeguards; they cannot prove language-model judgment quality.",
+    "No application implementation, verification, release or deployment occurred.",
+    "Previously published application remains unchanged."
+  ]
+}
