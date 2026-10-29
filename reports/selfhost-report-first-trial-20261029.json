@@ -1,0 +1,14 @@
+{
+  "run_id": "c8c218fde7a7",
+  "status": "failed",
+  "failed_stage": "implement",
+  "reason": "Generated tests imported pytest and never passed unittest discovery. Writer handoff exhausted its one correction.",
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "promoted": false,
+  "operator_adapter_findings": [
+    "Compact generated-test feedback truncated the actionable missing-pytest line.",
+    "Independent acceptance did not catch a blank current-stage label for completed runs."
+  ],
+  "follow_up": "Preserve the failed candidate. Improve external feedback and stage-label acceptance, then run one fresh trial from the committed baseline; do not patch the candidate."
+}

@@ -39,6 +39,11 @@ def verify(package):
             required=[run_id,'report-שלום',status,'Recorded requirements only','Recorded failure marker','Recorded error marker','no_progress','/recorded/evidence/implement',*STAGES]
             required+=['No approvals recorded'] if not state['approvals'] else ['operator-marker','review-note-marker']
             record(status+'-content',proc.returncode==0 and all(x in text for x in required) and 'not run' in text.lower() and str(target) in proc.stdout,required,{'exit':proc.returncode,'stdout':proc.stdout,'stderr':proc.stderr,'report':text})
+            expected_stage='complete' if status=='completed' else 'implement'
+            import re
+            current_lines=[line for line in text.splitlines() if 'current stage' in line.lower()]
+            record(status+'-current-stage',any(re.search(r'\b'+expected_stage+r'\b',line.lower()) for line in current_lines),
+                   'Current stage: '+expected_stage,current_lines)
             second=root/f'{status}-again.md';again=call(run_id,second)
             record(status+'-deterministic',again.returncode==0 and second.exists() and second.read_bytes()==target.read_bytes(),'Identical exports',again.stderr)
             record(status+'-readonly',before==snapshot(state_dir),'State and artifacts unchanged',snapshot(state_dir))

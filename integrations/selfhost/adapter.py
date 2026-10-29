@@ -1,4 +1,5 @@
 """Frozen operator-owned self-development checks and package delivery."""
+import ast
 import hashlib
 import json
 import os
@@ -41,6 +42,14 @@ def execute(context):
         # Keep advisory checks under their 60-second tool budget; the formal gate runs the entire suite.
         advisory='candidate-checks' in output.parts
         if stage=='verify':
+            test_file=workspace/'tests/test_report.py'
+            imports=[]
+            if test_file.exists():
+                tree=ast.parse(test_file.read_text())
+                imports=[alias.name.split('.')[0] for node in ast.walk(tree) if isinstance(node, ast.Import) for alias in node.names]
+                imports += [(node.module or '').split('.')[0] for node in ast.walk(tree) if isinstance(node, ast.ImportFrom)]
+            cases.append({'case':'standard-library-test-framework','passed':test_file.exists() and 'pytest' not in imports,
+                          'expected':'Use unittest.TestCase; no pytest dependency or fixtures', 'actual':{'imports':imports}})
             test_pattern='test_report.py' if advisory else 'test*.py'
             with tempfile.TemporaryDirectory() as directory:
                 copied=Path(directory)/'project'
@@ -49,7 +58,7 @@ def execute(context):
                 log=result.stdout+result.stderr;(output/'tests.log').write_text(log)
                 import re
                 count=re.search(r'Ran (\d+) tests?',log);minimum=1 if advisory else 133
-                cases.append({'case':'candidate-tests' if advisory else 'full-regression-suite','passed':result.returncode==0 and count and int(count[1])>=minimum,'expected':f'At least {minimum} tests pass','actual':log[-2500:]})
+                cases.append({'case':'candidate-tests' if advisory else 'full-regression-suite','passed':result.returncode==0 and count and int(count[1])>=minimum,'expected':f'At least {minimum} tests pass','actual':{'test_output_tail':log[-2500:], 'required_action':'Use unittest.TestCase and standard-library unittest discovery; pytest is not installed and must not be added.'}})
         (output/'scenarios.json').write_text(json.dumps(cases,indent=2))
         failed=[c for c in cases if not c['passed']]
         return {'status':'failed' if failed else 'passed','summary':f'{len(cases)-len(failed)}/{len(cases)} selfhost checks passed.'+(' Advisory: new tests only; full regression suite runs at formal verify.' if advisory else ''),'failed_cases':failed}
