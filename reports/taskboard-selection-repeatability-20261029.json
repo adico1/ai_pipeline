@@ -1,0 +1,115 @@
+{
+  "runs": [
+    "e5a715026ccf",
+    "40bc26ebeb3a"
+  ],
+  "completed_runs": 1,
+  "total_runs": 2,
+  "repeat_run_status": "failed",
+  "factory_commit": "5596d14adea0fae3c2d56b8222158455f037d1c9",
+  "previous_factory_commit": "87c4d601095a489bd303b3a76bf8dfb415a672ed",
+  "comparison": "All previous tracked file hashes match. Only the prior trial report was added; baseline, config digest and task digest match exactly.",
+  "frozen_inputs_unchanged": true,
+  "previous_success_preserved": true,
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "engine_repairs": 0,
+  "stages": [
+    {
+      "stage": "requirements",
+      "status": "passed",
+      "duration_seconds": 16.819
+    },
+    {
+      "stage": "design",
+      "status": "passed",
+      "duration_seconds": 24.422
+    },
+    {
+      "stage": "plan",
+      "status": "passed",
+      "duration_seconds": 23.007
+    },
+    {
+      "stage": "implement",
+      "status": "failed",
+      "duration_seconds": 89.843
+    }
+  ],
+  "failure": {
+    "status": "failed",
+    "summary": "Repeated checks of unchanged failing source; no further checks or model retries in this attempt.",
+    "stop_reason": "no_progress",
+    "findings": [
+      "See latest-candidate-feedback.json and candidate-checks for retained failure evidence."
+    ],
+    "review_revisions": 0,
+    "framework": "crewai",
+    "report": "crew-report.md"
+  },
+  "candidate_check_evidence": {
+    "scope": "CURRENT candidate; advisory checks, external gates still rerun",
+    "source_digest": "f19665ea8176b6a51322961b2afb1dc4ed592f06d2fd7c506de594c449ca3555",
+    "checks": [
+      {
+        "stage": "verify",
+        "status": "failed",
+        "report": {
+          "status": "failed",
+          "baseline_tests_passed": true,
+          "summary": "45/46 project checks passed.",
+          "findings": [],
+          "failed_case_count": 1,
+          "failure_group_count": 1,
+          "failure_groups": [
+            {
+              "example": {
+                "case": "rename-documentation",
+                "baseline": false,
+                "expected": "Executable rename examples in README",
+                "actual": "Four examples required in order: add, complete, rename, list"
+              },
+              "occurrences": 1,
+              "modes": []
+            }
+          ],
+          "omitted_groups": 0
+        },
+        "evidence_path": "/Users/adicohen/work/ai_pipeline/.factory/40bc26ebeb3a/artifacts/004-implement-783e0786/candidate-checks/verify-c66c8527/result.json"
+      },
+      {
+        "stage": "security",
+        "status": "passed",
+        "report": {
+          "status": "passed",
+          "summary": "Source packaging and limited static import policy checked; not a comprehensive security audit.",
+          "findings": []
+        },
+        "evidence_path": "/Users/adicohen/work/ai_pipeline/.factory/40bc26ebeb3a/artifacts/004-implement-783e0786/candidate-checks/security-e9ff7a38/result.json"
+      }
+    ]
+  },
+  "source_digest": "f19665ea8176b6a51322961b2afb1dc4ed592f06d2fd7c506de594c449ca3555",
+  "documentation_difference": {
+    "expected_commands": [
+      "add",
+      "complete",
+      "rename",
+      "list"
+    ],
+    "actual_commands": [
+      "add",
+      "add",
+      "complete",
+      "rename",
+      "rename",
+      "list"
+    ]
+  },
+  "limitations": [
+    "45/46 is the executed candidate check set; malformed documentation prevented the remaining executable documentation examples, so this is not 48/49 or a completed verification stage.",
+    "Implementation review and later lifecycle stages did not execute.",
+    "One success out of two does not establish consistent lifecycle completion."
+  ],
+  "recommendation": "Improve the writer feedback for malformed executable README blocks: identify the exact block, required command count/order and observed count/order. Add an offline regression that requires the writer to edit that block before another check; preserve the no-progress stop. Then use one new trial, not a retry of this failed run."
+}
