@@ -130,12 +130,9 @@ class ImplementationEvidenceTests(unittest.TestCase):
                 self.evidence.run_checks = lambda context: json.dumps(payload)
                 receipt = json.loads(self.evidence.check())
                 key = next(iter(receipt['check_evidence']))
-                report = self.blocked({'kind': 'check', 'check_stage': 'verify', 'evidence_id': key})
-                report.findings = [claim]
-                report.blocking_findings[0].finding = claim
-                report.summary = claim
-                report.next_actions = ['Repair SQL']
-                output = SimpleNamespace(pydantic=report, raw=report.model_dump_json())
+                selection = {'status': 'blocked', 'evidence_ids': [key], 'source_concerns': [],
+                             'commentary': claim + '; Repair SQL'}
+                output = SimpleNamespace(pydantic=None, raw=json.dumps(selection))
                 valid, output = self.evidence.guardrail(output)
                 self.assertTrue(valid)
                 self.assertIn('/title:', output.pydantic.findings[0])
@@ -143,9 +140,46 @@ class ImplementationEvidenceTests(unittest.TestCase):
                 self.assertNotIn('/id:', output.pydantic.findings[0])
                 self.assertNotIn(claim, output.pydantic.summary)
                 self.assertEqual(output.pydantic.next_actions, [])
-                self.assertEqual(output.pydantic.unverified_model_interpretation['findings'], [claim])
-                self.assertEqual(output.pydantic.unverified_model_interpretation['next_actions'], ['Repair SQL'])
+                self.assertEqual(output.pydantic.unverified_model_interpretation['commentary'], claim + '; Repair SQL')
                 self.assertEqual(output.pydantic.status, 'blocked')
+
+    def test_selection_rejects_invented_stale_ids_and_extra_fields(self):
+        self.source.write_text('value = "broken"\n')
+        receipt = json.loads(self.evidence.check())
+        key = next(iter(receipt['check_evidence']))
+        selection = {'status': 'blocked', 'evidence_ids': ['verify:rename-trim'],
+                     'source_concerns': [], 'commentary': 'Unverified interpretation'}
+        def apply():
+            return self.evidence.guardrail(SimpleNamespace(pydantic=None, raw=json.dumps(selection)))
+        self.assertFalse(apply()[0])
+        selection['evidence_ids'] = [key]
+        selection['findings'] = ['Invented duplicate field']
+        self.assertFalse(apply()[0])
+        del selection['findings']
+        self.assertTrue(apply()[0])
+        self.source.write_text('value = "correct"\n')
+        self.assertFalse(apply()[0])
+        self.evidence.check()
+        self.assertFalse(apply()[0])
+        selection.update(status='passed', evidence_ids=[])
+        self.assertTrue(apply()[0])
+
+    def test_selection_preserves_source_review_and_cannot_pass_failed_checks(self):
+        self.evidence.check()
+        selection = {'status': 'blocked', 'evidence_ids': [], 'commentary': '',
+                     'source_concerns': [{'path': 'app.py', 'quote': 'value = "correct"',
+                                          'commentary': 'A source concern'}]}
+        def apply():
+            return self.evidence.guardrail(SimpleNamespace(pydantic=None, raw=json.dumps(selection)))
+        valid, result = apply()
+        self.assertTrue(valid)
+        self.assertIn('Unverified source concern', result.pydantic.findings[0])
+        selection['source_concerns'][0]['quote'] = 'invented passage'
+        self.assertFalse(apply()[0])
+        selection.update(status='passed', source_concerns=[])
+        self.source.write_text('value = "broken"\n')
+        self.evidence.check()
+        self.assertFalse(apply()[0])
 
     def test_invalid_report_is_retained(self):
         passed, _ = self.evidence.guardrail(SimpleNamespace(pydantic=None, raw='not JSON'))
@@ -171,11 +205,10 @@ class ImplementationEvidenceTests(unittest.TestCase):
                 receipts = (Path(context['output']) / 'reviewer-checks.jsonl').read_text().splitlines()
                 entries = json.loads(receipts[-1])['check_evidence']
                 evidence_id = next((key for key in entries if key.startswith('verify:')), None)
-                finding = {'finding': 'Value is broken', 'citations': [{'kind': 'check', 'check_stage': 'verify', 'evidence_id': evidence_id}]}
                 return 'Final Answer: ' + json.dumps({'status': 'blocked' if self.broken else 'passed',
-                    'summary': 'Current evidence inspected', 'findings': ['Value is broken'] if self.broken else [],
-                    'next_actions': [], 'source_digest': digest_tree(workspace),
-                    'blocking_findings': [finding] if self.broken else []})
+                    'commentary': 'Current evidence inspected',
+                    'evidence_ids': [evidence_id] if self.broken else [], 'source_concerns': []})
+
 
         for broken in (False, True):
             with self.subTest(broken=broken), patch.dict(os.environ, {'CREWAI_STORAGE_DIR': str(self.root / 'storage')}):

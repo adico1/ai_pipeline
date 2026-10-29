@@ -1,8 +1,8 @@
 # Current-evidence implementation review
 
 Implementation reviewers now have a private evidence receipt populated only by
-their own `check_current_candidate` tool. Writer checks do not satisfy it. A
-review must name the current source digest. Passing requires both checks to pass
+their own `check_current_candidate` tool. Writer checks do not satisfy it. The factory binds the
+assembled review to the current check receipt and source digest. Passing requires both checks to pass
 and no blocking findings; it does not bypass later verification or approvals.
 
 Each blocked finding must cite either a current failed/unavailable check and an
@@ -50,3 +50,18 @@ All original model prose, diagnoses and suggested repairs are retained under
 `unverified_model_interpretation`. Canonical summaries and findings are generated
 by code; source concerns remain explicitly unverified. This preserves the
 reviewer's verdict and does not bypass checks or establish semantic correctness.
+
+## Model response contract
+
+The implementation reviewer returns only `status`, `evidence_ids`,
+`source_concerns` and `commentary`. The check tool supplies
+`allowed_evidence_ids`; selections must belong to that latest receipt. Unknown
+IDs are rejected with the allowed choices, never guessed or translated from test
+names. Extra report fields are rejected. Source concerns contain a relative path,
+an exact unique current quote, and unverified commentary.
+
+The factory assembles the full stage report, including source digest, check stage,
+findings, summaries and attached evidence. The reviewer still owns the verdict;
+passing requires both checks to pass and no blocking selections. One correction
+is allowed. This removes redundant fields without relaxing current-evidence or
+source-review requirements.

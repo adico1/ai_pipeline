@@ -188,10 +188,8 @@ class CrewAITests(unittest.TestCase):
                 ]
                 result = responses[min(self.calls, len(responses)-1)]
                 if self.calls >= 5:
-                    from ai_pipeline.engine import digest_tree
-                    result = 'Final Answer: ' + json.dumps({"status": "passed", "summary": "Independent checks passed",
-                        "findings": [], "next_actions": [], "blocking_findings": [],
-                        "source_digest": digest_tree(Path(context['workspace']))})
+                    result = 'Final Answer: ' + json.dumps({"status": "passed", "evidence_ids": [], "source_concerns": [],
+                        "commentary": "Independent checks passed"})
                 self.calls += 1
                 return result
         model = WriterLLM()

@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from ai_pipeline.engine import digest_tree
 from ai_pipeline.evidence_facts import describe_check
@@ -33,27 +33,35 @@ class ImplementationReview(StageReport):
     unverified_model_interpretation: dict = Field(default_factory=dict)
 
 
+class SourceConcern(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    path: str
+    quote: str = Field(min_length=1, max_length=4000)
+    commentary: str = Field(min_length=1)
+
+
+class ReviewSelection(BaseModel):
+    """Small model-facing response; the factory owns the full stage report."""
+    model_config = ConfigDict(extra="forbid")
+    status: Literal["passed", "blocked"]
+    evidence_ids: list[str]
+    source_concerns: list[SourceConcern]
+    commentary: str
+
+
 REVIEW_INSTRUCTIONS = (
-    " Call check_current_candidate yourself before returning a verdict. Copy its "
-    "source_digest into your report. The writer's old checks do not count as your "
-    "review. For blocked, put every blocking claim in blocking_findings with a "
-    "finding and citations. Write finding as an observed mismatch, not a guessed "
-    "root cause. Put any inferred cause separately in inferred_cause and support "
-    "it with a source citation. A source citation needs kind source, relative path "
-    "and quote containing a unique exact CURRENT passage. A check citation needs "
-    "kind check, check_stage, and an evidence_id copied from check_evidence. Leave "
-    "quote and path null for check citations; code attaches the original evidence. "
-    "Never infer broken SQL, isolation or completion flags merely from a title "
-    "mismatch in a test with that name. Compare the actual fields with expected "
-    "fields. Never cite a passing check as failed. Set findings to the same texts "
-    "as blocking_findings, in order. For passed, blocking_findings must be empty "
-    "and both current checks must pass. Passing checks do not rule out source "
-    "defects: cite the current defective expression and explain the violated "
-    "requirement. Do not invent absent behavior from historical baseline failures. "
-    "Your prose, including diagnoses and suggested actions, remains unverified. "
-    "The factory generates authoritative check descriptions from expected/actual "
-    "data; source concerns remain explicitly unverified. "
-    "Return one JSON object matching the requested structured report."
+    " Call check_current_candidate yourself before returning a verdict. "
+    "Return ONLY status, evidence_ids, source_concerns and commentary. "
+    "Select evidence_ids verbatim from the returned allowed_evidence_ids list. "
+    "Do not invent IDs or derive them from test names. Code resolves each ID "
+    "against your latest check receipt and generates factual findings. "
+    "For source defects not covered by checks, use source_concerns with path, "
+    "a unique exact quote from the current file, and commentary. "
+    "For passed, both lists must be empty and both checks must pass. "
+    "For blocked, select at least one check ID or source concern. "
+    "Commentary is explicitly unverified; do not infer causes from test names. "
+    "Do not return summary, findings, source_digest, or other report fields. "
+    "The factory assembles those fields. Return one JSON object."
 )
 
 
@@ -82,6 +90,7 @@ class ReviewerEvidence:
                 evidence_id = check["stage"] + ":" + hashlib.sha256(canonical.encode()).hexdigest()[:16]
                 entries[evidence_id] = evidence
         self.latest["check_evidence"] = entries
+        self.latest["allowed_evidence_ids"] = list(entries)
         with (self.output / "reviewer-checks.jsonl").open("a") as stream:
             stream.write(json.dumps(self.latest) + "\n")
         return json.dumps(self.latest)
@@ -139,11 +148,6 @@ class ReviewerEvidence:
 
     def attach_facts(self, report):
         """Keep model prose visible without presenting it as measured evidence."""
-        report.unverified_model_interpretation = {
-            "summary": report.summary, "findings": report.findings,
-            "next_actions": report.next_actions,
-            "blocking_findings": [item.model_dump() for item in report.blocking_findings],
-        }
         for finding in report.blocking_findings:
             facts = []
             for citation in finding.citations:
@@ -161,11 +165,37 @@ class ReviewerEvidence:
         )
         report.next_actions = []
 
+    def assemble(self, selection):
+        """Resolve only current selections; never guess or repair unknown IDs."""
+        if self.latest is None:
+            raise ValueError("Reviewer must call check_current_candidate itself")
+        entries = self.latest["check_evidence"]
+        unknown = sorted(set(selection.evidence_ids) - entries.keys())
+        if unknown:
+            raise ValueError(f"Unknown evidence IDs: {unknown}. Allowed IDs: {list(entries)}")
+        blockers = []
+        for key in dict.fromkeys(selection.evidence_ids):
+            blockers.append(BlockingFinding(
+                finding=describe_check(entries[key]),
+                citations=[ReviewCitation(kind="check", check_stage=entries[key]["stage"], evidence_id=key)],
+            ))
+        for concern in selection.source_concerns:
+            blockers.append(BlockingFinding(
+                finding=concern.commentary,
+                citations=[ReviewCitation(kind="source", path=concern.path, quote=concern.quote)],
+            ))
+        return ImplementationReview(
+            status=selection.status, summary=selection.commentary or "Reviewer selection",
+            findings=[item.finding for item in blockers], next_actions=[],
+            blocking_findings=blockers, source_digest=self.latest["source_digest"],
+        )
+
     def guardrail(self, output):
         report, locations = None, []
         try:
-            report = (output.pydantic if isinstance(output.pydantic, ImplementationReview)
-                      else ImplementationReview.model_validate_json(output.raw))
+            selection = (output.pydantic if isinstance(output.pydantic, ReviewSelection)
+                         else ReviewSelection.model_validate_json(output.raw))
+            report = self.assemble(selection)
             errors, locations = self.validate(report)
         except (ValueError, ValidationError) as exc:
             errors = [str(exc)]
@@ -175,6 +205,10 @@ class ReviewerEvidence:
         if errors:
             return False, "REVIEW EVIDENCE INVALID: " + json.dumps(errors)
         self.attach_facts(report)
+        report.unverified_model_interpretation = {
+            "commentary": selection.commentary,
+            "source_concerns": [item.model_dump() for item in selection.source_concerns],
+        }
         output.pydantic = report
         output.raw = report.model_dump_json()
         output.json_dict = None

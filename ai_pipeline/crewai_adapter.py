@@ -21,7 +21,7 @@ from ai_pipeline.engine import digest_tree
 from ai_pipeline.crewai_compat import PipelineCrew
 from ai_pipeline import stage_contracts
 from ai_pipeline.requirements_checklist import assembly_guardrail, document_errors, validate_checklist
-from ai_pipeline.implementation_review import ImplementationReview, REVIEW_INSTRUCTIONS, ReviewerEvidence
+from ai_pipeline.implementation_review import ReviewSelection, REVIEW_INSTRUCTIONS, ReviewerEvidence
 from ai_pipeline.prompts import (
     ROLES,
     specialist_instructions,
@@ -598,10 +598,11 @@ def build_crew(context, llm=None):
         review_options = {"guardrail": review_evidence.guardrail, "guardrail_max_retries": 1}
     review = Task(
         description=reviewer_description(stage, goal, reviewer_evidence) + (REVIEW_INSTRUCTIONS if review_evidence else ""),
-        expected_output="A structured stage report with status, summary, findings and next_actions.",
+        expected_output=("JSON with status, evidence_ids, source_concerns, commentary ONLY." if review_evidence
+                         else "A structured stage report with status, summary, findings and next_actions."),
         agent=reviewer,
         context=[work],
-        output_pydantic=ImplementationReview if review_evidence else stage_contracts.StageReport,
+        output_pydantic=ReviewSelection if review_evidence else stage_contracts.StageReport,
         **review_options,
     )
     return PipelineCrew(
