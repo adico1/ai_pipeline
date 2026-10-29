@@ -1,0 +1,27 @@
+{
+  "run_id": "e49fc1bd2839",
+  "status": "failed",
+  "factory_commit": "71a1d554c983129fab2c517285d3b63f1998bdcb",
+  "base_commit": "71a1d554c983129fab2c517285d3b63f1998bdcb",
+  "stage": "requirements",
+  "result": {
+    "status": "failed",
+    "summary": "CrewAI stage failed: RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}",
+    "framework": "crewai"
+  },
+  "candidate_changed": false,
+  "frozen_runner_inputs_unchanged": true,
+  "manual_candidate_edits": 0,
+  "operator_retries": 0,
+  "first_attempt": "c8c218fde7a7",
+  "feature_complete": false,
+  "feature_promoted": false,
+  "setup_validation": {
+    "baseline_feature_rejected": true,
+    "offline_wheel_build": "passed",
+    "isolated_wheel_install": "passed",
+    "improved_feedback_replayed_on_failed_candidate": "passed",
+    "completed_stage_gap_detected": "passed"
+  },
+  "next_step": "Restore credits for the configured OpenAI API account. Then explicitly resume the existing run; record any retry as a provider-recovery retry, not an unassisted first-attempt success."
+}
