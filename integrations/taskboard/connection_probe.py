@@ -9,7 +9,7 @@ import sys
 import tempfile
 
 
-def probe():
+def probe(rename=False):
     original_connect = sqlite3.connect
     connections = []
 
@@ -25,6 +25,10 @@ def probe():
             database = str(Path(directory) / 'tasks.sqlite3')
             commands = [(['add', 'probe'], 0), (['list'], 0),
                         (['complete', '1'], 0), (['complete', '999'], 2)]
+            if rename:
+                commands = [(['add', 'probe'], 0), (['rename', '1', 'renamed'], 0),
+                            (['complete', '1'], 0), (['rename', '1', 'done'], 0),
+                            (['rename', '999', 'absent'], 2)]
             for arguments, expected_exit in commands:
                 start = len(connections)
                 sys.argv = ['taskboard', '--database', database, *arguments]
@@ -54,7 +58,7 @@ def probe():
 
 if __name__ == '__main__':
     try:
-        result = probe()
+        result = probe(rename='--rename' in sys.argv)
     except Exception as exc:
         result = {'passed': False, 'error': f'{type(exc).__name__}: {exc}'}
     print(json.dumps(result))

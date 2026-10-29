@@ -833,3 +833,20 @@ uv run ai-pipeline status RUN_ID
 
 The repair configuration uses the preserved local baseline under `.factory/`.
 Normal design, release, and deploy approvals still require evidence review.
+
+### Taskboard rename feature trial
+
+`projects/taskboard-rename.json` starts from the unchanged generated Taskboard
+baseline preserved under `.factory/taskboard-rename-baseline`. CrewAI adds only
+`rename ID TITLE` through the existing CLI, domain, and storage modules. The
+adapter retains all 24 existing checks and adds rename behavior, existing-data
+preservation, connection closure, executable README examples, and a minimum of
+eight generated tests. Test count is a screening check; release review also
+examines the new tests and checks that removing rename makes them fail.
+
+```sh
+uv run ai-pipeline create --config projects/taskboard-rename.json \
+  --task "$(cat projects/taskboard-rename-task.txt)"
+uv run ai-pipeline advance RUN_ID
+uv run ai-pipeline status RUN_ID
+```

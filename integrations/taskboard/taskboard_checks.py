@@ -20,11 +20,12 @@ def invoke(root, database, args):
     return result.returncode, payload
 
 
-def connection_lifecycle(root):
+def connection_lifecycle(root, rename=False):
     """Check actual closure on success and error paths through the public CLI."""
     with tempfile.TemporaryDirectory() as directory:
         result = subprocess.run(
-            [sys.executable, '-B', str(Path(__file__).with_name('connection_probe.py'))],
+            [sys.executable, '-B', str(Path(__file__).with_name('connection_probe.py'))]
+            + (['--rename'] if rename else []),
             cwd=directory,
             env={**os.environ, 'PYTHONPATH': str(Path(root).resolve()), 'PYTHONDONTWRITEBYTECODE': '1'},
             text=True, capture_output=True, timeout=30,
@@ -35,7 +36,8 @@ def connection_lifecycle(root):
         evidence = {'passed': False, 'error': (result.stdout + result.stderr)[-2000:]}
     return {'case': 'sqlite-connection-lifecycle', 'baseline': False,
             'passed': result.returncode == 0 and evidence.get('passed') is True,
-            'expected': 'SQLite connections closed after add, list, complete and missing-ID errors',
+            'expected': ('SQLite connections closed after rename of open/completed tasks and missing-ID errors'
+                         if rename else 'SQLite connections closed after add, list, complete and missing-ID errors'),
             'actual': evidence}
 
 
