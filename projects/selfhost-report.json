@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "name": "factory-selfhost-report",
+  "repository": "/Users/adicohen/work/ai_pipeline",
+  "max_repairs": 0,
+  "gates": [
+    "design"
+  ],
+  "stages": {
+    "requirements": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4.1-2025-04-14",
+        "review_model": "openai/gpt-4.1-2025-04-14",
+        "max_iter": 24,
+        "requirements_checklist": [
+          {
+            "id": "scope",
+            "requirement": "Add one read-only command to this existing AI pipeline: ai-pipeline report RUN_ID --output PATH. Global --state-dir and --env-file options continue to work. Implement only ai_pipeline/cli.py, a new ai_pipeline/report.py, new tests/test_report.py, and a new docs/report.md usage document. Do not modify other files, existing tests, independent adapters, engine, prompts, approvals, dependency metadata or lockfiles. Preserve every existing CLI behavior. Use standard-library code for the feature; no model/API calls.",
+            "task_quote": "Add one read-only command to this existing AI pipeline: ai-pipeline report RUN_ID --output PATH. Global --state-dir and --env-file options continue to work. Implement only ai_pipeline/cli.py, a new ai_pipeline/report.py, new tests/test_report.py, and a new docs/report.md usage document. Do not modify other files, existing tests, independent adapters, engine, prompts, approvals, dependency metadata or lockfiles. Preserve every existing CLI behavior. Use standard-library code for the feature; no model/API calls."
+          },
+          {
+            "id": "recorded_evidence",
+            "requirement": "Read the selected run's recorded state.json, without advancing, retrying, approving or changing any state, artifacts or source. Write a UTF-8 Markdown report containing run ID, project, recorded status, current stage, every recorded attempt's stage/status and summary/error/stop reason when present, recorded approvals (stage, actor and note), and artifact directory paths from attempts. Preserve Unicode. Include all 11 lifecycle stage names and distinguish stages without recorded attempts as 'not run'. Do not infer checks passed, release or deployment from earlier stages; only report recorded evidence. A failed or awaiting_approval run is a valid report input. Show 'No approvals recorded' when there are none. No model calls and no creation of a new run.",
+            "task_quote": "Read the selected run's recorded state.json, without advancing, retrying, approving or changing any state, artifacts or source. Write a UTF-8 Markdown report containing run ID, project, recorded status, current stage, every recorded attempt's stage/status and summary/error/stop reason when present, recorded approvals (stage, actor and note), and artifact directory paths from attempts. Preserve Unicode. Include all 11 lifecycle stage names and distinguish stages without recorded attempts as 'not run'. Do not infer checks passed, release or deployment from earlier stages; only report recorded evidence. A failed or awaiting_approval run is a valid report input. Show 'No approvals recorded' when there are none. No model calls and no creation of a new run."
+          },
+          {
+            "id": "output_errors",
+            "requirement": "Require --output. Reject invalid or unknown run IDs and malformed state JSON with nonzero exit and a readable error. Do not produce an output file on those failures. Reject an output destination anywhere inside the state directory (including resolved symlink paths), to avoid corrupting evidence. Refuse to overwrite an existing file. Require the destination parent directory to exist; do not create missing directories. On success print the destination path and exit zero. Repeated exports to different destinations from unchanged state must have identical bytes.",
+            "task_quote": "Require --output. Reject invalid or unknown run IDs and malformed state JSON with nonzero exit and a readable error. Do not produce an output file on those failures. Reject an output destination anywhere inside the state directory (including resolved symlink paths), to avoid corrupting evidence. Refuse to overwrite an existing file. Require the destination parent directory to exist; do not create missing directories. On success print the destination path and exit zero. Repeated exports to different destinations from unchanged state must have identical bytes."
+          },
+          {
+            "id": "tests_and_workflow",
+            "requirement": "Add meaningful offline unittest tests for successful report content, failed/pending runs, no mutation, overwrite refusal, invalid/unknown ID, malformed JSON, and output paths inside state. Document exact invocation in docs/report.md. Begin by inspecting relevant source and checking the current candidate, then implement with write_source_file. Use check_current_candidate after edits. Do not submit an assessment instead of the actual implementation. The external verifier runs the existing regression suite and independent CLI checks; you cannot edit it. Build and installed-package observation are handled by external adapters after approval.",
+            "task_quote": "Add meaningful offline unittest tests for successful report content, failed/pending runs, no mutation, overwrite refusal, invalid/unknown ID, malformed JSON, and output paths inside state. Document exact invocation in docs/report.md. Begin by inspecting relevant source and checking the current candidate, then implement with write_source_file. Use check_current_candidate after edits. Do not submit an assessment instead of the actual implementation. The external verifier runs the existing regression suite and independent CLI checks; you cannot edit it. Build and installed-package observation are handled by external adapters after approval."
+          }
+        ]
+      },
+      "timeout_seconds": 900
+    },
+    "design": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4.1-2025-04-14",
+        "review_model": "openai/gpt-4.1-2025-04-14",
+        "max_iter": 24
+      },
+      "timeout_seconds": 900
+    },
+    "plan": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4.1-2025-04-14",
+        "review_model": "openai/gpt-4.1-2025-04-14",
+        "max_iter": 24
+      },
+      "timeout_seconds": 900
+    },
+    "implement": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4.1-2025-04-14",
+        "review_model": "openai/gpt-4.1-2025-04-14",
+        "max_iter": 24
+      },
+      "timeout_seconds": 900
+    },
+    "verify": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/selfhost/adapter.py"
+      ],
+      "timeout_seconds": 300
+    },
+    "security": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/selfhost/adapter.py"
+      ],
+      "timeout_seconds": 300
+    },
+    "review": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4.1-2025-04-14",
+        "review_model": "openai/gpt-4.1-2025-04-14",
+        "max_iter": 24
+      },
+      "timeout_seconds": 900
+    },
+    "release": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/selfhost/adapter.py"
+      ],
+      "timeout_seconds": 300
+    },
+    "deploy": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/selfhost/adapter.py"
+      ],
+      "timeout_seconds": 300
+    },
+    "observe": {
+      "backend": "command",
+      "command": [
+        "/Users/adicohen/work/ai_pipeline/.venv/bin/python",
+        "/Users/adicohen/work/ai_pipeline/integrations/selfhost/adapter.py"
+      ],
+      "timeout_seconds": 300
+    },
+    "retrospective": {
+      "backend": "crewai",
+      "crewai": {
+        "model": "openai/gpt-4.1-2025-04-14",
+        "review_model": "openai/gpt-4.1-2025-04-14",
+        "max_iter": 24
+      },
+      "timeout_seconds": 900
+    }
+  }
+}
