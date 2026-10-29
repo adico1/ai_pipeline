@@ -34,7 +34,7 @@ class TaskboardIntegrationTests(unittest.TestCase):
             output=root/'observe'; output.mkdir()
             result=adapter.execute({**context,'stage':'observe','output':str(output)})
             self.assertEqual(result['status'],'passed',result)
-            self.assertIn('23/23',result['summary'])
+            self.assertIn('24/24',result['summary'])
             (root/'deploy/installed/taskboard/storage.py').write_text('changed')
             with self.assertRaisesRegex(ValueError,'changed'):
                 adapter.execute({**context,'stage':'observe','output':str(output)})
@@ -47,3 +47,17 @@ class TaskboardIntegrationTests(unittest.TestCase):
             p.write_bytes((REFERENCE/'taskboard/storage.py').read_bytes())
             p=root/'README.md'; p.write_text(p.read_text().replace('"completed":true','"completed":false'))
             self.assertFalse(next(c for c in adapter.verify(root) if c['case']=='documentation-2')['passed'])
+
+    def test_transaction_context_without_close_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / 'project'
+            shutil.copytree(REFERENCE, root)
+            storage = root / 'taskboard/storage.py'
+            storage.write_text(storage.read_text().replace(
+                'with closing(sqlite3.connect(path)) as db, db:',
+                'with sqlite3.connect(path) as db:'))
+            result = next(case for case in adapter.verify(root)
+                          if case['case'] == 'sqlite-connection-lifecycle')
+            self.assertFalse(result['passed'])
+            self.assertTrue(all(command['still_open'] == 1
+                                for command in result['actual']['commands']))

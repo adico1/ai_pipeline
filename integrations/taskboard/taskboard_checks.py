@@ -20,6 +20,25 @@ def invoke(root, database, args):
     return result.returncode, payload
 
 
+def connection_lifecycle(root):
+    """Check actual closure on success and error paths through the public CLI."""
+    with tempfile.TemporaryDirectory() as directory:
+        result = subprocess.run(
+            [sys.executable, '-B', str(Path(__file__).with_name('connection_probe.py'))],
+            cwd=directory,
+            env={**os.environ, 'PYTHONPATH': str(Path(root).resolve()), 'PYTHONDONTWRITEBYTECODE': '1'},
+            text=True, capture_output=True, timeout=30,
+        )
+    try:
+        evidence = json.loads(result.stdout)
+    except ValueError:
+        evidence = {'passed': False, 'error': (result.stdout + result.stderr)[-2000:]}
+    return {'case': 'sqlite-connection-lifecycle', 'baseline': False,
+            'passed': result.returncode == 0 and evidence.get('passed') is True,
+            'expected': 'SQLite connections closed after add, list, complete and missing-ID errors',
+            'actual': evidence}
+
+
 def verify(root):
     root = Path(root)
     cases = []
@@ -68,4 +87,5 @@ def verify(root):
             record('documentation-how-to', '--database' in text and 'python' in text, 'Startup/database instructions', '--database' in text)
         except (OSError, ValueError, KeyError, TypeError, IndexError) as exc:
             record('documentation', False, 'Executable README examples', str(exc))
+    cases.append(connection_lifecycle(root))
     return cases
