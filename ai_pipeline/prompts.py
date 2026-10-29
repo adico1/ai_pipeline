@@ -35,7 +35,18 @@ DOCUMENT_INSTRUCTIONS = {
     "requirements": (
         "Write a requirements DOCUMENT describing intended future behavior. Include "
         "objective, scope, individually testable acceptance criteria, constraints, "
-        "and genuinely unresolved questions."
+        "and genuinely unresolved questions. Treat the original task as the scope "
+        "boundary: preserve every explicit criterion without adding features or "
+        "tightening unspecified behavior. For example, a nonempty error string does "
+        "not require prescribed wording. Concurrency, audit logging, performance "
+        "targets and other optional capabilities are not requirements unless requested "
+        "or necessary to satisfy an explicit criterion. Open questions must identify "
+        "a decision that actually prevents fulfilling the requested behavior, explain "
+        "which criterion it affects and why existing context cannot resolve it. An "
+        "empty open_questions list is valid. Keep optional follow-ups outside the "
+        "acceptance criteria and blocking questions. On revision, resolve in-scope "
+        "findings; explicitly explain why an out-of-scope suggestion is excluded "
+        "rather than adopting it as a new requirement."
     ),
     "design": (
         "Write the concrete DESIGN now. Choose an implementation approach appropriate"
@@ -137,6 +148,24 @@ def reviewer_description(stage, goal, reviewer_evidence):
         "The original task and README may describe the pre-change bug. When current_changed_source is provided, ground source claims in that actual current text, not in historical descriptions. "
         "Block unresolved source defects or policy violations, but do not block merely because the prior test failed or because the subsequent verification stage has not rerun yet. "
         "Passing examples do not prove a general rule. Inspect input validation for hard-coded test values and reject implementations that leave other members of a disallowed category accepted. Do not claim future delivery stages have executed without completed-stage evidence. "
+        + (
+            (
+                "For requirements, compare each acceptance criterion and blocking "
+                "question with the ORIGINAL task. Block omitted explicit requirements, "
+                "contradictions, invented constraints or genuine ambiguity that prevents "
+                "fulfilling the task; identify the affected task criterion and concrete "
+                "consequence in findings. Do not require exact error wording when the "
+                "task only requires a nonempty error string. Do not require concurrency, "
+                "audit logging or other optional capabilities unless the task requests "
+                "them or they are necessary to satisfy an explicit criterion. A writer's "
+                "open question is not automatically a blocker: check whether it is "
+                "already answered, an implementation choice, or an optional follow-up. "
+                "An empty open_questions list is valid. Judge the requested document's "
+                "completeness without expanding the requested product scope. "
+            )
+            if stage == "requirements"
+            else ""
+        )
         + (
             (
                 "For retrospective, completeness means accurately recording observed outcomes, "
