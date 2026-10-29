@@ -21,6 +21,7 @@ from ai_pipeline.engine import digest_tree
 from ai_pipeline.crewai_compat import PipelineCrew
 from ai_pipeline import stage_contracts
 from ai_pipeline.requirements_checklist import assembly_guardrail, document_errors, validate_checklist
+from ai_pipeline.implementation_review import ImplementationReview, REVIEW_INSTRUCTIONS, ReviewerEvidence
 from ai_pipeline.prompts import (
     ROLES,
     specialist_instructions,
@@ -391,13 +392,13 @@ def run_candidate_checks(context, progress=None):
     return json.dumps(payload)
 
 
-def candidate_check_tool(context, enforce_progress=False):
+def candidate_check_tool(context, enforce_progress=False, reviewer_evidence=None):
     progress = CandidateProgress() if enforce_progress else None
 
     @tool("check_current_candidate")
     def check_current_candidate() -> str:
         """Run configured acceptance and security commands on CURRENT source. Returns exact failures and allowed-import policy. Takes no command arguments. Does not release or deploy."""
-        return run_candidate_checks(context, progress)
+        return reviewer_evidence.check() if reviewer_evidence else run_candidate_checks(context, progress)
 
     return check_current_candidate
 
@@ -501,10 +502,12 @@ def build_crew(context, llm=None):
     # Document reviewers evaluate the deliverable, not unfinished future source.
     document_stage = stage in stage_contracts.DOCUMENTS
     reviewer_tools = []
+    review_evidence = None
     if not document_stage:
         reviewer_tools = workspace_tools(workspace)
         if stage == "implement":
-            reviewer_tools.append(candidate_check_tool(context))
+            review_evidence = ReviewerEvidence(context, run_candidate_checks, safe_path)
+            reviewer_tools.append(candidate_check_tool(context, reviewer_evidence=review_evidence))
 
     specialist = Agent(
         role=role,
@@ -590,12 +593,16 @@ def build_crew(context, llm=None):
         agent=specialist,
         **task_options,
     )
+    review_options = {}
+    if review_evidence is not None:
+        review_options = {"guardrail": review_evidence.guardrail, "guardrail_max_retries": 1}
     review = Task(
-        description=reviewer_description(stage, goal, reviewer_evidence),
+        description=reviewer_description(stage, goal, reviewer_evidence) + (REVIEW_INSTRUCTIONS if review_evidence else ""),
         expected_output="A structured stage report with status, summary, findings and next_actions.",
         agent=reviewer,
         context=[work],
-        output_pydantic=stage_contracts.StageReport,
+        output_pydantic=ImplementationReview if review_evidence else stage_contracts.StageReport,
+        **review_options,
     )
     return PipelineCrew(
         agents=[specialist, reviewer],
